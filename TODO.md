@@ -1,0 +1,1 @@
+- [ ] Create firebase app instance as svelte store and derive it in authStore
