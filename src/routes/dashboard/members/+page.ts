@@ -2,9 +2,6 @@ import { db } from '$lib/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import type { Member } from '$lib/models';
 
-// FIXME: Implement SSR with Firebase
-export const ssr = false;
-
 export async function load() {
   const members: Member[] = [];
   const querySnapshot = await getDocs(collection(db, 'members'));
