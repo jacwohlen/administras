@@ -1,20 +1,47 @@
-# create-svelte
+# Administra - Absense Tracker (My First Sveltekit App)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Administra allows to create training sessions and track people's
+attendance.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Login using Google Auth or Email/Passowrd
+- Create training classes with meta data (title, start, end, weekday, section)
+- Add participants to a training class
+- Mark participants as present for a particular date
+- Statistics: View attendance of a training class per year
+- ...
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Technical Aspects
 
-# create a new project in my-app
-npm create svelte@latest my-app
+Current stack: npm, node, sveltekit, sveltestrap (bootstrap)
+
+Backend: firebase (auth, firestore)
+
+## Contribution
+
+More than welcome, I am looking for a productve partnership...
+I believe this product has high potential and we could ease a lot of lives in the judo world.
+As I am a busy man I invested little time. I can bring a network of customers for this idea.
+In case you see the potential and also believe in open source please drop me a line.
+
+## Development Setup
+
+1. Create Firebase account
+2. Source environment with data from firebase account
+
 ```
+export PUBLIC_FIREBASE_API_KEY=
+export PUBLIC_FIREBASE_AUTH_DOMAIN=
+export PUBLIC_FIREBASE_DATABASE_URL=
+export PUBLIC_FIREBASE_PROJECT_ID=
+export PUBLIC_FIREBASE_STORAGE_BUCKET=
+export PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+export PUBLIC_FIREBASE_APP_ID=
 
-## Developing
+# This requies firestore rules to be setup as well. Check example at end of README
+export PUBLIC_GOOGLE_LOGIN_DOMAIN=<your-google-domain-if-want-to-restrict>
+```
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
@@ -25,9 +52,13 @@ npm run dev
 npm run dev -- --open
 ```
 
+## Testing
+
+tbd
+
 ## Building
 
-To create a production version of your app:
+To create a production version of the app:
 
 ```bash
 npm run build
@@ -35,4 +66,48 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
+## Deployment
+
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Restricted Login (Google Authentication with specific Domain)
+
+This Webapp restricts login to Google Accounts with a given domain.
+To make this happen, Firebase Auth needs a configuration to allow Google Auth.
+Further the firestore database rules need to restrict reads and writes from
+authenticated users with matching domain.
+And lastly set the environment `APP_GOOGLE_LOGIN_DOMAIN` accordingly.
+
+Example Config (allow Google Accounts with domain `jacwohlen.ch`)
+
+```
+...
+export PUBLIC_GOOGLE_LOGIN_DOMAIN=jacwohlen.ch
+```
+
+Firestore rules
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null
+      && validAccount(request.auth.token.email);
+    }
+  }
+}
+
+function validAccount(userEmail){
+	return userEmail.split('@')[1] == 'jacwohlen.ch'; # your domain
+}
+
+```
+
+## Tips
+
+- Tip use `nvm install --lts` to install long term support version of `node`.
+
+## Todos
+
+[Todo](./TODO.md)
