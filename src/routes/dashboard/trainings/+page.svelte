@@ -14,7 +14,7 @@
           {t.title}
         </Col>
         <Col>
-          <Button size="sm">
+          <Button size="sm" href="/dashboard/trainings/{t.id}">
             <Icon name="text-paragraph" />
             View
           </Button>
