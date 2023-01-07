@@ -1,9 +1,10 @@
+import type { LayoutLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { db } from '$lib/firebase';
-import type { Training } from '$lib/models';
 import { getDoc, doc } from 'firebase/firestore';
+import type { Training } from '$lib/models';
 
-export async function load({ params }) {
+export const load = (async ({ params }) => {
   const docRef = doc(db, `trainings/${params.trainingId}`);
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) {
@@ -11,6 +12,7 @@ export async function load({ params }) {
   }
 
   return {
-    ...(docSnap.data() as Training)
-  };
-}
+    id: docSnap.id,
+    ...docSnap.data()
+  } as Training;
+}) satisfies LayoutLoad;
