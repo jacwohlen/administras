@@ -4,6 +4,7 @@ import { getDoc, doc } from 'firebase/firestore';
 
 export async function load({ params, parent }) {
   const parentData = await parent();
+  console.log('ParentData: ');
   console.log(parentData); // FIXME: Parent data seems not to work, need it to access the participants array
   // then fetch the participants array from firebase
   // and return it as participants
