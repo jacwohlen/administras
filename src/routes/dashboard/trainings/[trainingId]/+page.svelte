@@ -5,17 +5,37 @@
   import LogList from './LogList.svelte';
 
   function getDateString() {
-    return '2023-01-02';
+    return '2023-01-20';
   }
 </script>
 
 <h1>ID: {data.id}</h1>
-{data.title}
-{data.participants.length}
-{data.weekday}
-{data.dateFrom}
-{data.dateTo}
-{data.section}
+<table>
+  <tr>
+    <td>title:</td>
+    <td>{data.title}</td>
+  </tr>
+  <tr>
+    <td>participants #:</td>
+    <td>{data.participants.length}</td>
+  </tr>
+  <tr>
+    <td>weekday:</td>
+    <td>{data.weekday}</td>
+  </tr>
+  <tr>
+    <td>dateFrom:</td>
+    <td>{data.dateFrom}</td>
+  </tr>
+  <tr>
+    <td>dateTo:</td>
+    <td>{data.dateTo}</td>
+  </tr>
+  <tr>
+    <td>section:</td>
+    <td>{data.section}</td>
+  </tr>
+</table>
 
 <h2>Logs</h2>
 <Button href="/dashboard/trainings/{data.id}/{getDateString()}">Track Attendance</Button>

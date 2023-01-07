@@ -9,6 +9,9 @@ export async function load() {
     trainings.push({ ...(doc.data() as Training), id: doc.id });
   });
 
+  console.log('PARENT DATA:');
+  console.log(trainings);
+
   return {
     trainings
   };
