@@ -5,7 +5,7 @@
   import LogList from './LogList.svelte';
 
   function getDateString() {
-    return '2023-01-02';
+    return '2023-01-20';
   }
 </script>
 

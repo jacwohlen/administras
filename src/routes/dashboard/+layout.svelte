@@ -3,9 +3,10 @@
   import authStore from '$lib/authStore';
   import { goto } from '$app/navigation';
 
-  $: if (!$authStore) {
-    goto('/');
-  }
+  // FIXME: temporary disabled
+  // $: if (!$authStore) {
+  //   goto('/');
+  // }
 </script>
 
 Dashboard - Layout

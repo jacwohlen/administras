@@ -1,17 +1,32 @@
 <script lang="ts">
-  import type { PageData } from './$types';
+  import { db } from '$lib/firebase';
+  import { getDoc, doc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
+  import type { PageData, EMember } from './$types';
   import ParticipantCard from './ParticipantCard.svelte';
+  import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import { Row, Col } from 'sveltestrap';
   export let data: PageData;
 
-  // TODO: Continue HERE, Andreas :)
-  function markPresent(m: Member) {
-    m.present = true;
+  $: presentParticipants = data.participants.filter((p) => p.isPresent);
+  $: notPresentParticipants = data.participants.filter((p) => !p.isPresent);
+
+  function changePresence(event: CustomEvent<{ member: EMember; checked: boolean }>) {
+    const path = `/trainings/${data.trainingId}/log/${data.date}`;
+    const ref = doc(db, path);
+    if (event.detail.checked) {
+      updateDoc(ref, {
+        members: arrayUnion(doc(db, `/members/${event.detail.member.id}`))
+      });
+    } else {
+      updateDoc(ref, {
+        members: arrayRemove(doc(db, `/members/${event.detail.member.id}`))
+      });
+    }
   }
 
-  function markNotPresent(m: Member) {
-    m.present = false;
-  }
+  function addParticipant() {}
+
+  function removeParticipant() {}
 </script>
 
 <h1>Fix Attendance for {data.date}</h1>
@@ -27,15 +42,20 @@
 
 <Row>
   <Col>
+    <AddParticipantInputBox />
+  </Col>
+</Row>
+<Row>
+  <Col>
     <h2>Participants</h2>
-    {#each data.participants.filter((p) => !p.present) as p (p.id)}
-      <ParticipantCard memberId={p.id} on:change={markPresent(p)} />
+    {#each notPresentParticipants as p (p.id)}
+      <ParticipantCard bind:member={p} on:change={changePresence} />
     {/each}
   </Col>
   <Col>
     <h2>Present</h2>
-    {#each data.participants.filter((p) => p.present) as p (p.id)}
-      <ParticipantCard memberId={p.id} on:change={markNotPresent(p)} />
+    {#each presentParticipants as p (p.id)}
+      <ParticipantCard bind:member={p} on:change={changePresence} />
     {/each}
   </Col>
 </Row>
