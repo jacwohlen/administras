@@ -21,6 +21,12 @@
   function change() {
     dispatch('change', { memberId: 0 });
   }
+  async function* getOptions(text) {
+    yield [{ name: text, details: 'Optional' }, { name: `it highlights the match: ${text}` }];
+  }
+
+  import { Autocomplete } from 'attractions';
 </script>
 
 <Input type="text" on:change={change} />
+<Autocomplete {getOptions} />
