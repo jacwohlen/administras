@@ -1,56 +1,59 @@
 import { db } from '$lib/firebase';
-import type { Log, Member } from '$lib/models';
+import type { PageLoad } from './$types';
 import { getDoc, doc, DocumentReference } from 'firebase/firestore';
+import type { Training, Log } from '$lib/models';
+import type { MMember } from './types';
 
-interface EMember extends Member {
-  isPresent: boolean;
-}
-
-export async function load({ params, parent }) {
-  let log: Log | null = null;
-  {
+export const load = (async ({ params, parent }) => {
+  async function getLog() {
     const docRef = doc(db, `trainings/${params.trainingId}/log/${params.date}`);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      log = docSnap.data() as Log;
+      return { id: docRef.id, ...docSnap.data() } as Log;
     } else {
       console.log(`Error: Log not found ref: ${docRef.path}`);
-      return;
     }
   }
-
-  const parentData = await parent();
-  interface a extends DocumentReference {
-    isPresent: boolean;
+  async function getLogParticipants(memberRefs: DocumentReference[]) {
+    return Promise.all(
+      memberRefs.map(async (ref) => {
+        const docSnap = await getDoc(ref);
+        if (docSnap.exists()) {
+          return { id: ref.id, ...docSnap.data() };
+        } else {
+          console.log(`Error: Member not found ref: ${ref.path}`);
+          return undefined;
+        }
+      })
+    );
   }
-  const participantsRef: a[] = parentData.participants;
 
-  for (let m = 0; m < log.members.length; m++) {
-    const pMember = log.members[m];
+  const log = await getLog();
+  const logMembers = await getLogParticipants(log?.members as DocumentReference[]);
 
-    const foundIndex = participantsRef.findIndex((p) => p.id === pMember.id);
-    if (foundIndex >= 0) {
-      // found
-      participantsRef[foundIndex].isPresent = true;
+  const parentData = (await parent()) as Training;
+  const trainingParticipants = await getLogParticipants(
+    parentData.participants as DocumentReference[]
+  );
+  const participantsWithPresentStatus = trainingParticipants.map((p) => ({
+    ...p,
+    isPresent: false
+  }));
+
+  // Mark Present Members
+  logMembers.forEach((pMember) => {
+    const foundIndex = participantsWithPresentStatus.findIndex((p) => p.id === pMember?.id);
+    if (foundIndex) {
+      participantsWithPresentStatus[foundIndex].isPresent = true;
     } else {
-      participantsRef.push({ ...pMember, isPresent: true });
+      participantsWithPresentStatus.push({ ...pMember, isPresent: true });
     }
-  }
-
-  const promises = participantsRef.map(async (ref) => {
-    const isPresent = ref.isPresent; // preserve state
-    const docRef = doc(db, ref.path);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return { ...docSnap.data(), id: ref.id, isPresent } as EMember; // set state
-    }
-    return [];
   });
 
   return {
     log,
     trainingId: params.trainingId,
     date: params.date,
-    participants: (await Promise.all(promises)) as EMember[]
+    participants: participantsWithPresentStatus as MMember[]
   };
-}
+}) satisfies PageLoad;

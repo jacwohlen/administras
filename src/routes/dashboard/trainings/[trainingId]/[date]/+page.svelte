@@ -1,7 +1,8 @@
 <script lang="ts">
   import { db } from '$lib/firebase';
-  import { getDoc, doc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
-  import type { PageData, EMember } from './$types';
+  import { doc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
+  import type { PageData } from './$types';
+  import type { MMember } from './types';
   import ParticipantCard from './ParticipantCard.svelte';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import { Row, Col } from 'sveltestrap';
@@ -10,7 +11,7 @@
   $: presentParticipants = data.participants.filter((p) => p.isPresent);
   $: notPresentParticipants = data.participants.filter((p) => !p.isPresent);
 
-  function changePresence(event: CustomEvent<{ member: EMember; checked: boolean }>) {
+  function changePresence(event: CustomEvent<{ member: MMember; checked: boolean }>) {
     const path = `/trainings/${data.trainingId}/log/${data.date}`;
     const ref = doc(db, path);
     if (event.detail.checked) {

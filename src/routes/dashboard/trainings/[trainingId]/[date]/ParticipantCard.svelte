@@ -1,21 +1,10 @@
 <script lang="ts">
-  import { db } from '$lib/firebase';
-  import type { Member } from '$lib/models';
-  import { getDoc, doc } from 'firebase/firestore';
-  import { Container, FormGroup, Input, Card } from 'sveltestrap';
-
-  export let member: Member;
-
-  // async function getMember() {
-  //   const docRef = doc(db, `/members/${memberId}`);
-  //   const docSnap = await getDoc(docRef);
-  //   if (!docSnap.exists()) {
-  //     return null;
-  //   }
-  //   return docSnap.data() as Member;
-  // }
-
   import { createEventDispatcher } from 'svelte';
+  import { Container, FormGroup, Input, Card } from 'sveltestrap';
+  import type { MMember } from './types';
+
+  export let member: MMember;
+
   const dispatch = createEventDispatcher();
   function change() {
     dispatch('change', { member, checked: !member.isPresent });

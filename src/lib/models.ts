@@ -1,3 +1,5 @@
+import type { DocumentReference } from 'firebase/firestore';
+
 export enum WEEKDAY {
   Sunday = 0,
   Monday = 1,
@@ -24,10 +26,10 @@ export interface Training {
   dateTo: string;
   weekday: string;
   section: string;
-  participants: Member[];
+  participants: Member[] | DocumentReference[];
 }
 
 export interface Log {
   id: string; // date
-  members: Member[];
+  members: Member[] | DocumentReference[];
 }
