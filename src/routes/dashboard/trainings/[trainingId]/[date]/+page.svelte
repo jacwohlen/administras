@@ -6,12 +6,14 @@
   import ParticipantCard from './ParticipantCard.svelte';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import { Row, Col } from 'sveltestrap';
+  import type { Member } from '$lib/models';
   export let data: PageData;
 
   $: presentParticipants = data.participants.filter((p) => p.isPresent);
   $: notPresentParticipants = data.participants.filter((p) => !p.isPresent);
 
   function changePresence(event: CustomEvent<{ member: MMember; checked: boolean }>) {
+    console.log('changePresense triggreed', event.detail.member.id);
     const path = `/trainings/${data.trainingId}/log/${data.date}`;
     const ref = doc(db, path);
     if (event.detail.checked) {
@@ -25,9 +27,31 @@
     }
   }
 
-  function addParticipant() {}
+  function addParticipant(event: CustomEvent<{ member: Member }>) {
+    console.log('addParticipant triggered: ', event);
+    const path = `/trainings/${data.trainingId}`;
+    const ref = doc(db, path);
+    updateDoc(ref, {
+      participants: arrayUnion(doc(db, `/members/${event.detail.member.id}`))
+    });
+    data.participants.push(event.detail.member);
+    data.participants = data.participants; // force reactivity
+  }
 
-  function removeParticipant() {}
+  function removeParticipant(event: CustomEvent<{ member: MMember; checked: boolean }>) {
+    console.log('removeParticipant triggered: ', event.detail.member.id);
+    const path = `/trainings/${data.trainingId}`;
+    const ref = doc(db, path);
+    updateDoc(ref, {
+      participants: arrayRemove(doc(db, `/members/${event.detail.member.id}`))
+    });
+    // TODO: Splice , would disappear if subscribed to firestore
+    const index = data.participants.findIndex((p) => p.id === event.detail.member.id);
+    if (index > -1) {
+      data.participants.splice(index, 1);
+      data.participants = data.participants; // force reactivity
+    }
+  }
 </script>
 
 <h1>Fix Attendance for {data.date}</h1>
@@ -43,20 +67,20 @@
 
 <Row>
   <Col>
-    <AddParticipantInputBox />
+    <AddParticipantInputBox on:add={addParticipant} />
   </Col>
 </Row>
 <Row>
   <Col>
     <h2>Participants</h2>
     {#each notPresentParticipants as p (p.id)}
-      <ParticipantCard bind:member={p} on:change={changePresence} />
+      <ParticipantCard bind:member={p} on:change={changePresence} on:remove={removeParticipant} />
     {/each}
   </Col>
   <Col>
     <h2>Present</h2>
     {#each presentParticipants as p (p.id)}
-      <ParticipantCard bind:member={p} on:change={changePresence} />
+      <ParticipantCard bind:member={p} on:change={changePresence} on:remove={removeParticipant} />
     {/each}
   </Col>
 </Row>
