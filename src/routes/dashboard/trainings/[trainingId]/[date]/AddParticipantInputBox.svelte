@@ -1,32 +1,40 @@
 <script lang="ts">
-  // import { db } from '$lib/firebase';
+  import { db } from '$lib/firebase';
   // import type { Member } from '$lib/models';
   // import { getDoc, doc } from 'firebase/firestore';
   import { Container, FormGroup, Input, Card } from 'sveltestrap';
+  import { Autocomplete } from 'attractions';
+  import { collection, getDocs, query, waitForPendingWrites, where } from 'firebase/firestore';
+  import { createEventDispatcher } from 'svelte';
 
   // export let memberId: string; // e.g. 1234
 
-  // async function getMember() {
-  //   const docRef = doc(db, `/members/${memberId}`);
-  //   console.log(`/members/${memberId}`);
-  //   const docSnap = await getDoc(docRef);
-  //   if (!docSnap.exists()) {
-  //     return null;
-  //   }
-  //   return docSnap.data() as Member;
-  // }
+  async function searchMember(text: string) {
+    const collRef = collection(db, '/members');
+    const q = query(collRef, where('lastname', '>=', text), where('lastname', '<=', text + 'z'));
 
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
-  function change() {
-    dispatch('change', { memberId: 0 });
+    const querySnap = await getDocs(q);
+    console.log('got it: ', querySnap.docs);
+    return querySnap.docs.map((p) => ({ id: p.id, ...p.data() }));
   }
+
   async function* getOptions(text) {
-    yield [{ name: text, details: 'Optional' }, { name: `it highlights the match: ${text}` }];
+    const defaultItem = { name: `it highlights the match: ${text}` };
+
+    const res = await searchMember(text);
+    console.log('res', res);
+
+    yield [
+      ...res.map((m) => ({ name: `${m.lastname} ${m.firstname}`, details: m.birthday, ...m })),
+      defaultItem
+    ];
   }
 
-  import { Autocomplete } from 'attractions';
+  const dispatch = createEventDispatcher();
+  function change(event: CustomEvent) {
+    console.log('selected: ', event.detail.value[0]);
+    dispatch('add', { member: event.detail.value[0] });
+  }
 </script>
 
-<Input type="text" on:change={change} />
-<Autocomplete {getOptions} />
+<Autocomplete on:change={change} {getOptions} />
