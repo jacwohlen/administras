@@ -3,26 +3,25 @@
   import authStore from '$lib/authStore';
   import { goto } from '$app/navigation';
 
-  // FIXME: temporary disabled
-  // $: if (!$authStore) {
-  //   goto('/');
-  // }
+  $: if ($authStore.firebaseControlled && !$authStore.user) {
+    goto('/');
+  }
 </script>
 
-Dashboard - Layout
-<Row>
-  <Col>
-    <Button href="/dashboard" color="primary">Today</Button>
-  </Col>
-  <Col>
-    <Button href="/dashboard/trainings" color="primary">Trainings</Button>
-  </Col>
-  <Col>
-    <Button href="/dashboard/members" color="primary">Members</Button>
-  </Col>
-  <Col>
-    <Button on:click={authStore.signOut}>Sign Out</Button>
-  </Col>
-</Row>
-
-<slot />
+{#if $authStore.firebaseControlled && $authStore.user}
+  <Row>
+    <Col>
+      <Button href="/dashboard" color="primary">Today</Button>
+    </Col>
+    <Col>
+      <Button href="/dashboard/trainings" color="primary">Trainings</Button>
+    </Col>
+    <Col>
+      <Button href="/dashboard/members" color="primary">Members</Button>
+    </Col>
+    <Col>
+      <Button on:click={authStore.signOut}>Sign Out</Button>
+    </Col>
+  </Row>
+  <slot />
+{/if}
