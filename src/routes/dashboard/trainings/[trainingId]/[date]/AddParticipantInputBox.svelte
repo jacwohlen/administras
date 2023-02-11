@@ -1,40 +1,54 @@
 <script lang="ts">
   import { db } from '$lib/firebase';
-  // import type { Member } from '$lib/models';
+  import type { Member } from '$lib/models';
   // import { getDoc, doc } from 'firebase/firestore';
-  import { Container, FormGroup, Input, Card } from 'sveltestrap';
-  import { Autocomplete } from 'attractions';
+  import AutocompleteBox from './AutocompleteBox.svelte';
+  import type { Item } from './AutocompleteBox.svelte';
   import { collection, getDocs, query, waitForPendingWrites, where } from 'firebase/firestore';
   import { createEventDispatcher } from 'svelte';
 
-  // export let memberId: string; // e.g. 1234
-
-  async function searchMember(text: string) {
+  async function searchMember(text: string): Promise<Member[]> {
     const collRef = collection(db, '/members');
     const q = query(collRef, where('lastname', '>=', text), where('lastname', '<=', text + 'z'));
 
     const querySnap = await getDocs(q);
     console.log('got it: ', querySnap.docs);
-    return querySnap.docs.map((p) => ({ id: p.id, ...p.data() }));
+    return querySnap.docs.map((p) => ({ id: p.id, ...p.data() } as Member));
   }
 
-  async function* getOptions(text) {
-    const defaultItem = { name: `it highlights the match: ${text}` };
+  async function getData(text: string): Promise<Item[]> {
+    console.log('GetData Called with text: ', text);
+    const defaultItem: Item = { name: `it highlights the match: ${text}` };
 
     const res = await searchMember(text);
     console.log('res', res);
 
-    yield [
-      ...res.map((m) => ({ name: `${m.lastname} ${m.firstname}`, details: m.birthday, ...m })),
+    return [
+      ...res.map(
+        (m) => ({ name: `${m.lastname} ${m.firstname} (${m.birthday})`, data: m } as Item)
+      ),
       defaultItem
     ];
   }
 
   const dispatch = createEventDispatcher();
   function change(event: CustomEvent) {
-    console.log('selected: ', event.detail.value[0]);
-    dispatch('add', { member: event.detail.value[0] });
+    console.log('selected: ', event.detail);
+    if (event.detail.name === 'Create New Member') {
+      createNewMember();
+    } else {
+      dispatch('add', { member: event.detail.data });
+    }
+  }
+
+  function createNewMember() {
+    console.log('Create New Member...');
   }
 </script>
 
-<Autocomplete on:change={change} {getOptions} />
+<AutocompleteBox
+  on:change={change}
+  {getData}
+  placeholder="Search Members"
+  defaultItemText="Create New Member"
+/>

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Modal, Dialog, Checkbox, Button } from 'attractions';
   import { createEventDispatcher } from 'svelte';
   import { Container, FormGroup, Input, Card } from 'sveltestrap';
   import type { MMember } from './types';
@@ -20,16 +19,23 @@
 <Container sm>
   <Card>
     {#if member}
-      <Checkbox value={member.id} checked={member.isPresent} on:change={change}>
+      <label class="flex items-center space-x-2">
+        <input
+          class="checkbox"
+          type="checkbox"
+          value={member.id}
+          checked={member.isPresent}
+          on:change={change}
+        />
         <span class="ml">{member.lastname} - {member.firstname}</span>
-      </Checkbox>
-      <Button danger small noRipple on:click={() => (modalOpen = true)}>Remove</Button>
-      <Modal bind:open={modalOpen} let:closeCallback>
+      </label>
+      <button class="btn btn-sm" on:click={() => (modalOpen = true)}>Remove</button>
+      <!-- <Modal bind:open={modalOpen} let:closeCallback>
         <Dialog title="Hello?" {closeCallback}>
           Are you sure to remove {member.lastname} - {member.firstname}?
           <Button danger small noRipple on:click={removeClicked}>Remove</Button>
         </Dialog>
-      </Modal>
+      </Modal> -->
     {:else}
       Member not found
     {/if}
