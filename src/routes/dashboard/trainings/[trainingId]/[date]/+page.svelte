@@ -5,6 +5,9 @@
   import type { MMember } from './types';
   import ParticipantCard from './ParticipantCard.svelte';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
+  import Fa from 'svelte-fa';
+  import { faUserPlus, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+
   export let data: PageData;
 
   $: presentParticipants = data.participants.filter((p) => p.isPresent);
@@ -54,31 +57,36 @@
   }
 </script>
 
-<h1>Fix Attendance for {data.date}</h1>
-
-{#if !data.log}
-  MODE: New
-{:else}
-  MODE: Editing
-{/if}
-<p>{data.date}</p>
-<p>{data.trainingId}</p>
-<p>{data.log}</p>
+<h2>{data.title}</h2>
+<h4>{data.weekday} {data.dateFrom} | {data.section}</h4>
+<h1><Fa icon={faCalendarCheck} class="inline mr-2" />{data.date}</h1>
 
 <div>
   <AddParticipantInputBox on:add={addParticipant} />
 </div>
-<div class="grid grid-cols-2">
+<div>
   <div>
-    <h2>Participants</h2>
-    {#each notPresentParticipants as p (p.id)}
-      <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
-    {/each}
-  </div>
-  <div>
-    <h2>Present</h2>
-    {#each presentParticipants as p (p.id)}
-      <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
-    {/each}
+    <div class="flex">
+      <div class="flex-none">
+        <span class="chip variant-filled-primary">{presentParticipants.length}</span>
+      </div>
+      <div class="flex-none ml-2">
+        <h2>Present</h2>
+      </div>
+      <div class="grow text-right">
+        <button class="btn btn-sm variant-filled-primary">
+          <Fa icon={faUserPlus} />
+          <span>Add</span>
+        </button>
+      </div>
+    </div>
+    <ul class="list">
+      {#each presentParticipants as p (p.id)}
+        <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
+      {/each}
+      {#each notPresentParticipants as p (p.id)}
+        <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
+      {/each}
+    </ul>
   </div>
 </div>
