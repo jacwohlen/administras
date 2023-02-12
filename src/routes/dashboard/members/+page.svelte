@@ -9,9 +9,17 @@
   {#each data.members as m (m.id)}
     <li>
       <span class="flex-auto">
-        {m.id}
-        {m.lastname}
-        {m.firstname}
+        <dt class="font-bold">
+          {m.lastname}
+          {m.firstname}
+        </dt>
+        <dd class="text-xs">
+          {#if m.labels}
+            {#each m.labels as l (l)}
+              <span class="badge variant-filled h-4">{l}</span>
+            {/each}
+          {/if}
+        </dd>
       </span>
       <span>
         <a class="btn btn-sm variant-filled-primary" href="#">
