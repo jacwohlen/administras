@@ -29,7 +29,7 @@
     data.participants[index].isPresent = event.detail.checked;
   }
 
-  function addParticipant(event: CustomEvent<{ member: Member }>) {
+  function addParticipant(event: CustomEvent<{ member: MMember }>) {
     console.log('addParticipant triggered: ', event);
     const path = `/trainings/${data.trainingId}`;
     const ref = doc(db, path);
