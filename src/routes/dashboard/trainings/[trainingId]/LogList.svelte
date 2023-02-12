@@ -2,8 +2,8 @@
   import { db } from '$lib/firebase';
   import type { Log } from '$lib/models';
   import { getDocs, collection } from 'firebase/firestore';
-  import Fa from 'svelte-fa'
-  import { faGripLines } from '@fortawesome/free-solid-svg-icons'
+  import Fa from 'svelte-fa';
+  import { faGripLines } from '@fortawesome/free-solid-svg-icons';
 
   export let trainingId: String;
 
