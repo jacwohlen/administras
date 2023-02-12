@@ -5,6 +5,8 @@
   import { page } from '$app/stores';
   import { Avatar, menu, AppShell, AppBar } from '@skeletonlabs/skeleton';
   import { auth } from '$lib/firebase';
+  import Fa from 'svelte-fa'
+  import { faCalendarCheck, faList, faUser } from '@fortawesome/free-solid-svg-icons'
 
   $: if ($authStore.firebaseControlled && !$authStore.user) {
     goto('/');
@@ -39,7 +41,7 @@
     <svelte:fragment slot="header">
       <TabGroup>
         <Tab bind:group={tabSet} name="tab1" value={0} on:click={() => goto('/dashboard')}>
-          <i class="fa-regular fa-calendar-check" />
+          <Fa icon={faCalendarCheck} class="mx-auto" />
           <div>Today</div>
         </Tab>
         <Tab
@@ -48,11 +50,11 @@
           value={1}
           on:click={() => goto('/dashboard/trainings')}
         >
-          <i class="fa-solid fa-list" />
+          <Fa icon={faList} class="mx-auto" />
           <div>Trainings</div>
         </Tab>
         <Tab bind:group={tabSet} name="tab3" value={2} on:click={() => goto('/dashboard/members')}>
-          <i class="fa-regular fa-user" />
+          <Fa icon={faUser} class="mx-auto" />
           <div>Members</div>
         </Tab>
 

@@ -1,5 +1,8 @@
 <script lang="ts">
   import type { PageData } from './$types';
+  import Fa from 'svelte-fa'
+  import { faGripLines } from '@fortawesome/free-solid-svg-icons'
+
   export let data: PageData;
 </script>
 
@@ -23,7 +26,7 @@
       </span>
       <span>
         <a class="btn btn-sm variant-filled-primary" href="#">
-          <span class="fa-solid fa-grip-lines" />
+          <Fa icon={faGripLines} />
           <span>View</span>
         </a>
       </span>
