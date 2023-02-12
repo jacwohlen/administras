@@ -8,8 +8,10 @@
   {#each data.trainings as t (t.id)}
     <li>
       <span class="flex-auto">
-        {t.title}
-        <i class="" />
+        <dt class="font-bold">
+          {t.title}
+        </dt>
+        <dd class="text-sm">{t.weekday} - {t.dateFrom} | {t.section}</dd>
       </span>
       <span>
         <a class="btn btn-sm variant-filled-primary" href="/dashboard/trainings/{t.id}">

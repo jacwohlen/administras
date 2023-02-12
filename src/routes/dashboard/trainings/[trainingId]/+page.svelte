@@ -36,8 +36,15 @@
   </tr>
 </table>
 
-<h2>Logs</h2>
-<a class="btn variant-filled-primary" href="/dashboard/trainings/{data.id}/{getDateString()}"
-  >Track Attendance</a
->
+<div class="w-full grid grid-cols-2">
+  <h2>Logs</h2>
+  <div class="text-right">
+    <a
+      class="btn btn-sm variant-filled-primary"
+      href="/dashboard/trainings/{data.id}/{getDateString()}"
+    >
+      Track Attendance
+    </a>
+  </div>
+</div>
 <LogList trainingId={data.id} />
