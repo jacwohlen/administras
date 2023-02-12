@@ -86,10 +86,10 @@
   {placeholder}
   bind:value={inputValue}
   on:input={filterData}
-  use:menu={{ menu: 'example' }}
+  use:menu={{ menu: 'itemlist' }}
 />
 
-<div data-menu="example">
+<div data-menu="itemlist">
   {#if filteredData.length > 0}
     <ul>
       {#each filteredData as item, i}
