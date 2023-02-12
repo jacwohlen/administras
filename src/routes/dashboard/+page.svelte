@@ -1,5 +1,8 @@
 <script lang="ts">
   import type { PageData } from './$types';
+  import Fa from 'svelte-fa'
+  import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons'
+
   export let data: PageData;
 </script>
 
@@ -15,7 +18,7 @@
         </span>
         <span class="">
           <a class="btn btn-sm variant-filled-primary" href="/dashboard/trainings/{t.id}">
-            <i class="fa-solid fa-clipboard-check mr-2" />
+            <Fa icon={faClipboardCheck} />
             Track attandence
           </a>
         </span>
