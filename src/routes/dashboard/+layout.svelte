@@ -58,7 +58,7 @@
           <div>Members</div>
         </Tab>
 
-        <div class="ml-auto my-auto pr-4" use:menu={{ menu: 'example' }}>
+        <div class="ml-auto my-auto pr-4" use:menu={{ menu: 'profilemenu' }}>
           {#if auth.currentUser?.photoURL != null}
             <Avatar
               src={auth.currentUser?.photoURL}
@@ -73,7 +73,7 @@
             />
           {/if}
         </div>
-        <nav class="list-nav card p-4 w-64 shadow-xl" data-menu="example">
+        <nav class="list-nav card p-4 w-64 shadow-xl" data-menu="profilemenu">
           <ul>
             <li>
               <button class="option w-full" on:click={authStore.signOut}> Logout </button>
