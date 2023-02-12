@@ -5,8 +5,6 @@
   import type { MMember } from './types';
   import ParticipantCard from './ParticipantCard.svelte';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
-  import { Row, Col } from 'sveltestrap';
-  import type { Member } from '$lib/models';
   export let data: PageData;
 
   $: presentParticipants = data.participants.filter((p) => p.isPresent);
@@ -67,22 +65,20 @@
 <p>{data.trainingId}</p>
 <p>{data.log}</p>
 
-<Row>
-  <Col>
-    <AddParticipantInputBox on:add={addParticipant} />
-  </Col>
-</Row>
-<Row>
-  <Col>
+<div>
+  <AddParticipantInputBox on:add={addParticipant} />
+</div>
+<div class="grid grid-cols-2">
+  <div>
     <h2>Participants</h2>
     {#each notPresentParticipants as p (p.id)}
       <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
     {/each}
-  </Col>
-  <Col>
+  </div>
+  <div>
     <h2>Present</h2>
     {#each presentParticipants as p (p.id)}
       <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
     {/each}
-  </Col>
-</Row>
+  </div>
+</div>

@@ -2,7 +2,6 @@
   import { db } from '$lib/firebase';
   import type { Log } from '$lib/models';
   import { getDocs, collection } from 'firebase/firestore';
-  import { Row, Col, ListGroup, ListGroupItem, Button, Icon } from 'sveltestrap';
 
   export let trainingId: String;
 
@@ -18,24 +17,22 @@
 </script>
 
 {#await getLog() then logs}
-  <ListGroup>
+  <ul class="list">
     {#each logs as i (i.id)}
-      <ListGroupItem>
-        <Row>
-          <Col>
-            {i.id}
-          </Col>
-          <Col>
-            {i.members.length}
-          </Col>
-          <Col>
-            <Button size="sm" href="/dashboard/trainings/{i.id}">
-              <Icon name="text-paragraph" />
-              View
-            </Button>
-          </Col>
-        </Row>
-      </ListGroupItem>
+      <li>
+        <span>
+          {i.id}
+        </span>
+        <span class="flex-auto">
+          {i.members.length}
+        </span>
+        <span>
+          <a class="btn btn-sm variant-filled-secondary" href="/dashboard/trainings/{i.id}">
+            <span class="fa-solid fa-grip-lines" />
+            <span>View</span>
+          </a>
+        </span>
+      </li>
     {/each}
-  </ListGroup>
+  </ul>
 {/await}

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { Container, FormGroup, Input, Card } from 'sveltestrap';
   import type { MMember } from './types';
 
   export let member: MMember;
@@ -16,8 +15,8 @@
   let modalOpen = false;
 </script>
 
-<Container sm>
-  <Card>
+<div class="container">
+  <div class="card">
     {#if member}
       <label class="flex items-center space-x-2">
         <input
@@ -39,5 +38,5 @@
     {:else}
       Member not found
     {/if}
-  </Card>
-</Container>
+  </div>
+</div>

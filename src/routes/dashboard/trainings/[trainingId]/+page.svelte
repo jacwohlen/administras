@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { PageData } from './$types';
   export let data: PageData;
-  import { Row, Col, ListGroup, ListGroupItem, Button, Icon } from 'sveltestrap';
   import LogList from './LogList.svelte';
 
   function getDateString() {
@@ -38,5 +37,7 @@
 </table>
 
 <h2>Logs</h2>
-<Button href="/dashboard/trainings/{data.id}/{getDateString()}">Track Attendance</Button>
+<a class="btn variant-filled-primary" href="/dashboard/trainings/{data.id}/{getDateString()}"
+  >Track Attendance</a
+>
 <LogList trainingId={data.id} />

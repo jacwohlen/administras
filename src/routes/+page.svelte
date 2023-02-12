@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Button } from 'sveltestrap';
   import authStore from '$lib/authStore';
 </script>
 
@@ -8,7 +7,9 @@
   <p>
     Hi {$authStore.user.email}
   </p>
-  <Button href="/dashboard" color="primary">Open Dashboard</Button>
+  <a class="btn variant-filled-primary" href="/dashboard" color="primary">Open Dashboard</a>
 {:else}
-  <Button on:click={authStore.signIn} color="primary">Login</Button>
+  <button class="btn variant-filled-primary" on:click={authStore.signIn} color="primary">
+    Login
+  </button>
 {/if}
