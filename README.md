@@ -14,7 +14,7 @@ attendance.
 
 ## Technical Aspects
 
-Current stack: npm, node, sveltekit, sveltestrap (bootstrap)
+Current stack: npm, node, sveltekit, skeleton (tailwindcss)
 
 Backend: firebase (auth, firestore)
 
