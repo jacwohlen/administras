@@ -7,6 +7,7 @@
   import { auth } from '$lib/firebase';
   import Fa from 'svelte-fa';
   import { faCalendarCheck, faList, faUser } from '@fortawesome/free-solid-svg-icons';
+  import { Modal } from '@skeletonlabs/skeleton';
 
   $: if ($authStore.firebaseControlled && !$authStore.user) {
     goto('/');
@@ -85,5 +86,6 @@
     <div class="container p-2">
       <slot />
     </div>
+    <Modal />
   </AppShell>
 {/if}
