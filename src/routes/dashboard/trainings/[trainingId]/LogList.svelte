@@ -29,7 +29,10 @@
           {i.members.length}
         </span>
         <span>
-          <a class="btn btn-sm variant-filled-secondary" href="/dashboard/trainings/{i.id}">
+          <a
+            class="btn btn-sm variant-filled-secondary"
+            href="/dashboard/trainings/{trainingId}/{i.id}"
+          >
             <Fa icon={faGripLines} />
             <span>View</span>
           </a>

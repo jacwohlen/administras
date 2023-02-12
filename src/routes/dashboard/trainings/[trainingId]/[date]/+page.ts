@@ -43,7 +43,7 @@ export const load = (async ({ params, parent }) => {
   // Mark Present Members
   logMembers.forEach((pMember) => {
     const foundIndex = participantsWithPresentStatus.findIndex((p) => p.id === pMember?.id);
-    if (foundIndex) {
+    if (foundIndex !== -1) {
       participantsWithPresentStatus[foundIndex].isPresent = true;
     } else {
       participantsWithPresentStatus.push({ ...pMember, isPresent: true });
