@@ -1,27 +1,24 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import { Row, Col, ListGroup, ListGroupItem, Button, Icon } from 'sveltestrap';
   export let data: PageData;
 </script>
 
 <h1>Members</h1>
 
-<ListGroup>
+<ul class="list">
   {#each data.members as m (m.id)}
-    <ListGroupItem>
-      <Row>
-        <Col>
-          {m.id}
-          {m.lastname}
-          {m.firstname}
-        </Col>
-        <Col>
-          <Button size="sm">
-            <Icon name="text-paragraph" />
-            View
-          </Button>
-        </Col>
-      </Row>
-    </ListGroupItem>
+    <li>
+      <span class="flex-auto">
+        {m.id}
+        {m.lastname}
+        {m.firstname}
+      </span>
+      <span>
+        <a class="btn btn-sm variant-filled-primary" href="#">
+          <span class="fa-solid fa-grip-lines" />
+          <span>View</span>
+        </a>
+      </span>
+    </li>
   {/each}
-</ListGroup>
+</ul>
