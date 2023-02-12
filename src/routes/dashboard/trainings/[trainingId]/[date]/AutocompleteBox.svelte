@@ -33,7 +33,6 @@
     filteredData = storageArr;
   };
 
-  let searchInput; // use with bind:this to focus element
   let inputValue = '';
 
   $: if (!inputValue) {
@@ -43,7 +42,6 @@
 
   const clearInput = () => {
     inputValue = '';
-    searchInput.focus();
   };
 
   const dispatch = createEventDispatcher();
@@ -68,7 +66,7 @@
 
   let hiLiteIndex: number = -1;
 
-  const navigateList = (e) => {
+  const navigateList = (e: { key: string }) => {
     if (e.key === 'ArrowDown' && hiLiteIndex <= filteredData.length - 1) {
       hiLiteIndex === filteredData.length - 1 ? (hiLiteIndex = 0) : (hiLiteIndex += 1);
     } else if (e.key === 'ArrowUp' && hiLiteIndex !== -1) {
@@ -86,7 +84,6 @@
 <input
   type="text"
   {placeholder}
-  bind:this={searchInput}
   bind:value={inputValue}
   on:input={filterData}
   use:menu={{ menu: 'example' }}
