@@ -5,8 +5,8 @@
   import { page } from '$app/stores';
   import { Avatar, menu, AppShell, AppBar } from '@skeletonlabs/skeleton';
   import { auth } from '$lib/firebase';
-  import Fa from 'svelte-fa'
-  import { faCalendarCheck, faList, faUser } from '@fortawesome/free-solid-svg-icons'
+  import Fa from 'svelte-fa';
+  import { faCalendarCheck, faList, faUser } from '@fortawesome/free-solid-svg-icons';
 
   $: if ($authStore.firebaseControlled && !$authStore.user) {
     goto('/');
@@ -82,6 +82,8 @@
         </nav>
       </TabGroup>
     </svelte:fragment>
-    <slot />
+    <div class="container p-2">
+      <slot />
+    </div>
   </AppShell>
 {/if}
