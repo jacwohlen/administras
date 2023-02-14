@@ -38,10 +38,10 @@
 </script>
 
 <h1>Today</h1>
-<div class="text-center p-4 .w-4/5">
-  <div class="btn-group variant-filled-primary">
+<div class="text-center p-4">
+  <div class="btn-group variant-filled-primary flex-auto w-full md:w-96 lg:w-96 xl:w-96">
     <button on:click={previousDay}><Fa icon={faArrowLeft} /> </button>
-    <button class="w-64">
+    <button class="flex-auto">
       {currentDate.format('dddd DD.MM.YYYY')}
     </button>
     <button on:click={nextDay}><Fa icon={faArrowRight} /> </button>
