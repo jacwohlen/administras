@@ -60,7 +60,7 @@
         <span class="">
           <a class="btn btn-sm variant-filled-primary" href="/dashboard/trainings/{t.id}">
             <Fa icon={faClipboardCheck} />
-            Track attandence
+            <span>Track attandence</span>
           </a>
         </span>
       </li>
