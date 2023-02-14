@@ -6,6 +6,8 @@
   import type { Item } from './AutocompleteBox.svelte';
   import { collection, getDocs, query, waitForPendingWrites, where } from 'firebase/firestore';
   import { createEventDispatcher } from 'svelte';
+  import Fa from 'svelte-fa';
+  import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
   async function searchMember(text: string): Promise<Member[]> {
     const collRef = collection(db, '/members');
@@ -46,9 +48,13 @@
   }
 </script>
 
-<AutocompleteBox
-  on:change={change}
-  {getData}
-  placeholder="Search Members"
-  defaultItemText="Create New Member"
-/>
+<div class="input-group input-group-divider grid-cols-[auto_1fr_auto] h-10">
+  <div class="input-group-shim"><slot name="prefix" /></div>
+  <AutocompleteBox
+    on:change={change}
+    {getData}
+    placeholder="Search Members"
+    defaultItemText="Create New Member"
+  />
+  <button class="variant-filled-primary"><Fa icon={faUserPlus} /></button>
+</div>
