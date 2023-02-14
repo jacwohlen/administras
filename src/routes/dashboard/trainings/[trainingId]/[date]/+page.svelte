@@ -6,7 +6,14 @@
   import ParticipantCard from './ParticipantCard.svelte';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import Fa from 'svelte-fa';
-  import { faUserPlus, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faArrowLeft,
+    faArrowRight,
+    faUserPlus,
+    faCalendarCheck
+  } from '@fortawesome/free-solid-svg-icons';
+  import moment from 'moment';
+  import { goto } from '$app/navigation';
 
   export let data: PageData;
 
@@ -55,14 +62,46 @@
       data.participants = data.participants; // force reactivity
     }
   }
+
+  function nextWeek() {
+    console.log('nextWeek', data.date);
+    let d = moment(data.date, 'yyyy-MM-DD');
+    d.add(7, 'days');
+    goto(d.format('yyyy-MM-DD'));
+  }
+
+  function previousWeek() {
+    console.log('previousWeek');
+    let d = moment(data.date, 'yyyy-MM-DD');
+    d.subtract(7, 'days');
+    goto(d.format('yyyy-MM-DD'));
+  }
 </script>
 
 <h2>{data.title}</h2>
 <h4>{data.weekday} {data.dateFrom} | {data.section}</h4>
-<h1><Fa icon={faCalendarCheck} class="inline mr-2" />{data.date}</h1>
-
-<div>
-  <AddParticipantInputBox on:add={addParticipant} />
+<hr class="my-2" />
+<div class="flex justify-between items-center my-2">
+  <div>
+    <button class="btn btn-sm variant-filled-primary" on:click={previousWeek}>
+      <Fa icon={faArrowLeft} /><span>Week</span>
+    </button>
+  </div>
+  <div>
+    <button class="btn variant-ghost-primary">{data.date}</button>
+  </div>
+  <div>
+    <button class="btn btn-sm variant-filled-primary" on:click={nextWeek}>
+      <span>Week</span><Fa icon={faArrowRight} />
+    </button>
+  </div>
+</div>
+<div class="my-2">
+  <AddParticipantInputBox on:add={addParticipant}>
+    <svelte:fragment slot="prefix">
+      <span class="badge variant-filled-primary">{presentParticipants.length}</span>
+    </svelte:fragment>
+  </AddParticipantInputBox>
 </div>
 <div>
   <div>

@@ -1,6 +1,6 @@
 import { db } from '$lib/firebase';
 import type { PageLoad } from './$types';
-import { getDoc, doc, DocumentReference } from 'firebase/firestore';
+import { getDoc, setDoc, doc, DocumentReference } from 'firebase/firestore';
 import type { Training, Log } from '$lib/models';
 import type { MMember } from './types';
 
@@ -11,7 +11,8 @@ export const load = (async ({ params, parent }) => {
     if (docSnap.exists()) {
       return { id: docRef.id, ...docSnap.data() } as Log;
     } else {
-      console.log(`Error: Log not found ref: ${docRef.path}`);
+      await setDoc(docRef, { members: [] });
+      return { id: docRef.id, members: [] } as Log;
     }
   }
   async function getLogParticipants(memberRefs: DocumentReference[]) {
