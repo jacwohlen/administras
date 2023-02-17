@@ -6,14 +6,12 @@
 <div class="grid h-screen place-items-center">
   <div>
     <LogoImage /> 
-  </div>
-  <div>
-    <h1>Welcome to Administra</h1>
+    <h1 class="my-2">Welcome to Administra</h1>
     {#if $authStore.firebaseControlled && $authStore.user}
       <p>
-        Hi {$authStore.user.email}
+        Hi <strong>{$authStore.user.email}</strong>
       </p>
-      <a class="btn variant-filled-primary" href="/dashboard" color="primary">Open Dashboard</a>
+      <a class="btn variant-filled-primary mt-2" href="/dashboard" color="primary">Open Dashboard</a>
     {:else}
       <button class="btn variant-filled-primary" on:click={authStore.signIn} color="primary">
         Login
