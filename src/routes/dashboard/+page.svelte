@@ -7,44 +7,55 @@
   import moment from 'moment';
   import type { Moment } from 'moment';
 
-  let currentDate: Moment = moment();
+  let date: Moment = moment();
+  const dateFormat: string = 'YYYY-MM-DD';
   let trainings: Training[] = [];
 
   function nextDay() {
-    currentDate = currentDate.add(1, 'days');
+    const day = date.day();
+    if (day < 6) {
+      date = date.day(day + 1);
+    } else {
+      date = date.day(day - 6);
+    }
     getTrainingsForDay();
   }
 
   function previousDay() {
-    currentDate = currentDate.subtract(1, 'days');
+    const day = date.day();
+    if (day > 0) {
+      date = date.day(day - 1);
+    } else {
+      date = date.day(day + 6);
+    }
     getTrainingsForDay();
   }
 
   async function getTrainingsForDay() {
-    console.log('getting data for date: ' + currentDate.format('YYYY-MM-DD'));
     const ret: Training[] = [];
-    const q = query(
-      collection(db, 'trainings'),
-      where('weekday', '==', currentDate.format('dddd'))
-    );
+    const q = query(collection(db, 'trainings'), where('weekday', '==', date.format('dddd')));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       ret.push({ ...(doc.data() as Training), id: doc.id });
     });
-    console.log(ret);
     trainings = ret;
   }
   getTrainingsForDay();
 </script>
 
-<h1>Today</h1>
-<div class="text-center p-4">
-  <div class="btn-group variant-filled-primary flex-auto w-full md:w-96 lg:w-96 xl:w-96">
-    <button on:click={previousDay}><Fa icon={faArrowLeft} /> </button>
-    <button class="flex-auto">
-      {currentDate.format('dddd DD.MM.YYYY')}
+<div class="flex justify-between items-center m-2">
+  <div>
+    <button class="btn btn-sm variant-filled-primary" on:click={previousDay}>
+      <Fa icon={faArrowLeft} /><span>Day</span>
     </button>
-    <button on:click={nextDay}><Fa icon={faArrowRight} /> </button>
+  </div>
+  <div>
+    <h1>{date.format('dddd')}</h1>
+  </div>
+  <div>
+    <button class="btn btn-sm variant-filled-primary" on:click={nextDay}>
+      <span>Day</span><Fa icon={faArrowRight} />
+    </button>
   </div>
 </div>
 
@@ -58,7 +69,10 @@
           {t.title}
         </span>
         <span class="">
-          <a class="btn btn-sm variant-filled-primary" href="/dashboard/trainings/{t.id}">
+          <a
+            class="btn btn-sm variant-filled-primary"
+            href="/dashboard/trainings/{t.id}/{date.format(dateFormat)}"
+          >
             <Fa icon={faClipboardCheck} />
             <span>Track attandence</span>
           </a>
