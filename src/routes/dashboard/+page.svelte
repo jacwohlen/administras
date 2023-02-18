@@ -74,7 +74,7 @@
             href="/dashboard/trainings/{t.id}/{date.format(dateFormat)}"
           >
             <Fa icon={faClipboardCheck} />
-            <span>Track attandence</span>
+            <span>Track attendance</span>
           </a>
         </span>
       </li>
