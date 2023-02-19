@@ -83,7 +83,7 @@
         </nav>
       </TabGroup>
     </svelte:fragment>
-    <div class="container p-2">
+    <div class="container p-2 mx-auto">
       <slot />
     </div>
     <Modal />
