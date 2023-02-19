@@ -32,7 +32,6 @@
   }
 
   async function getTrainingsForDay() {
-    console.log(date);
     const ret: Training[] = [];
     const q = query(collection(db, 'trainings'), where('weekday', '==', date.format('dddd')));
     const querySnapshot = await getDocs(q);
