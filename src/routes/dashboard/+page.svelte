@@ -13,25 +13,26 @@
 
   function nextDay() {
     const day = date.day();
-    if (day < 6) {
-      date = date.day(day + 1);
-    } else {
+    if (day == moment().day()) {
       date = date.day(day - 6);
+    } else {
+      date = date.day(day + 1);
     }
     getTrainingsForDay();
   }
 
   function previousDay() {
     const day = date.day();
-    if (day > 0) {
-      date = date.day(day - 1);
-    } else {
+    if (day == moment().day(-6).day()) {
       date = date.day(day + 6);
+    } else {
+      date = date.day(day - 1);
     }
     getTrainingsForDay();
   }
 
   async function getTrainingsForDay() {
+    console.log(date);
     const ret: Training[] = [];
     const q = query(collection(db, 'trainings'), where('weekday', '==', date.format('dddd')));
     const querySnapshot = await getDocs(q);
