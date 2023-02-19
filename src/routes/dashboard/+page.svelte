@@ -12,21 +12,19 @@
   let trainings: Training[] = [];
 
   function nextDay() {
-    const day = date.day();
-    if (day == moment().day()) {
-      date = date.day(day - 6);
+    if (date.day() == moment().day()) {
+      date = date.subtract(6, 'days');
     } else {
-      date = date.day(day + 1);
+      date = date.add(1, 'days');
     }
     getTrainingsForDay();
   }
 
   function previousDay() {
-    const day = date.day();
-    if (day == moment().day(-6).day()) {
-      date = date.day(day + 6);
+    if (date.day() == moment().day(-6).day()) {
+      date = date.add(6, 'days');
     } else {
-      date = date.day(day - 1);
+      date = date.subtract(1, 'days');
     }
     getTrainingsForDay();
   }
