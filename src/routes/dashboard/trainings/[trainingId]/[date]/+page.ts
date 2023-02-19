@@ -36,10 +36,10 @@ export const load = (async ({ params, parent }) => {
   const trainingParticipants = await getLogParticipants(
     parentData.participants as DocumentReference[]
   );
-  const participantsWithPresentStatus = trainingParticipants.map((p) => ({
+  const participantsWithPresentStatus: MMember[] = trainingParticipants.map((p) => ({
     ...p,
     isPresent: false
-  }));
+  } as MMember));
 
   // Mark Present Members
   logMembers.forEach((pMember) => {
@@ -47,7 +47,15 @@ export const load = (async ({ params, parent }) => {
     if (foundIndex !== -1) {
       participantsWithPresentStatus[foundIndex].isPresent = true;
     } else {
-      participantsWithPresentStatus.push({ ...pMember, isPresent: true });
+      participantsWithPresentStatus.push({ ...pMember, isPresent: true } as MMember);
+    }
+  });
+
+  participantsWithPresentStatus.sort((a, b) => {
+    if (a.lastname === b.lastname) {
+      return a.firstname.localeCompare(b.firstname);
+    } else {
+      return a.lastname.localeCompare(b.lastname);
     }
   });
 
@@ -55,6 +63,6 @@ export const load = (async ({ params, parent }) => {
     log,
     trainingId: params.trainingId,
     date: params.date,
-    participants: participantsWithPresentStatus as MMember[]
+    participants: participantsWithPresentStatus
   };
 }) satisfies PageLoad;
