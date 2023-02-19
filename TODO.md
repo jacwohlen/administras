@@ -12,7 +12,7 @@ Now
 - [ ] Training/Logs invert order (sort) -> latest date on top
 - [ ] Training Sort and put subheadings (Mo, Tue, Wed, ..)
 - [X] Center Front page logo
-- [ ] Members Sort Lastname, Firstname
+- [X] Members Sort Lastname, Firstname
 
 Next
 

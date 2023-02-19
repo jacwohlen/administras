@@ -9,6 +9,11 @@ export async function load() {
     members.push({ ...(doc.data() as Member), id: doc.id });
   });
 
+  members.sort((a, b) => {
+    const result = a.lastname.localeCompare(b.lastname);
+    return result !== 0 ? result : a.firstname.localeCompare(b.firstname);
+  })
+
   return {
     members
   };
