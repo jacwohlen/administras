@@ -19,13 +19,13 @@
         <dd class="text-xs">
           {#if m.labels}
             {#each m.labels as l (l)}
-              <span class="badge variant-filled h-4">{l}</span>
+              <span class="badge variant-filled-secondary font-normal h-4">{l}</span>
             {/each}
           {/if}
         </dd>
       </span>
       <span>
-        <a class="btn btn-sm variant-filled-primary" href="#">
+        <a class="btn btn-sm variant-filled-secondary" href="#">
           <Fa icon={faGripLines} />
           <span>View</span>
         </a>
