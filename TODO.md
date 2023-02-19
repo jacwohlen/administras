@@ -7,7 +7,7 @@ Now
 - [x] Checklist Card
 - [ ] Checklist,Member photo
 - [ ] Create cronjob for webling sync
-- [ ] Remove hardcoded date in training detail page
+- [x] Remove hardcoded date in training detail page
 
 - [X] Training/Logs invert order (sort) -> latest date on top
 - [ ] Training Sort and put subheadings (Mo, Tue, Wed, ..)

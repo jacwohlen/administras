@@ -2,9 +2,11 @@
   import type { PageData } from './$types';
   export let data: PageData;
   import LogList from './LogList.svelte';
+  import utils from '$lib/utils';
 
   function getDateString() {
-    return '2023-01-20';
+    const weekday = utils.weekdayToNumber(data.weekday);
+    return utils.getMostRecentDateByWeekday(weekday).format('YYYY-MM-DD');
   }
 </script>
 
