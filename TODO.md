@@ -2,9 +2,9 @@
 
 Now
 
-- [ ] Checklist Sort members (lastname, firstname)
-- [ ] Checklist Search / New Member
-- [ ] Checklist Card
+- [x] Checklist Sort members (lastname, firstname)
+- [x] Checklist Search / New Member
+- [x] Checklist Card
 - [ ] Checklist,Member photo
 - [ ] Create cronjob for webling sync
 - [ ] Remove hardcoded date in training detail page

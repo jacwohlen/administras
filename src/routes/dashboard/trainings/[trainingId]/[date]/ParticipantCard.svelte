@@ -2,12 +2,13 @@
   import { createEventDispatcher } from 'svelte';
   import Fa from 'svelte-fa';
   import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-  import { menu, type ModalSettings } from '@skeletonlabs/skeleton';
+  import { menu, type ModalSettings, Avatar } from '@skeletonlabs/skeleton';
   import { modalStore } from '@skeletonlabs/skeleton';
 
   import type { MMember } from './types';
 
   export let member: MMember;
+  export let highlight: boolean = false;
 
   const dispatch = createEventDispatcher();
 
@@ -30,19 +31,31 @@
   }
 </script>
 
-<li>
+<li class={highlight ? 'bg-primary-50' : ''}>
   {#if member}
-    <label class="flex items-center space-x-2 flex-auto">
-      <input
-        class="checkbox"
-        type="checkbox"
-        value={member.id}
-        checked={member.isPresent}
-        on:change={change}
-      />
-      <span class="ml">{member.lastname} - {member.firstname}</span>
-    </label>
-    <div class="relative">
+    <input
+      class="checkbox"
+      type="checkbox"
+      value={member.id}
+      checked={member.isPresent}
+      on:change={change}
+    />
+    {#if member.img}
+      <Avatar src={member.img} />
+    {:else}
+      <Avatar initials={member.lastname.charAt(0) + member.firstname.charAt(0)} />
+    {/if}
+    <span class="flex-auto">
+      <dt>{member.lastname} {member.firstname}</dt>
+      <dd>
+        {#if member.labels}
+          {#each member.labels as l (l)}
+            <span class="chip sm mr-2">{l}</span>
+          {/each}
+        {/if}
+      </dd>
+    </span>
+    <div class="justify-self-end relative">
       <button class="btn btn-sm" use:menu={{ menu: 'menu' + member.id }}>
         <Fa icon={faEllipsisVertical} />
       </button>

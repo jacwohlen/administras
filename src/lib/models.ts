@@ -17,6 +17,7 @@ export interface Member {
   birthday?: string;
   mobile?: string;
   labels?: string[];
+  img?: string;
 }
 
 export interface Training {

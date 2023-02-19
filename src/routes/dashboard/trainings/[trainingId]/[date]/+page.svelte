@@ -4,37 +4,65 @@
   import type { PageData } from './$types';
   import type { MMember } from './types';
   import ParticipantCard from './ParticipantCard.svelte';
-  import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import Fa from 'svelte-fa';
-  import {
-    faArrowLeft,
-    faArrowRight,
-    faUserPlus,
-    faCalendarCheck
-  } from '@fortawesome/free-solid-svg-icons';
+  import { faArrowLeft, faArrowRight, faUserPlus } from '@fortawesome/free-solid-svg-icons';
   import moment from 'moment';
   import { goto } from '$app/navigation';
 
   export let data: PageData;
+  let searchterm: string = '';
 
-  $: presentParticipants = data.participants.filter((p) => p.isPresent);
-  $: notPresentParticipants = data.participants.filter((p) => !p.isPresent);
+  let filteredData: MMember[] = [];
+  $: presentParticipants = filteredData.filter((p) => p.isPresent);
+
+  let hiIndex = -1;
+
+  const filterData = async () => {
+    filteredData = data.participants.filter((p) => {
+      const s = searchterm.toLowerCase();
+      return p.lastname.toLowerCase().startsWith(s) || p.firstname.toLowerCase().startsWith(s);
+    });
+
+    hiIndex = filteredData.length > 0 && searchterm ? 0 : -1;
+
+    filteredData = filteredData.sort((a, b) => {
+      if (a.isPresent && !b.isPresent) {
+        return -1; // a comes first
+      } else if (!a.isPresent && b.isPresent) {
+        return 1; // b comes first
+      } else {
+        return 0; // no sorting needed
+      }
+    });
+  };
+
+  function clearSearch() {
+    searchterm = '';
+    hiIndex = -1;
+    filterData();
+  }
+
+  filterData();
 
   function changePresence(event: CustomEvent<{ member: MMember; checked: boolean }>) {
-    console.log('changePresense triggreed', event.detail.member.id);
+    _changePresence(event.detail.member, event.detail.checked);
+    clearSearch();
+  }
+  function _changePresence(member: MMember, checked: boolean) {
+    console.log('changePresense triggreed', member.id, checked);
     const path = `/trainings/${data.trainingId}/log/${data.date}`;
     const ref = doc(db, path);
-    if (event.detail.checked) {
+    if (checked) {
       updateDoc(ref, {
-        members: arrayUnion(doc(db, `/members/${event.detail.member.id}`))
+        members: arrayUnion(doc(db, `/members/${member.id}`))
       });
     } else {
       updateDoc(ref, {
-        members: arrayRemove(doc(db, `/members/${event.detail.member.id}`))
+        members: arrayRemove(doc(db, `/members/${member.id}`))
       });
     }
-    const index = data.participants.findIndex((m) => m.id === event.detail.member.id);
-    data.participants[index].isPresent = event.detail.checked;
+    const index = data.participants.findIndex((m) => m.id === member.id);
+    data.participants[index].isPresent = checked;
   }
 
   function addParticipant(event: CustomEvent<{ member: MMember }>) {
@@ -76,6 +104,19 @@
     d.subtract(7, 'days');
     goto(d.format('yyyy-MM-DD'));
   }
+
+  const navigateList = (e: { key: string }) => {
+    if (e.key === 'ArrowDown' && hiIndex <= filteredData.length - 1) {
+      hiIndex === filteredData.length - 1 ? (hiIndex = 0) : (hiIndex += 1);
+    } else if (e.key === 'ArrowUp' && hiIndex !== -1) {
+      hiIndex === 0 ? (hiIndex = filteredData.length - 1) : (hiIndex -= 1);
+    } else if (e.key === 'Enter') {
+      _changePresence(filteredData[hiIndex], !filteredData[hiIndex].isPresent);
+      clearSearch();
+    } else {
+      return;
+    }
+  };
 </script>
 
 <h2>{data.title}</h2>
@@ -96,36 +137,43 @@
     </button>
   </div>
 </div>
-<div class="my-2">
-  <AddParticipantInputBox on:add={addParticipant}>
-    <svelte:fragment slot="prefix">
-      <span class="badge variant-filled-primary">{presentParticipants.length}</span>
-    </svelte:fragment>
-  </AddParticipantInputBox>
-</div>
 <div>
   <div>
-    <div class="flex">
-      <div class="flex-none">
+    <div class="flex items-center">
+      <div class="mr-2">
         <span class="chip variant-filled-primary">{presentParticipants.length}</span>
       </div>
-      <div class="flex-none ml-2">
-        <h2>Present</h2>
-      </div>
-      <div class="grow text-right">
-        <button class="btn btn-sm variant-filled-primary">
-          <Fa icon={faUserPlus} />
-          <span>Add</span>
-        </button>
+      <div class="grow">
+        <div class="input-group input-group-divider grid-cols-[1fr_auto] h-10">
+          <input
+            on:keydown={navigateList}
+            type="text"
+            placeholder="Search Member..."
+            bind:value={searchterm}
+            on:input={filterData}
+          />
+          <button class="icon variant-filled-primary">
+            <Fa icon={faUserPlus} class="mr-2" />
+            <span>Add New</span>
+          </button>
+        </div>
       </div>
     </div>
     <ul class="list">
-      {#each presentParticipants as p (p.id)}
-        <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
+      {#each filteredData as p, i (p.id)}
+        <ParticipantCard
+          highlight={hiIndex === i}
+          member={p}
+          on:change={changePresence}
+          on:remove={removeParticipant}
+        />
       {/each}
-      {#each notPresentParticipants as p (p.id)}
-        <ParticipantCard member={p} on:change={changePresence} on:remove={removeParticipant} />
-      {/each}
+      <li>
+        <aside class="alert variant-ghost-tertiary w-full justify-items-center">
+          <span>Add more members to this training</span>
+          <button class="btn variant-filled-primary">Add member</button>
+        </aside>
+      </li>
     </ul>
   </div>
 </div>
