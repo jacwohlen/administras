@@ -5,14 +5,15 @@ Now
 - [x] Checklist Sort members (lastname, firstname)
 - [x] Checklist Search / New Member
 - [x] Checklist Card
-- [ ] Checklist,Member photo
+- [ ] Checklist, Create new member
+- [ ] Checklist, Member photo
 - [ ] Create cronjob for webling sync
 - [x] Remove hardcoded date in training detail page
 
-- [X] Training/Logs invert order (sort) -> latest date on top
-- [X] Training Sort and put subheadings (Mo, Tue, Wed, ..)
-- [X] Center Front page logo
-- [X] Members Sort Lastname, Firstname
+- [x] Training/Logs invert order (sort) -> latest date on top
+- [x] Training Sort and put subheadings (Mo, Tue, Wed, ..)
+- [x] Center Front page logo
+- [x] Members Sort Lastname, Firstname
 
 Next
 

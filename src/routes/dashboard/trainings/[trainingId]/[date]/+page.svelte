@@ -8,6 +8,7 @@
   import { faArrowLeft, faArrowRight, faUserPlus } from '@fortawesome/free-solid-svg-icons';
   import moment from 'moment';
   import { goto } from '$app/navigation';
+  import AddParticipantInputBox from './AddParticipantInputBox.svelte';
 
   export let data: PageData;
   let searchterm: string = '';
@@ -73,7 +74,7 @@
       participants: arrayUnion(doc(db, `/members/${event.detail.member.id}`))
     });
     data.participants.push(event.detail.member);
-    data.participants = data.participants; // force reactivity
+    filterData(); // force reactivity
   }
 
   function removeParticipant(event: CustomEvent<{ member: MMember; checked: boolean }>) {
@@ -87,7 +88,7 @@
     const index = data.participants.findIndex((p) => p.id === event.detail.member.id);
     if (index > -1) {
       data.participants.splice(index, 1);
-      data.participants = data.participants; // force reactivity
+      filterData(); // force reactivity
     }
   }
 
@@ -144,19 +145,14 @@
         <span class="chip variant-filled-primary">{presentParticipants.length}</span>
       </div>
       <div class="grow">
-        <div class="input-group input-group-divider grid-cols-[1fr_auto] h-10">
-          <input
-            on:keydown={navigateList}
-            type="text"
-            placeholder="Search Member..."
-            bind:value={searchterm}
-            on:input={filterData}
-          />
-          <button class="icon variant-filled-primary">
-            <Fa icon={faUserPlus} class="mr-2" />
-            <span>Add New</span>
-          </button>
-        </div>
+        <input
+          class="input"
+          on:keydown={navigateList}
+          type="text"
+          placeholder="Search Member..."
+          bind:value={searchterm}
+          on:input={filterData}
+        />
       </div>
     </div>
     <ul class="list">
@@ -170,8 +166,7 @@
       {/each}
       <li>
         <aside class="alert variant-ghost-tertiary w-full justify-items-center">
-          <span>Add more members to this training</span>
-          <button class="btn variant-filled-primary">Add member</button>
+          <AddParticipantInputBox skip={filteredData} on:add={addParticipant} />
         </aside>
       </li>
     </ul>

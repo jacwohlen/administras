@@ -1,46 +1,39 @@
 <script lang="ts">
   import { db } from '$lib/firebase';
   import type { Member } from '$lib/models';
-  // import { getDoc, doc } from 'firebase/firestore';
-  import AutocompleteBox from './AutocompleteBox.svelte';
-  import type { Item } from './AutocompleteBox.svelte';
-  import { collection, getDocs, query, waitForPendingWrites, where } from 'firebase/firestore';
+  import { collection, getDocs, query, where } from 'firebase/firestore';
   import { createEventDispatcher } from 'svelte';
   import Fa from 'svelte-fa';
   import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+  import { menu } from '@skeletonlabs/skeleton';
 
-  async function searchMember(text: string): Promise<Member[]> {
+  let searchterm = '';
+
+  let filteredData: Member[] = [];
+  export let skip: Member[] = [];
+
+  async function filterData(): Promise<Member[]> {
+    const text = searchterm;
     const collRef = collection(db, '/members');
     const q = query(collRef, where('lastname', '>=', text), where('lastname', '<=', text + 'z'));
 
     const querySnap = await getDocs(q);
-    console.log('got it: ', querySnap.docs);
-    return querySnap.docs.map((p) => ({ id: p.id, ...p.data() } as Member));
+    filteredData = querySnap.docs.map((p) => ({ id: p.id, ...p.data() } as Member));
+
+    filteredData = filteredData.filter(
+      (item) => !skip.some((otherItem) => item.id === otherItem.id)
+    );
+    return filteredData;
   }
 
-  async function getData(text: string): Promise<Item[]> {
-    console.log('GetData Called with text: ', text);
-    const defaultItem: Item = { name: `it highlights the match: ${text}` };
-
-    const res = await searchMember(text);
-    console.log('res', res);
-
-    return [
-      ...res.map(
-        (m) => ({ name: `${m.lastname} ${m.firstname} (${m.birthday})`, data: m } as Item)
-      ),
-      defaultItem
-    ];
+  function clearSearch() {
+    searchterm = '';
   }
 
   const dispatch = createEventDispatcher();
-  function change(event: CustomEvent) {
-    console.log('selected: ', event.detail);
-    if (event.detail.name === 'Create New Member') {
-      createNewMember();
-    } else {
-      dispatch('add', { member: event.detail.data });
-    }
+  function add(member: Member) {
+    dispatch('add', { member: member });
+    clearSearch();
   }
 
   function createNewMember() {
@@ -48,13 +41,41 @@
   }
 </script>
 
-<div class="input-group input-group-divider grid-cols-[auto_1fr_auto] h-10">
-  <div class="input-group-shim"><slot name="prefix" /></div>
-  <AutocompleteBox
-    on:change={change}
-    {getData}
-    placeholder="Search Members"
-    defaultItemText="Create New Member"
-  />
-  <button class="variant-filled-primary"><Fa icon={faUserPlus} /></button>
+<div class="grid grid-cols-2">
+  <div class="relative">
+    <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
+      <div class="input-group-shim">
+        <Fa icon={faUserPlus} />
+      </div>
+      <input
+        class="input"
+        type="text"
+        placeholder="Add Member..."
+        bind:value={searchterm}
+        on:input={filterData}
+        use:menu={{ menu: 'menu1' }}
+      />
+    </div>
+    <nav class="card p-2 shadow-xl" data-menu={'menu1'}>
+      <ul class="nav-list">
+        {#each filteredData as p, i (p.id)}
+          <li>
+            <span>{p.lastname} {p.firstname}</span>
+            <div class="justify-self-end relative">
+              <button class="btn btn-sm variant-ringed-primary" on:click={() => add(p)}>
+                <Fa icon={faUserPlus} />
+                <span>Add</span>
+              </button>
+            </div>
+          </li>
+        {/each}
+        <li>
+          <strong>{searchterm}</strong>...
+          <button class="btn btn-sm variant-filled-primary" on:click={createNewMember}>
+            Create New
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>
