@@ -2,13 +2,25 @@
   import type { PageData } from './$types';
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
+  import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 
   export let data: PageData;
 </script>
 
 <h1>Trainings</h1>
 <ul class="list">
-  {#each data.trainings as t (t.id)}
+  {#each data.trainings as t, index (t.id)}
+    {#if index > 0}
+      {#if t.weekday != data.trainings[index - 1].weekday}
+        <div class="relative flex pt-4 justify-center">
+          <span class="flex-shrink mx-4 text-gray-400">{t.weekday}</span>
+        </div>
+      {/if}
+    {:else}
+      <div class="relative flex pt-4 justify-center">
+        <span class="flex-shrink mx-4 text-gray-400">{t.weekday}</span>
+      </div>
+    {/if}
     <li>
       <span class="flex-auto">
         <dt class="font-bold">

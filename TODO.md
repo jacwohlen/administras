@@ -10,7 +10,7 @@ Now
 - [x] Remove hardcoded date in training detail page
 
 - [X] Training/Logs invert order (sort) -> latest date on top
-- [ ] Training Sort and put subheadings (Mo, Tue, Wed, ..)
+- [X] Training Sort and put subheadings (Mo, Tue, Wed, ..)
 - [X] Center Front page logo
 - [X] Members Sort Lastname, Firstname
 
