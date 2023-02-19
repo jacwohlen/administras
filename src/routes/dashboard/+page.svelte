@@ -43,7 +43,7 @@
 
 <div class="flex justify-between items-center m-2">
   <div>
-    <button class="btn btn-sm variant-filled-primary" on:click={previousDay}>
+    <button class="btn" on:click={previousDay}>
       <Fa icon={faArrowLeft} /><span>Day</span>
     </button>
   </div>
@@ -51,7 +51,7 @@
     <h1>{date.format('dddd')}</h1>
   </div>
   <div>
-    <button class="btn btn-sm variant-filled-primary" on:click={nextDay}>
+    <button class="btn" on:click={nextDay}>
       <span>Day</span><Fa icon={faArrowRight} />
     </button>
   </div>
@@ -68,7 +68,7 @@
         </span>
         <span class="">
           <a
-            class="btn btn-sm variant-filled-primary"
+            class="btn btn-sm variant-filled-secondary"
             href="/dashboard/trainings/{t.id}/{date.format(dateFormat)}"
           >
             <Fa icon={faClipboardCheck} />

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import Fa from 'svelte-fa'
-  import { faGripLines } from '@fortawesome/free-solid-svg-icons'
+  import Fa from 'svelte-fa';
+  import { faGripLines } from '@fortawesome/free-solid-svg-icons';
 
   export let data: PageData;
 </script>
@@ -17,7 +17,7 @@
         <dd class="text-sm">{t.weekday} - {t.dateFrom} | {t.section}</dd>
       </span>
       <span>
-        <a class="btn btn-sm variant-filled-primary" href="/dashboard/trainings/{t.id}">
+        <a class="btn btn-sm variant-filled-secondary" href="/dashboard/trainings/{t.id}">
           <Fa icon={faGripLines} />
           <span>View</span>
         </a>
