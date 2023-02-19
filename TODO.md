@@ -9,7 +9,7 @@ Now
 - [ ] Create cronjob for webling sync
 - [ ] Remove hardcoded date in training detail page
 
-- [ ] Training/Logs invert order (sort) -> latest date on top
+- [X] Training/Logs invert order (sort) -> latest date on top
 - [ ] Training Sort and put subheadings (Mo, Tue, Wed, ..)
 - [X] Center Front page logo
 - [X] Members Sort Lastname, Firstname

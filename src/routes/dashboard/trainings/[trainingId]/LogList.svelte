@@ -1,7 +1,7 @@
 <script lang="ts">
   import { db } from '$lib/firebase';
   import type { Log } from '$lib/models';
-  import { getDocs, collection } from 'firebase/firestore';
+  import { getDocs, collection, query, orderBy, documentId, where } from 'firebase/firestore';
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,11 +9,14 @@
 
   async function getLog() {
     const logs: Log[] = [];
-    const docRef = collection(db, `trainings/${trainingId}/log`);
-    const querySnap = await getDocs(docRef);
+    const q = query(collection(db, `trainings/${trainingId}/log`));
+    const querySnap = await getDocs(q);
     querySnap.forEach((doc) => {
       logs.push({ ...(doc.data() as Log), id: doc.id });
     });
+    // Sort or reverse array to display newest log on top of page
+    // logs.sort((a, b) => parseInt(b.id.replace('-', '')) - parseInt(a.id.replace('-', '')));
+    logs.reverse();
     return logs;
   }
 </script>
