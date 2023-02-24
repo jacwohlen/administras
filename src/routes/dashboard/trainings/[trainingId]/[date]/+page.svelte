@@ -19,6 +19,7 @@
   let hiIndex = -1;
 
   const filterData = async () => {
+    console.log('filterData called');
     filteredData = data.participants.filter((p) => {
       const s = searchterm.toLowerCase();
       return p.lastname.toLowerCase().startsWith(s) || p.firstname.toLowerCase().startsWith(s);
@@ -92,18 +93,20 @@
     }
   }
 
-  function nextWeek() {
+  async function nextWeek() {
     console.log('nextWeek', data.date);
     let d = moment(data.date, 'yyyy-MM-DD');
     d.add(7, 'days');
-    goto(d.format('yyyy-MM-DD'));
+    await goto(d.format('yyyy-MM-DD'));
+    filterData();
   }
 
-  function previousWeek() {
+  async function previousWeek() {
     console.log('previousWeek');
     let d = moment(data.date, 'yyyy-MM-DD');
     d.subtract(7, 'days');
-    goto(d.format('yyyy-MM-DD'));
+    await goto(d.format('yyyy-MM-DD'));
+    filterData();
   }
 
   const navigateList = (e: { key: string }) => {
