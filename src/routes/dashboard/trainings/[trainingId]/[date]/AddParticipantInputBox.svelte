@@ -41,41 +41,39 @@
   }
 </script>
 
-<div class="grid grid-cols-2">
-  <div class="relative">
-    <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
-      <div class="input-group-shim">
-        <Fa icon={faUserPlus} />
-      </div>
-      <input
-        class="input"
-        type="text"
-        placeholder="Add Member..."
-        bind:value={searchterm}
-        on:input={filterData}
-        use:menu={{ menu: 'menu1' }}
-      />
+<div class="relative w-full">
+  <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
+    <div class="input-group-shim">
+      <Fa icon={faUserPlus} />
     </div>
-    <nav class="card p-2 shadow-xl" data-menu={'menu1'}>
-      <ul class="nav-list">
-        {#each filteredData as p, i (p.id)}
-          <li>
-            <span>{p.lastname} {p.firstname}</span>
-            <div class="justify-self-end relative">
-              <button class="btn btn-sm variant-ringed-primary" on:click={() => add(p)}>
-                <Fa icon={faUserPlus} />
-                <span>Add</span>
-              </button>
-            </div>
-          </li>
-        {/each}
-        <li>
-          <strong>{searchterm}</strong>...
-          <button class="btn btn-sm variant-filled-primary" on:click={createNewMember}>
-            Create New
-          </button>
-        </li>
-      </ul>
-    </nav>
+    <input
+      class="input"
+      type="text"
+      placeholder="Add Member..."
+      bind:value={searchterm}
+      on:input={filterData}
+      use:menu={{ menu: 'menu1' }}
+    />
   </div>
+  <nav class="card p-2 shadow-xl" data-menu={'menu1'}>
+    <ul class="nav-list">
+      {#each filteredData as p, i (p.id)}
+        <li>
+          <span>{p.lastname} {p.firstname}</span>
+          <div class="justify-self-end relative">
+            <button class="btn btn-sm variant-ringed-primary" on:click={() => add(p)}>
+              <Fa icon={faUserPlus} />
+              <span>Add</span>
+            </button>
+          </div>
+        </li>
+      {/each}
+      <li>
+        <strong>{searchterm}</strong>...
+        <button class="btn btn-sm variant-filled-primary" on:click={createNewMember}>
+          Create New
+        </button>
+      </li>
+    </ul>
+  </nav>
 </div>
