@@ -25,7 +25,7 @@
         </dd>
       </span>
       <span>
-        <a class="btn btn-sm variant-filled-secondary" href="#">
+        <a class="btn btn-sm variant-filled-secondary" href={'/dashboard/members/' + m.id}>
           <Fa icon={faGripLines} />
           <span>View</span>
         </a>

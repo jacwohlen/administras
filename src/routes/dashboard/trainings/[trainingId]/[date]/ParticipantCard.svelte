@@ -59,7 +59,7 @@
       <nav class="card p-2 w-32 shadow-xl" data-menu={'menu' + member.id}>
         <ul>
           <li>
-            <button class="option w-full">View</button>
+            <a href={'/dashboard/members/' + member.id} class="btn option w-full">View</a>
           </li>
           <li>
             <button class="option w-full" on:click={triggerConfirm}>Remove</button>
