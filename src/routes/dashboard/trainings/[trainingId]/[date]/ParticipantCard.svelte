@@ -4,6 +4,7 @@
   import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
   import { menu, type ModalSettings, Avatar } from '@skeletonlabs/skeleton';
   import { modalStore } from '@skeletonlabs/skeleton';
+  import Labels from './Labels.svelte';
 
   import type { MMember } from './types';
 
@@ -48,11 +49,7 @@
     <span class="flex-auto">
       <dt>{member.lastname} {member.firstname}</dt>
       <dd>
-        {#if member.labels}
-          {#each member.labels as l (l)}
-            <span class="chip sm mr-2">{l}</span>
-          {/each}
-        {/if}
+        <Labels labels={member.labels} />
       </dd>
     </span>
     <div class="justify-self-end relative">

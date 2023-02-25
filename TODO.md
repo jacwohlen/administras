@@ -9,6 +9,7 @@ Now
 - [ ] Checklist, Member photo
 - [ ] Create cronjob for webling sync
 - [x] Remove hardcoded date in training detail page
+- [x] Checklist: Fix disply of more than 4 tags
 
 - [x] Training/Logs invert order (sort) -> latest date on top
 - [x] Training Sort and put subheadings (Mo, Tue, Wed, ..)
