@@ -1,6 +1,19 @@
 <script lang="ts">
   import authStore from '$lib/authStore';
   import LogoImage from './LogoImage.svelte';
+  import { supabaseClient } from '$lib/supabase';
+
+  async function login() {
+    const config: SignInWithOAuthCredentials = {
+      provider: 'google'
+    };
+    const { data, error } = await supabaseClient.auth.signInWithOAuth(config);
+    console.log(error);
+  }
+
+  import type { PageData } from './$types';
+  import type { SignInWithOAuthCredentials } from '@supabase/supabase-js';
+  export let data: PageData;
 </script>
 
 <div class="grid grid-cols-1 place-items-center space-y-8 mt-10">
@@ -14,6 +27,16 @@
   {:else}
     <button class="btn variant-filled-primary" on:click={authStore.signIn} color="primary">
       Login
+    </button>
+  {/if}
+  {#if data.session}
+    <p>
+      Hi <strong>{data.session.user.email}</strong>
+    </p>
+    <a class="btn variant-filled-primary mt-2" href="/dashboard" color="primary">Open Dashboard</a>
+  {:else}
+    <button class="btn variant-filled-primary" on:click={login} color="primary">
+      Login Supabase
     </button>
   {/if}
 </div>

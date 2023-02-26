@@ -8,10 +8,21 @@
   import Fa from 'svelte-fa';
   import { faCalendarCheck, faList, faUser } from '@fortawesome/free-solid-svg-icons';
   import { Modal } from '@skeletonlabs/skeleton';
+  import type { SubmitFunction } from '@sveltejs/kit';
+  import { supabaseClient } from '$lib/supabase';
+  import { enhance } from '$app/forms';
 
   $: if ($authStore.firebaseControlled && !$authStore.user) {
     goto('/');
   }
+
+  const submitLogout: SubmitFunction = async ({ cancel }) => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      console.log(error);
+    }
+    cancel();
+  };
 
   let tabSet: number = 0;
   if ($page.route.id == '/dashboard') {
@@ -77,7 +88,10 @@
         <nav class="list-nav card p-4 w-64 shadow-xl" data-menu="profilemenu">
           <ul>
             <li>
-              <button class="option w-full" on:click={authStore.signOut}> Logout </button>
+              <button class="" on:click={authStore.signOut}> Logout </button>
+              <form action="/logout" method="POST" use:enhance={submitLogout}>
+                <button type="submit" class="option w-full">Logout</button>
+              </form>
             </li>
           </ul>
         </nav>
