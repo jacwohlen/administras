@@ -17,10 +17,11 @@ export interface Training {
   dateTo: string;
   weekday: string;
   section: string;
-  participants: Member[] | DocumentReference[];
+  participants: Member[];
 }
 
 export interface Log {
-  id: string; // date
-  members: Member[] | DocumentReference[];
+  id: number;
+  date: string;
+  members: Member[];
 }

@@ -1,35 +1,36 @@
 <script lang="ts">
-  import { db } from '$lib/firebase';
   import type { Log } from '$lib/models';
-  import { getDocs, collection, query, orderBy, documentId, where } from 'firebase/firestore';
+  import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
+  import { supabaseClient } from '$lib/supabase';
 
   export let trainingId: String;
 
-  async function getLog() {
-    const logs: Log[] = [];
-    const q = query(collection(db, `trainings/${trainingId}/log`));
-    const querySnap = await getDocs(q);
-    querySnap.forEach((doc) => {
-      logs.push({ ...(doc.data() as Log), id: doc.id });
-    });
-    // Sort or reverse array to display newest log on top of page
-    // logs.sort((a, b) => parseInt(b.id.replace('-', '')) - parseInt(a.id.replace('-', '')));
-    logs.reverse();
-    return logs;
+  async function getLogs() {
+    const { error, data } = await supabaseClient
+      .from('logs')
+      .select(`*, members (count)`)
+      .eq('trainingId', trainingId)
+      .returns<Log[]>();
+
+    console.log(data);
+    if (error) {
+      throw err(404, error);
+    }
+    return data;
   }
 </script>
 
-{#await getLog() then logs}
+{#await getLogs() then logs}
   <ul class="list">
     {#each logs as i (i.id)}
       <li>
         <span>
-          {i.id}
+          {i.date}
         </span>
         <span class="flex-auto">
-          {i.members.length}
+          {i.members.count}
         </span>
         <span>
           <a

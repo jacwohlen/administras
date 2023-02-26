@@ -1,18 +1,19 @@
 import type { LayoutLoad } from './$types';
-import { error } from '@sveltejs/kit';
-import { db } from '$lib/firebase';
-import { getDoc, doc } from 'firebase/firestore';
+import { error as err } from '@sveltejs/kit';
 import type { Training } from '$lib/models';
+import { supabaseClient } from '$lib/supabase';
 
 export const load = (async ({ params }) => {
-  const docRef = doc(db, `trainings/${params.trainingId}`);
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) {
-    throw error(404, 'Not found');
+  const { error, data } = await supabaseClient
+    .from('trainings')
+    .select(`*, participants (*)`)
+    .eq('id', params.trainingId)
+    .single();
+
+  console.log(data);
+  if (error) {
+    throw err(404, error);
   }
 
-  return {
-    id: docSnap.id,
-    ...docSnap.data()
-  } as Training;
+  return data as Training;
 }) satisfies LayoutLoad;
