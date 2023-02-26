@@ -1,5 +1,6 @@
 <script lang="ts">
   import authStore from '$lib/authStore';
+  import authStore2 from '$lib/authStore2';
   import { goto } from '$app/navigation';
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
@@ -9,7 +10,6 @@
   import { faCalendarCheck, faList, faUser } from '@fortawesome/free-solid-svg-icons';
   import { Modal } from '@skeletonlabs/skeleton';
   import type { SubmitFunction } from '@sveltejs/kit';
-  import { supabaseClient } from '$lib/supabase';
   import { enhance } from '$app/forms';
 
   $: if ($authStore.firebaseControlled && !$authStore.user) {
@@ -17,10 +17,7 @@
   }
 
   const submitLogout: SubmitFunction = async ({ cancel }) => {
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) {
-      console.log(error);
-    }
+    authStore2.signOut();
     cancel();
   };
 

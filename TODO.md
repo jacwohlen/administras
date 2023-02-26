@@ -15,6 +15,8 @@ Now
 - [x] Training Sort and put subheadings (Mo, Tue, Wed, ..)
 - [x] Center Front page logo
 - [x] Members Sort Lastname, Firstname
+- [ ] Switch to supabase
+  - [ ] Update README: Setup Supabase / env / security / tables / Google oAuth
 
 Next
 
