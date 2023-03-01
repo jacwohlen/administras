@@ -111,3 +111,10 @@ function validAccount(userEmail){
 ## Todos
 
 [Todo](./TODO.md)
+
+## SQL
+
+```
+create view view_logs_summary as
+select date, "trainingId", count("memberId") from logs group by date, "trainingId"
+```

@@ -7,12 +7,17 @@
 
   export let trainingId: String;
 
+  interface LogSummary {
+    date: string;
+    count: number;
+  }
+
   async function getLogs() {
     const { error, data } = await supabaseClient
-      .from('logs')
-      .select(`*, members (count)`)
+      .from('view_logs_summary')
+      .select(`date, count`)
       .eq('trainingId', trainingId)
-      .returns<Log[]>();
+      .returns<LogSummary[]>();
 
     console.log(data);
     if (error) {
@@ -24,13 +29,13 @@
 
 {#await getLogs() then logs}
   <ul class="list">
-    {#each logs as i (i.id)}
+    {#each logs as i (i.date)}
       <li>
         <span>
           {i.date}
         </span>
         <span class="flex-auto">
-          {i.members.count}
+          {i.count}
         </span>
         <span>
           <a
