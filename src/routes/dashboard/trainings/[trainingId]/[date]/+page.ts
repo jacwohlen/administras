@@ -5,11 +5,13 @@ import { error as err } from '@sveltejs/kit';
 
 export const load = (async ({ params }) => {
   async function getMembersWithPresentStatus(): Promise<MMember[]> {
-    console.log(`calling with d ${params.date} and tId ${params.trainingId}`);
-    const { error, data } = await supabaseClient.rpc('get_checklist_members', {
-      d: params.date,
-      tid: params.trainingId
-    });
+    const { error, data } = await supabaseClient
+      .rpc('get_checklist_members', {
+        d: params.date,
+        tid: params.trainingId
+      })
+      .order('lastname', { ascending: true })
+      .order('firstname', { ascending: true });
 
     if (error) {
       throw err(404, error);
