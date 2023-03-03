@@ -9,6 +9,7 @@
   import moment from 'moment';
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
+  import { supabaseClient } from '$lib/supabase';
 
   export let data: PageData;
   let searchterm: string = '';
@@ -46,22 +47,29 @@
 
   filterData();
 
-  function changePresence(event: CustomEvent<{ member: MMember; checked: boolean }>) {
-    _changePresence(event.detail.member, event.detail.checked);
+  async function changePresence(event: CustomEvent<{ member: MMember; checked: boolean }>) {
+    await _changePresence(event.detail.member, event.detail.checked);
     clearSearch();
   }
-  function _changePresence(member: MMember, checked: boolean) {
+  async function _changePresence(member: MMember, checked: boolean) {
     console.log('changePresense triggreed', member.id, checked);
-    const path = `/trainings/${data.trainingId}/log/${data.date}`;
-    const ref = doc(db, path);
     if (checked) {
-      updateDoc(ref, {
-        members: arrayUnion(doc(db, `/members/${member.id}`))
-      });
+      const { error } = await supabaseClient
+        .from('logs')
+        .insert({ date: data.date, trainingId: data.trainingId, memberId: member.id });
+      if (error) {
+        console.log(error);
+      }
     } else {
-      updateDoc(ref, {
-        members: arrayRemove(doc(db, `/members/${member.id}`))
-      });
+      const { error } = await supabaseClient
+        .from('logs')
+        .delete()
+        .eq('date', data.date)
+        .eq('trainingId', data.trainingId)
+        .eq('memberId', member.id);
+      if (error) {
+        console.log(error);
+      }
     }
     const index = data.participants.findIndex((m) => m.id === member.id);
     data.participants[index].isPresent = checked;
