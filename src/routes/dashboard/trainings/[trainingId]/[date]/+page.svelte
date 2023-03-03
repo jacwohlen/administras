@@ -73,6 +73,7 @@
     }
     const index = data.participants.findIndex((m) => m.id === member.id);
     data.participants[index].isPresent = checked;
+    filterData(); // force reactivity
   }
 
   function addParticipant(event: CustomEvent<{ member: MMember }>) {
