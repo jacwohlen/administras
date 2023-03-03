@@ -114,7 +114,30 @@ function validAccount(userEmail){
 
 ## SQL
 
-```
+1. Create View for logs summary
+
+```sql
 create view view_logs_summary as
 select date, "trainingId", count("memberId") from logs group by date, "trainingId"
+```
+
+2. Create function for checklist
+
+```sql
+-- drop function get_checklist_members(d text, tId int);
+CREATE OR REPLACE function get_checklist_members(d text, tId int)
+returns table (trainingId int2, memberId int2, lastname text, firstname text, labels jsonb, img text, date text) language plpgsql
+as
+$$
+declare
+begin
+  return query
+    select participants."trainingId", participants."memberId", members."lastname", members."firstname", members."labels", members."img", logs."date"
+    from participants
+    full outer join logs on participants."memberId" = logs."memberId" and logs."date" = $1
+    inner join members on members.id =  participants."memberId"
+    where participants."trainingId" = $2;
+end;
+$$;
+-- select * from get_checklist_members(text '2022-12-19', 47);
 ```
