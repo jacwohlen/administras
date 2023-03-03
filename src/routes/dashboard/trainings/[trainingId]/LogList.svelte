@@ -8,6 +8,7 @@
   export let trainingId: String;
 
   interface LogSummary {
+    trainingId: number;
     date: string;
     count: number;
   }
@@ -15,7 +16,7 @@
   async function getLogs() {
     const { error, data } = await supabaseClient
       .from('view_logs_summary')
-      .select(`date, count`)
+      .select(`trainingId, date, count`)
       .eq('trainingId', trainingId)
       .returns<LogSummary[]>();
 
@@ -40,7 +41,7 @@
         <span>
           <a
             class="btn btn-sm variant-filled-secondary"
-            href="/dashboard/trainings/{trainingId}/{i.id}"
+            href="/dashboard/trainings/{trainingId}/{i.trainingId}"
           >
             <Fa icon={faGripLines} />
             <span>View</span>
