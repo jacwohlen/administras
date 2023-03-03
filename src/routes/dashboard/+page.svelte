@@ -6,26 +6,19 @@
   import type { Training } from '$lib/models';
   import moment from 'moment';
   import type { Moment } from 'moment';
+  import utils from '$lib/utils';
 
   let date: Moment = moment();
   const dateFormat: string = 'YYYY-MM-DD';
   let trainings: Training[] = [];
 
   function nextDay() {
-    if (date.day() == moment().day()) {
-      date = date.subtract(6, 'days');
-    } else {
-      date = date.add(1, 'days');
-    }
+    date = utils.getMostRecentDateByWeekday(date.day() + 1);
     getTrainingsForDay();
   }
 
   function previousDay() {
-    if (date.day() == moment().day(-6).day()) {
-      date = date.add(6, 'days');
-    } else {
-      date = date.subtract(1, 'days');
-    }
+    date = utils.getMostRecentDateByWeekday(date.day() - 1);
     getTrainingsForDay();
   }
 
@@ -72,7 +65,7 @@
             href="/dashboard/trainings/{t.id}/{date.format(dateFormat)}"
           >
             <Fa icon={faClipboardCheck} />
-            <span>Track attendance</span>
+            <span>Track Attendance</span>
           </a>
         </span>
       </li>
