@@ -1,15 +1,14 @@
 <script lang="ts">
   import Fa from 'svelte-fa';
   import { faClipboardCheck, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-  import { db } from '$lib/firebase';
-  import { collection, getDocs, query, where } from 'firebase/firestore';
   import type { Training } from '$lib/models';
   import moment from 'moment';
   import type { Moment } from 'moment';
   import utils from '$lib/utils';
+  import { supabaseClient } from '$lib/supabase';
 
   let date: Moment = moment();
-  const dateFormat: string = 'YYYY-MM-DD';
+  const dateFormat = 'YYYY-MM-DD';
   let trainings: Training[] = [];
 
   function nextDay() {
@@ -23,13 +22,13 @@
   }
 
   async function getTrainingsForDay() {
-    const ret: Training[] = [];
-    const q = query(collection(db, 'trainings'), where('weekday', '==', date.format('dddd')));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      ret.push({ ...(doc.data() as Training), id: doc.id });
-    });
-    trainings = ret;
+    const { data } = await supabaseClient
+      .from('trainings')
+      .select()
+      .eq('weekday', date.format('dddd'))
+      .returns<Training[]>();
+
+    if (data) trainings = data;
   }
   getTrainingsForDay();
 </script>

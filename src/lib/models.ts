@@ -1,5 +1,3 @@
-import type { DocumentReference } from 'firebase/firestore';
-
 export interface Member {
   id: string;
   firstname: string;
