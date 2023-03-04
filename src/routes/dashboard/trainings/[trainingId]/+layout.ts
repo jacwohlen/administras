@@ -10,7 +10,6 @@ export const load = (async ({ params }) => {
     .eq('id', params.trainingId)
     .single();
 
-  console.log(data);
   if (error) {
     throw err(404, error);
   }

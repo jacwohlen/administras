@@ -1,18 +1,16 @@
 import type { PageLoad } from './$types';
-import { error } from '@sveltejs/kit';
-import { db } from '$lib/firebase';
-import { getDoc, doc } from 'firebase/firestore';
+import { error as err } from '@sveltejs/kit';
 import type { Member } from '$lib/models';
+import { supabaseClient } from '$lib/supabase';
 
 export const load = (async ({ params }) => {
-  const docRef = doc(db, `members/${params.memberId}`);
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) {
-    throw error(404, 'Not found');
+  const { error, data } = await supabaseClient
+    .from('members')
+    .select()
+    .eq('id', params.memberId)
+    .single<Member>();
+  if (error) {
+    throw err(404, error);
   }
-
-  return {
-    id: docSnap.id,
-    ...docSnap.data()
-  } as Member;
+  return data;
 }) satisfies PageLoad;

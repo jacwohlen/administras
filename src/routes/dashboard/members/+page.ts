@@ -1,20 +1,16 @@
-import { db } from '$lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { error as err } from '@sveltejs/kit';
 import type { Member } from '$lib/models';
+import { supabaseClient } from '$lib/supabase';
 
 export async function load() {
-  const members: Member[] = [];
-  const querySnapshot = await getDocs(collection(db, 'members'));
-  querySnapshot.forEach((doc) => {
-    members.push({ ...(doc.data() as Member), id: doc.id });
-  });
-
-  members.sort((a, b) => {
-    const result = a.lastname.localeCompare(b.lastname);
-    return result !== 0 ? result : a.firstname.localeCompare(b.firstname);
-  })
-
+  const { error, data } = await supabaseClient
+    .from('members')
+    .select()
+    .order('lastname', { ascending: true })
+    .order('firstname', { ascending: true })
+    .returns<Member[]>();
+  if (error) throw err(404, error);
   return {
-    members
+    members: data
   };
 }
