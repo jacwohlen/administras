@@ -148,3 +148,26 @@ $$;
 create view view_search_members as
   select id, concat(lastname, ' ', firstname) as fullname, firstname, lastname from members
 ```
+
+4. Create functions for stats
+
+```sql
+drop function get_top_athletes(d text);
+CREATE OR REPLACE function get_top_athletes(year text)
+returns table (memberId int2, lastname text, firstname text, count bigint) language plpgsql
+as
+$$
+declare
+begin
+  return query
+select logs."memberId", members.lastname, members.firstname, count(*)
+    from logs
+    inner join members on members."id" = logs."memberId"
+    where logs."date" like CONCAT($1, '%')
+    group by logs."memberId", members.lastname, members.firstname
+    order by count desc;
+end;
+$$;
+
+select * from get_top_athletes(text '2022');
+```

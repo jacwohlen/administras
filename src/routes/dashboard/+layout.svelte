@@ -6,7 +6,12 @@
   import { Avatar, menu, AppShell, AppBar } from '@skeletonlabs/skeleton';
   import { auth } from '$lib/firebase';
   import Fa from 'svelte-fa';
-  import { faCalendarCheck, faList, faUser } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faCalendarCheck,
+    faChartSimple,
+    faList,
+    faUser
+  } from '@fortawesome/free-solid-svg-icons';
   import { Modal } from '@skeletonlabs/skeleton';
   import type { SubmitFunction } from '@sveltejs/kit';
   import { supabaseClient } from '$lib/supabase';
@@ -31,7 +36,7 @@
     tabSet = 1;
   } else if ($page.route.id?.startsWith('/dashboard/members')) {
     tabSet = 2;
-  } else if ($page.route.id?.startsWith('/dashboard/statistics')) {
+  } else if ($page.route.id?.startsWith('/dashboard/stats')) {
     tabSet = 3;
   }
 
@@ -68,6 +73,10 @@
         <Tab bind:group={tabSet} name="tab3" value={2} on:click={() => goto('/dashboard/members')}>
           <Fa icon={faUser} class="mx-auto" />
           <div>Members</div>
+        </Tab>
+        <Tab bind:group={tabSet} name="tab4" value={3} on:click={() => goto('/dashboard/stats')}>
+          <Fa icon={faChartSimple} class="mx-auto" />
+          <div>Stats</div>
         </Tab>
 
         <div class="ml-auto my-auto pr-4" use:menu={{ menu: 'profilemenu' }}>
