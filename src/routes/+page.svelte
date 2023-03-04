@@ -1,14 +1,19 @@
 <script lang="ts">
   import authStore from '$lib/authStore';
   import LogoImage from './LogoImage.svelte';
+  import { error as err } from '@sveltejs/kit';
   import { supabaseClient } from '$lib/supabase';
 
   async function login() {
     const config: SignInWithOAuthCredentials = {
-      provider: 'google'
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin
+      }
     };
-    const { data, error } = await supabaseClient.auth.signInWithOAuth(config);
-    console.log(error);
+    const { error } = await supabaseClient.auth.signInWithOAuth(config);
+    console.log(config.options);
+    if (error) throw err(404, error);
   }
 
   import type { PageData } from './$types';
