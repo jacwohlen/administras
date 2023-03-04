@@ -1,11 +1,9 @@
 <script lang="ts">
-  import { db } from '$lib/firebase';
-  import { doc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
   import type { PageData } from './$types';
   import type { MMember } from './types';
   import ParticipantCard from './ParticipantCard.svelte';
   import Fa from 'svelte-fa';
-  import { faArrowLeft, faArrowRight, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+  import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
   import moment from 'moment';
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
@@ -76,25 +74,25 @@
     filterData(); // force reactivity
   }
 
-  function addParticipant(event: CustomEvent<{ member: MMember }>) {
+  async function addParticipant(event: CustomEvent<{ member: MMember }>) {
     console.log('addParticipant triggered: ', event);
-    const path = `/trainings/${data.trainingId}`;
-    const ref = doc(db, path);
-    updateDoc(ref, {
-      participants: arrayUnion(doc(db, `/members/${event.detail.member.id}`))
-    });
+    if (0 >= filteredData.findIndex((item) => item.id === event.detail.member.id)) return; // member already there
+
+    await supabaseClient
+      .from('participants')
+      .upsert({ trainingId: data.trainingId, memberId: event.detail.member.id });
     data.participants.push(event.detail.member);
     filterData(); // force reactivity
   }
 
-  function removeParticipant(event: CustomEvent<{ member: MMember; checked: boolean }>) {
+  async function removeParticipant(event: CustomEvent<{ member: MMember; checked: boolean }>) {
     console.log('removeParticipant triggered: ', event.detail.member.id);
-    const path = `/trainings/${data.trainingId}`;
-    const ref = doc(db, path);
-    updateDoc(ref, {
-      participants: arrayRemove(doc(db, `/members/${event.detail.member.id}`))
-    });
-    // TODO: Splice , would disappear if subscribed to firestore
+    await supabaseClient
+      .from('participants')
+      .delete()
+      .eq('trainingId', data.trainingId)
+      .eq('memberId', event.detail.member.id);
+    // TODO: Splice , would disappear if subscribed to supabase
     const index = data.participants.findIndex((p) => p.id === event.detail.member.id);
     if (index > -1) {
       data.participants.splice(index, 1);
@@ -178,7 +176,7 @@
       {/each}
       <li>
         <aside class="alert variant-ghost-tertiary w-full justify-items-center">
-          <AddParticipantInputBox skip={filteredData} on:add={addParticipant} />
+          <AddParticipantInputBox on:add={addParticipant} />
         </aside>
       </li>
     </ul>

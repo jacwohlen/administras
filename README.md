@@ -141,3 +141,10 @@ end;
 $$;
 -- select * from get_checklist_members(text '2022-12-19', 47);
 ```
+
+3. Create View to faciliate seaching members
+
+```sql
+create view view_search_members as
+  select id, concat(lastname, ' ', firstname) as fullname, firstname, lastname from members
+```

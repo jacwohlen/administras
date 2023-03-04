@@ -1,28 +1,26 @@
 <script lang="ts">
-  import { db } from '$lib/firebase';
   import type { Member } from '$lib/models';
-  import { collection, getDocs, query, where } from 'firebase/firestore';
   import { createEventDispatcher } from 'svelte';
   import Fa from 'svelte-fa';
   import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
   import { menu } from '@skeletonlabs/skeleton';
+  import { supabaseClient } from '$lib/supabase';
 
   let searchterm = '';
 
   let filteredData: Member[] = [];
-  export let skip: Member[] = [];
 
   async function filterData(): Promise<Member[]> {
     const text = searchterm;
-    const collRef = collection(db, '/members');
-    const q = query(collRef, where('lastname', '>=', text), where('lastname', '<=', text + 'z'));
-
-    const querySnap = await getDocs(q);
-    filteredData = querySnap.docs.map((p) => ({ id: p.id, ...p.data() } as Member));
-
-    filteredData = filteredData.filter(
-      (item) => !skip.some((otherItem) => item.id === otherItem.id)
-    );
+    const { error, data } = await supabaseClient
+      .from('view_search_members')
+      .select('id, fullname, lastname, firstname')
+      .like('fullname', `%${text}%`)
+      .returns<Member[]>();
+    if (error) {
+      console.log(error);
+    }
+    if (data) filteredData = data;
     return filteredData;
   }
 
