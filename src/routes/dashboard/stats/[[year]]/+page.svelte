@@ -4,6 +4,7 @@
   import { goto } from '$app/navigation';
   import { to_number } from 'svelte/internal';
   import type { PageData } from '../$types';
+  import TopParticipantsStats from './TopParticipantsStats.svelte';
 
   export let data: PageData;
 
@@ -57,4 +58,9 @@
       </button>
     {/if}
   {/await}
+</div>
+
+<div class="card p-4">
+  <h3>Top Participants</h3>
+  <TopParticipantsStats {year} />
 </div>
