@@ -76,7 +76,10 @@
 
   async function addParticipant(event: CustomEvent<{ member: MMember }>) {
     console.log('addParticipant triggered: ', event);
-    if (0 >= filteredData.findIndex((item) => item.id === event.detail.member.id)) return; // member already there
+    const foundIndex = filteredData.findIndex((item) => item.id === event.detail.member.id);
+    if (foundIndex > -1) {
+      return; // member already there
+    }
 
     await supabaseClient
       .from('participants')
