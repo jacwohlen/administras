@@ -1,31 +1,13 @@
 <script lang="ts">
-  import { supabaseClient } from '$lib/supabase';
-  import type { PageData } from './stats.svelte/$types';
   import Fa from 'svelte-fa';
   import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
   import { goto } from '$app/navigation';
   import { to_number } from 'svelte/internal';
+  import type { PageData } from '../$types';
 
   export let data: PageData;
 
   let year: number = to_number(data.year);
-
-  interface Athletes {
-    memberId: number;
-    lastname: string;
-    firstname: string;
-    count: number;
-  }
-  async function getTopAthletes(y: number) {
-    const { error, data } = await supabaseClient
-      .rpc('get_top_athletes', {
-        year: y
-      })
-      .returns<Athletes[]>();
-
-    if (error) return [];
-    return data;
-  }
 
   async function previousYear() {
     year = year - 1;
@@ -38,7 +20,7 @@
     goto(`/dashboard/stats/${year.toString()}`);
   }
 
-  $: topAthletes = getTopAthletes(year);
+  $: topAthletes = data.topAthletes;
 </script>
 
 <div class="flex justify-between items-center m-2">
