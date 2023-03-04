@@ -1,29 +1,28 @@
 # List of Todo while coding
 
-Now
+Backlog
 
-- [x] Checklist Sort members (lastname, firstname)
-- [x] Checklist Search / New Member
-- [x] Checklist Card
-- [ ] Checklist, Create new member
 - [ ] Checklist, Member photo
 - [ ] Create cronjob for webling sync
-- [x] Remove hardcoded date in training detail page
-- [x] Checklist: Fix disply of more than 4 tags
+- [ ] Remove firebase completly (readme, authstore, package.json ...)
+- [ ] Beatify member detail page (add photo)
 
-- [x] Training/Logs invert order (sort) -> latest date on top
-- [x] Training Sort and put subheadings (Mo, Tue, Wed, ..)
-- [x] Center Front page logo
-- [x] Members Sort Lastname, Firstname
-
-Next
-
-- [ ] Create firebase app instance as svelte store and derive it in authStore
-- [ ] Use sveltefire for realtime store
-- [ ] Members detail page
+Next 
+- [ ] Checklist, Create new member
+- [ ] Upgrade webling sync to use supabase instead of firebase
 - [ ] Stats -> Top participants
 
 Done/cancelled
 
 - [x] Wait for user authentication to be initialize before goto in layouts
+- [x] Training/Logs invert order (sort) -> latest date on top
+- [x] Training Sort and put subheadings (Mo, Tue, Wed, ..)
+- [x] Center Front page logo
+- [x] Members Sort Lastname, Firstname
+- [x] Checklist Sort members (lastname, firstname)
+- [x] Checklist Search / New Member
+- [x] Checklist Card
+- [x] Remove hardcoded date in training detail page
+- [x] Checklist: Fix disply of more than 4 tags
+- [x] Members detail page
 
