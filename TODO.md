@@ -6,6 +6,7 @@ Backlog
 - [ ] Create cronjob for webling sync
 - [ ] Remove firebase completly (readme, authstore, package.json ...)
 - [ ] Beatify member detail page (add photo)
+- [ ] Member: only load 20 and lazy load on scroll
 
 Next 
 - [ ] Checklist, Create new member
