@@ -21,6 +21,7 @@
   }
 
   $: topAthletes = data.topAthletes;
+  let currentItem = 10;
 </script>
 
 <div class="flex justify-between items-center m-2">
@@ -40,12 +41,20 @@
 </div>
 
 <div class="card p-4">
-  {#await topAthletes then items}
-    <h3>Top Athletes ({items.length})</h3>
-    <ol class="list-decimal p-8">
+  {#await topAthletes.slice(0, currentItem) then items}
+    <h3>Top Athletes</h3>
+    <ol class="list-decimal py-4 px-8">
       {#each items as item}
         <li>{item.lastname} {item.firstname} ({item.count})</li>
       {/each}
     </ol>
+    {#if currentItem < topAthletes.length}
+      <button
+        class="btn btn-sm variant-filled-secondary"
+        on:click={() => (currentItem = currentItem + 10)}
+      >
+        Load More
+      </button>
+    {/if}
   {/await}
 </div>
