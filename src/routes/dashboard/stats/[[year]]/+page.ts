@@ -3,8 +3,21 @@ import { to_number } from 'svelte/internal';
 import type { PageLoad } from './$types';
 
 export const load = (async ({ params }) => {
-  let year: number = to_number(params.year);
-  if (!year) year = new Date().getFullYear();
+  let year: number;
+  let yearmode: 'ALL' | 'YEAR';
+
+  if (!params.year) {
+    year = new Date().getFullYear(); // Default
+    yearmode = 'YEAR';
+  } else {
+    if (params.year === 'ALL') {
+      yearmode = 'ALL';
+      year = new Date().getFullYear(); // Default
+    } else {
+      yearmode = 'YEAR';
+      year = to_number(params.year);
+    }
+  }
 
   interface Athletes {
     memberId: number;
@@ -13,7 +26,8 @@ export const load = (async ({ params }) => {
     count: number;
   }
 
-  async function getTopAthletes(y: number) {
+  async function getTopAthletes(mode: 'YEAR' | 'ALL', y: number) {
+    if (mode === 'ALL') y = '';
     const { error, data } = await supabaseClient
       .rpc('get_top_athletes', {
         year: y
@@ -25,7 +39,8 @@ export const load = (async ({ params }) => {
   }
 
   return {
+    yearmode,
     year,
-    topAthletes: getTopAthletes(year)
+    topAthletes: getTopAthletes(yearmode, year)
   };
 }) satisfies PageLoad;

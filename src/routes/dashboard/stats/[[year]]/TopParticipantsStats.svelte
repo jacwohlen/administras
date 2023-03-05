@@ -1,5 +1,6 @@
 <script lang="ts">
   export let year: number;
+  export let yearmode: 'YEAR' | 'ALL';
 
   //import '@carbon/styles/css/styles.css';
   import '@carbon/charts/styles.css';
@@ -14,7 +15,8 @@
     count: number;
   }
 
-  async function getLogsSummary(y) {
+  async function getLogsSummary(mode, y) {
+    if (mode === 'ALL') y = '';
     const { error, data } = await supabaseClient
       .from('view_logs_summary')
       .select('trainingId, date, count, trainings (title) as trainingTitle')
@@ -28,7 +30,7 @@
     }));
   }
 
-  $: data = getLogsSummary(year);
+  $: data = getLogsSummary(yearmode, year);
 </script>
 
 {#await data then items}

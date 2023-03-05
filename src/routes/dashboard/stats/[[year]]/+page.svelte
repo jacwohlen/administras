@@ -2,22 +2,23 @@
   import Fa from 'svelte-fa';
   import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
   import { goto } from '$app/navigation';
-  import { to_number } from 'svelte/internal';
   import type { PageData } from '../$types';
   import TopParticipantsStats from './TopParticipantsStats.svelte';
+  import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
   export let data: PageData;
 
-  let year: number = to_number(data.year);
+  $: yearmode = data.yearmode;
+  $: year = data.year;
 
   async function previousYear() {
-    year = year - 1;
+    if (yearmode === 'YEAR') year = year - 1;
     // FIXME: How to this more elegantly (not needing to put base path?
     goto(`/dashboard/stats/${year.toString()}`);
   }
 
   async function nextYear() {
-    year = year + 1;
+    if (yearmode === 'YEAR') year = year + 1;
     goto(`/dashboard/stats/${year.toString()}`);
   }
 
@@ -32,7 +33,22 @@
     </button>
   </div>
   <div>
-    <h1>{year}</h1>
+    <RadioGroup>
+      <RadioItem
+        bind:group={yearmode}
+        on:click={() => goto('/dashboard/stats/' + year)}
+        name="yearmode"
+        value="YEAR"
+      >
+        {year}
+      </RadioItem>
+      <RadioItem
+        bind:group={yearmode}
+        on:click={() => goto('/dashboard/stats/ALL')}
+        name="yearmode"
+        value="ALL">ALL</RadioItem
+      >
+    </RadioGroup>
   </div>
   <div>
     <button class="btn" on:click={nextYear}>
@@ -62,5 +78,5 @@
 
 <div class="card p-4">
   <h3>Top Participants</h3>
-  <TopParticipantsStats {year} />
+  <TopParticipantsStats {yearmode} {year} />
 </div>
