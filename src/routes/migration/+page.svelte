@@ -103,7 +103,7 @@
       });
     }
     console.log(part);
-    await supabaseClient.from('participation').insert(part);
+    await supabaseClient.from('participants').insert(part);
     await supabaseClient.from('logs').insert(llll);
 
     state = 'Done';
