@@ -78,6 +78,12 @@ Supabase Config: tbd
 [Todo](./TODO.md)
 
 ## Prepare Supabase Postgres DB 
+ 
+TODO
+
+- [ ] SQL to create tables/views
+- [ ] SQL to create procedures/functions
+- [ ] SQL to create policies to control access
 
 1. Create View for logs summary
 
