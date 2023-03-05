@@ -123,6 +123,19 @@
   <button class="btn variant-filled-primary" on:click={migrateTrainings} color="primary">
     Migrate Trainings, Participations, Logs to Supabase
   </button>
+
+  <div>
+    <h1>Members with strange ID</h1>
+    {#await firebaseMembers() then items}
+      <ul>
+        {#each items as item}
+          {#if item.id.length > 6}
+            <li>{item.id} {item.lastname} {item.firstname}</li>
+          {/if}
+        {/each}
+      </ul>
+    {/await}
+  </div>
 {:else}
   You must login first
 {/if}
