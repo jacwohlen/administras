@@ -80,11 +80,11 @@
     if (foundIndex > -1) {
       return; // member already there
     }
-
     await supabaseClient
       .from('participants')
       .upsert({ trainingId: data.trainingId, memberId: event.detail.member.id });
     data.participants.push(event.detail.member);
+    _changePresence(event.detail.member, true);
     filterData(); // force reactivity
   }
 
