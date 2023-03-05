@@ -41,7 +41,7 @@
         <span>
           <a
             class="btn btn-sm variant-filled-secondary"
-            href="/dashboard/trainings/{trainingId}/{i.trainingId}"
+            href="/dashboard/trainings/{trainingId}/{i.date}"
           >
             <Fa icon={faGripLines} />
             <span>View</span>
