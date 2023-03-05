@@ -3,8 +3,9 @@
   import { createEventDispatcher } from 'svelte';
   import Fa from 'svelte-fa';
   import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
-  import { menu } from '@skeletonlabs/skeleton';
+  import { menu, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
   import { supabaseClient } from '$lib/supabase';
+  import { modalStore } from '@skeletonlabs/skeleton';
 
   let searchterm = '';
 
@@ -34,8 +35,38 @@
     clearSearch();
   }
 
+  import MemberForm from './MemberForm.svelte';
   function createNewMember() {
-    console.log('Create New Member...');
+    const s = searchterm.split(' ');
+    let lastname = '';
+    let firstname = '';
+    if (s.length > 1) {
+      lastname = s[0];
+      firstname = s.splice(1).join(' ');
+    } else {
+      lastname = searchterm;
+    }
+
+    const modalComponent: ModalComponent = {
+      ref: MemberForm,
+      props: { lastname, firstname }
+    };
+
+    const d: ModalSettings = {
+      type: 'component',
+      component: modalComponent,
+      response: async (r) => {
+        const { error, data } = await supabaseClient
+          .from('members')
+          .insert({ ...r, labels: ['new'] })
+          .select()
+          .single();
+        if (error) console.log(error);
+        dispatch('add', { member: data });
+        clearSearch();
+      }
+    };
+    modalStore.trigger(d);
   }
 </script>
 
@@ -57,7 +88,7 @@
     <ul class="nav-list">
       {#each filteredData as p, i (p.id)}
         <li>
-          <span>{p.lastname} {p.firstname}</span>
+          <span class="flex-auto">{p.lastname} {p.firstname}</span>
           <div class="justify-self-end relative">
             <button class="btn btn-sm variant-ringed-primary" on:click={() => add(p)}>
               <Fa icon={faUserPlus} />
@@ -67,10 +98,12 @@
         </li>
       {/each}
       <li>
-        <strong>{searchterm}</strong>...
-        <button class="btn btn-sm variant-filled-primary" on:click={createNewMember}>
-          Create New
-        </button>
+        <span class="flex-auto">{searchterm}...</span>
+        <div class="justify-self-end relative">
+          <button class="btn btn-sm variant-filled-primary" on:click={createNewMember}>
+            Create New
+          </button>
+        </div>
       </li>
     </ul>
   </nav>

@@ -53,10 +53,10 @@
       </dd>
     </span>
     <div class="justify-self-end relative">
-      <button class="btn btn-sm" use:menu={{ menu: 'menu' + member.id }}>
+      <button class="btn btn-sm" use:menu={{ menu: 'ParticipantCard' + member.id }}>
         <Fa icon={faEllipsisVertical} />
       </button>
-      <nav class="card p-2 w-32 shadow-xl" data-menu={'menu' + member.id}>
+      <nav class="card p-2 w-32 shadow-xl" data-menu={'ParticipantCard' + member.id}>
         <ul>
           <li>
             <a href={'/dashboard/members/' + member.id} class="btn option w-full">View</a>

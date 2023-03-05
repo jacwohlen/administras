@@ -1,5 +1,8 @@
 # List of Todo while coding
 
+Next 
+- [ ] Upgrade webling sync to use supabase instead of firebase
+
 Backlog
 
 - [ ] Checklist, Member photo
@@ -8,13 +11,10 @@ Backlog
 - [ ] Beatify member detail page (add photo)
 - [ ] Member: only load 20 and lazy load on scroll
 
-Next 
-- [ ] Checklist, Create new member
-- [ ] Upgrade webling sync to use supabase instead of firebase
-- [ ] Stats -> Top participants
-
 Done/cancelled
 
+- [x] Checklist, Create new member
+- [x] Stats -> Top participants
 - [x] Wait for user authentication to be initialize before goto in layouts
 - [x] Training/Logs invert order (sort) -> latest date on top
 - [x] Training Sort and put subheadings (Mo, Tue, Wed, ..)
@@ -26,4 +26,3 @@ Done/cancelled
 - [x] Remove hardcoded date in training detail page
 - [x] Checklist: Fix disply of more than 4 tags
 - [x] Members detail page
-
