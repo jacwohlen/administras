@@ -16,7 +16,7 @@ attendance.
 
 Current stack: npm, node, sveltekit, skeleton (tailwindcss)
 
-Backend: firebase (auth, firestore)
+Backend: supabase (postgres)
 
 ## Contribution
 
@@ -27,20 +27,12 @@ In case you see the potential and also believe in open source please drop me a l
 
 ## Development Setup
 
-1. Create Firebase account
+1. Create Supabase account
 2. Source environment with data from firebase account
 
-```
-export PUBLIC_FIREBASE_API_KEY=
-export PUBLIC_FIREBASE_AUTH_DOMAIN=
-export PUBLIC_FIREBASE_DATABASE_URL=
-export PUBLIC_FIREBASE_PROJECT_ID=
-export PUBLIC_FIREBASE_STORAGE_BUCKET=
-export PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
-export PUBLIC_FIREBASE_APP_ID=
-
-# This requies firestore rules to be setup as well. Check example at end of README
-export PUBLIC_GOOGLE_LOGIN_DOMAIN=<your-google-domain-if-want-to-restrict>
+```bash
+PUBLIC_SUPABASE_URL=""
+PUBLIC_SUPABASE_ANON_KEY=""
 ```
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
@@ -73,36 +65,9 @@ You can preview the production build with `npm run preview`.
 ## Restricted Login (Google Authentication with specific Domain)
 
 This Webapp restricts login to Google Accounts with a given domain.
-To make this happen, Firebase Auth needs a configuration to allow Google Auth.
-Further the firestore database rules need to restrict reads and writes from
-authenticated users with matching domain.
-And lastly set the environment `APP_GOOGLE_LOGIN_DOMAIN` accordingly.
+To make this happen, we added some policies to the supabase backend.
 
-Example Config (allow Google Accounts with domain `jacwohlen.ch`)
-
-```
-...
-export PUBLIC_GOOGLE_LOGIN_DOMAIN=jacwohlen.ch
-```
-
-Firestore rules
-
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if request.auth != null
-      && validAccount(request.auth.token.email);
-    }
-  }
-}
-
-function validAccount(userEmail){
-	return userEmail.split('@')[1] == 'jacwohlen.ch'; # your domain
-}
-
-```
+Supabase Config: tbd
 
 ## Tips
 
@@ -112,7 +77,7 @@ function validAccount(userEmail){
 
 [Todo](./TODO.md)
 
-## SQL
+## Prepare Supabase Postgres DB 
 
 1. Create View for logs summary
 
@@ -152,7 +117,7 @@ create view view_search_members as
 4. Create functions for stats
 
 ```sql
-drop function get_top_athletes(d text);
+-- drop function get_top_athletes(d text);
 CREATE OR REPLACE function get_top_athletes(year text)
 returns table (memberId int2, lastname text, firstname text, count bigint) language plpgsql
 as
@@ -169,5 +134,5 @@ select logs."memberId", members.lastname, members.firstname, count(*)
 end;
 $$;
 
-select * from get_top_athletes(text '2022');
+--select * from get_top_athletes(text '2022');
 ```
