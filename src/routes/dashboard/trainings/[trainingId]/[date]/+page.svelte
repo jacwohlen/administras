@@ -18,7 +18,6 @@
   let hiIndex = -1;
 
   const filterData = async () => {
-    console.log('filterData called');
     filteredData = data.participants.filter((p) => {
       const s = searchterm.toLowerCase();
       return p.lastname.toLowerCase().startsWith(s) || p.firstname.toLowerCase().startsWith(s);
