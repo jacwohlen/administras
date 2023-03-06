@@ -44,7 +44,6 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@sveltejs/adapter-netlify": "^1.0.0",
-    "firebase": "^9.15.0",
     "moment": "^2.29.4",
     "svelte-fa": "^3.0.3"
   }

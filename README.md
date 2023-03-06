@@ -28,7 +28,7 @@ In case you see the potential and also believe in open source please drop me a l
 ## Development Setup
 
 1. Create Supabase account
-2. Source environment with data from firebase account
+2. Source environment variables for supabase
 
 ```bash
 PUBLIC_SUPABASE_URL=""
@@ -77,8 +77,8 @@ Supabase Config: tbd
 
 [Todo](./TODO.md)
 
-## Prepare Supabase Postgres DB 
- 
+## Prepare Supabase Postgres DB
+
 TODO
 
 - [ ] SQL to create tables/views
