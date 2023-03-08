@@ -33,6 +33,7 @@ In case you see the potential and also believe in open source please drop me a l
 ```bash
 PUBLIC_SUPABASE_URL=""
 PUBLIC_SUPABASE_ANON_KEY=""
+PUBLIC_MODE=DEV # PROD, DEV
 ```
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
