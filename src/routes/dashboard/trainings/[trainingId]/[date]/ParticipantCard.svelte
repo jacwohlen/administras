@@ -49,7 +49,7 @@
     <span class="flex-auto">
       <dt>{member.lastname} {member.firstname}</dt>
       <dd>
-        <Labels labels={member.labels} />
+        <Labels labels={member.labels ? member.labels : []} />
       </dd>
     </span>
     <div class="justify-self-end relative">
