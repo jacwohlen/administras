@@ -6,6 +6,7 @@
   import type { Moment } from 'moment';
   import utils from '$lib/utils';
   import { supabaseClient } from '$lib/supabase';
+  import { _ } from 'svelte-i18n';
 
   let date: Moment = moment();
   const dateFormat = 'YYYY-MM-DD';
@@ -36,7 +37,7 @@
 <div class="flex justify-between items-center m-2">
   <div>
     <button class="btn" on:click={previousDay}>
-      <Fa icon={faArrowLeft} /><span>Day</span>
+      <Fa icon={faArrowLeft} /><span>{$_('button.day')}</span>
     </button>
   </div>
   <div>
@@ -44,13 +45,13 @@
   </div>
   <div>
     <button class="btn" on:click={nextDay}>
-      <span>Day</span><Fa icon={faArrowRight} />
+      <span>{$_('button.day')}</span><Fa icon={faArrowRight} />
     </button>
   </div>
 </div>
 
 {#if trainings.length == 0}
-  <div class="text-center">There are no trainings happening today!</div>
+  <div class="text-center">{$_('page.dashboard.noTrainingsToday')}</div>
 {:else}
   <ul class="list">
     {#each trainings as t (t.id)}
@@ -64,7 +65,7 @@
             href="/dashboard/trainings/{t.id}/{date.format(dateFormat)}"
           >
             <Fa icon={faClipboardCheck} />
-            <span>Track Attendance</span>
+            <span>{$_('button.trackAttendance')}</span>
           </a>
         </span>
       </li>

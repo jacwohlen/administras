@@ -15,6 +15,7 @@
   import { supabaseClient } from '$lib/supabase';
   import { enhance } from '$app/forms';
   import type { LayoutData } from './$types';
+  import { _ } from 'svelte-i18n';
 
   export let data: LayoutData;
 
@@ -56,19 +57,19 @@
     <TabGroup>
       <Tab bind:group={tabSet} name="tab1" value={0} on:click={() => goto('/dashboard')}>
         <Fa icon={faCalendarCheck} class="mx-auto" />
-        <div>Today</div>
+        <div>{$_('page.dashboard.today')}</div>
       </Tab>
       <Tab bind:group={tabSet} name="tab2" value={1} on:click={() => goto('/dashboard/trainings')}>
         <Fa icon={faList} class="mx-auto" />
-        <div>Trainings</div>
+        <div>{$_('page.dashboard.trainings')}</div>
       </Tab>
       <Tab bind:group={tabSet} name="tab3" value={2} on:click={() => goto('/dashboard/members')}>
         <Fa icon={faUser} class="mx-auto" />
-        <div>Members</div>
+        <div>{$_('page.dashboard.members')}</div>
       </Tab>
       <Tab bind:group={tabSet} name="tab4" value={3} on:click={() => goto('/dashboard/stats')}>
         <Fa icon={faChartSimple} class="mx-auto" />
-        <div>Stats</div>
+        <div>{$_('page.dashboard.stats')}</div>
       </Tab>
 
       <div class="ml-auto my-auto pr-4" use:menu={{ menu: 'profilemenu' }}>
@@ -90,7 +91,7 @@
         <ul>
           <li>
             <form action="/logout" method="POST" use:enhance={submitLogout}>
-              <button type="submit" class="option w-full">Logout</button>
+              <button type="submit" class="option w-full">{$_('button.logout')}</button>
             </form>
           </li>
         </ul>

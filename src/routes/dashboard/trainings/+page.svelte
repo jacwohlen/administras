@@ -3,11 +3,12 @@
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
   import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+  import { _ } from 'svelte-i18n';
 
   export let data: PageData;
 </script>
 
-<h1>Trainings</h1>
+<h1>{$_('page.trainings.title')}</h1>
 <ul class="list">
   {#each data.trainings as t, index (t.id)}
     {#if index > 0}
@@ -31,7 +32,7 @@
       <span>
         <a class="btn btn-sm variant-filled-secondary" href="/dashboard/trainings/{t.id}">
           <Fa icon={faGripLines} />
-          <span>View</span>
+          <span>{$_('button.view')}</span>
         </a>
       </span>
     </li>

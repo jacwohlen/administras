@@ -1,9 +1,37 @@
 {
-    "welcomeMessage": "Welcome to Administra",
-    "hi": "hi",
-    "openDashboard": "Open Dashboard",
-    "today": "Today",
-    "trainings": "Trainings",
-    "members": "Members",
-    "stats": "Stats"
+    "page": {
+        "routes": {
+            "welcomeMessage": "Welcome to Administra",
+            "hi": "hi"
+        },
+        "dashboard": {
+            "today": "Today",
+            "trainings": "Trainings",
+            "members": "Members",
+            "stats": "Stats",
+            "noTrainingsToday": "There are no trainings happening today!"
+        },
+        "trainings": {
+            "title": "Trainings"
+        },
+        "members": {
+            "title": "Members"
+        },
+        "stats": {
+            "all": "All",
+            "topAthletes": "Top Athletes",
+            "topParticipants": "Top Participants per training"
+        }
+    },
+    "button": {
+        "view": "View",
+        "openDashboard": "Open Dashboard",
+        "login": "Login",
+        "logout": "Logout",
+        "day": "Day",
+        "week": "Week",
+        "year": "Year",
+        "trackAttendance": "Track Attendance",
+        "loadMore": "Load More"
+    }
 }
