@@ -45,6 +45,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@sveltejs/adapter-netlify": "^1.0.0",
     "moment": "^2.29.4",
-    "svelte-fa": "^3.0.3"
+    "svelte-fa": "^3.0.3",
+    "svelte-i18n": "^3.6.0"
   }
 }

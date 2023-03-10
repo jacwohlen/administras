@@ -5,6 +5,7 @@
   import type { PageData } from '../$types';
   import TopParticipantsStats from './TopParticipantsStats.svelte';
   import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
+  import { _ } from 'svelte-i18n';
 
   export let data: PageData;
 
@@ -29,7 +30,7 @@
 <div class="flex justify-between items-center m-2">
   <div>
     <button class="btn" on:click={previousYear}>
-      <Fa icon={faArrowLeft} /><span>Year</span>
+      <Fa icon={faArrowLeft} /><span>{$_('button.year')}</span>
     </button>
   </div>
   <div>
@@ -46,20 +47,20 @@
         bind:group={yearmode}
         on:click={() => goto('/dashboard/stats/ALL')}
         name="yearmode"
-        value="ALL">ALL</RadioItem
+        value="ALL">{$_('page.stats.all')}</RadioItem
       >
     </RadioGroup>
   </div>
   <div>
     <button class="btn" on:click={nextYear}>
-      <span>Year</span><Fa icon={faArrowRight} />
+      <span>{$_('button.year')}</span><Fa icon={faArrowRight} />
     </button>
   </div>
 </div>
 
 <div class="card p-4">
   {#await topAthletes.slice(0, currentItem) then items}
-    <h3>Top Athletes</h3>
+    <h3>{$_('page.stats.topAthletes')}</h3>
     <ol class="list-decimal py-4 px-8">
       {#each items as item}
         <li>{item.lastname} {item.firstname} ({item.count})</li>
@@ -70,13 +71,13 @@
         class="btn btn-sm variant-filled-secondary"
         on:click={() => (currentItem = currentItem + 10)}
       >
-        Load More
+        {$_('button.loadMore')}
       </button>
     {/if}
   {/await}
 </div>
 
 <div class="card p-4">
-  <h3>Top Participants</h3>
+  <h3>{$_('page.stats.topParticipants')}</h3>
   <TopParticipantsStats {yearmode} {year} />
 </div>

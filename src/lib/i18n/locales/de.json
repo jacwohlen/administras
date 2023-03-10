@@ -1,0 +1,42 @@
+{
+    "page": {
+        "routes": {
+            "welcomeMessage": "Willkommen bei Administra",
+            "hi": "Hallo"
+        },
+        "dashboard": {
+            "today": "Aktuell",
+            "trainings": "Trainings",
+            "members": "Mitglieder",
+            "stats": "Statistik",
+            "noTrainingsToday": "Heute findet kein Training statt!"
+        },
+        "trainings": {
+            "title": "Trainings"
+        },
+        "members": {
+            "title": "Mitglieder",
+            "lastName": "Nachname",
+            "firstName": "Vorname",
+            "birthday": "Geburtstag",
+            "mobile": "Mobiltelefon",
+            "labels": "Labels"
+        },
+        "stats": {
+            "all": "Alle",
+            "topAthletes": "Top Athleten",
+            "topParticipants": "Top Teilnehmer pro Training"
+        }
+    },
+    "button": {
+        "view": "Anzeigen",
+        "openDashboard": "Dashboard Öffnen",
+        "login": "Anmelden",
+        "logout": "Abmelden",
+        "day": "Tag",
+        "week": "Woche",
+        "year": "Jahr",
+        "trackAttendance": "Anwesenheit bearbeiten",
+        "loadMore": "Mehr Laden"
+    }
+}

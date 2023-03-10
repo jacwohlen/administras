@@ -2,6 +2,7 @@
   import LogoImage from './LogoImage.svelte';
   import { error as err } from '@sveltejs/kit';
   import { supabaseClient } from '$lib/supabase';
+  import { _ } from 'svelte-i18n';
 
   async function login() {
     const config: SignInWithOAuthCredentials = {
@@ -21,13 +22,17 @@
 
 <div class="grid grid-cols-1 place-items-center space-y-8 mt-10">
   <LogoImage />
-  <h1 class="my-2">Welcome to Administra</h1>
+  <h1 class="my-2">{$_('page.routes.welcomeMessage')}</h1>
   {#if data.session}
     <p>
-      Hi <strong>{data.session.user.email}</strong>
+      {$_('page.routes.hi')} <strong>{data.session.user.email}</strong>
     </p>
-    <a class="btn variant-filled-primary mt-2" href="/dashboard" color="primary">Open Dashboard</a>
+    <a class="btn variant-filled-primary mt-2" href="/dashboard" color="primary"
+      >{$_('button.openDashboard')}</a
+    >
   {:else}
-    <button class="btn variant-filled-primary" on:click={login} color="primary"> Login </button>
+    <button class="btn variant-filled-primary" on:click={login} color="primary">
+      {$_('button.login')}
+    </button>
   {/if}
 </div>
