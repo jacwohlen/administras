@@ -11,7 +11,7 @@
 
   let filteredData: Member[] = [];
 
-  async function filterData(): Promise<Member[]> {
+  async function filterData(): Promise<void> {
     const text = searchterm;
     const { error, data } = await supabaseClient
       .from('view_search_members')
@@ -22,7 +22,6 @@
       console.log(error);
     }
     if (data) filteredData = data;
-    return filteredData;
   }
 
   function clearSearch() {
