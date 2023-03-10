@@ -15,7 +15,13 @@
             "title": "Trainings"
         },
         "members": {
-            "title": "Members"
+            "title": "Members",
+            "id": "Id",
+            "lastName": "Last Name",
+            "firstName": "First Name",
+            "birthday": "Birthday",
+            "mobile": "Mobile",
+            "labels": "Labels"
         },
         "stats": {
             "all": "All",
