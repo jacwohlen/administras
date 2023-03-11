@@ -1,51 +1,72 @@
 {
-    "page": {
-        "routes": {
-            "welcomeMessage": "Welcome to Administra",
-            "hi": "hi"
-        },
-        "dashboard": {
-            "today": "Today",
-            "trainings": "Trainings",
-            "members": "Members",
-            "stats": "Stats",
-            "noTrainingsToday": "There are no trainings happening today!"
-        },
-        "trainings": {
-            "title": "Trainings",
-            "id": "ID",
-            "trainingsTitle": "Title",
-            "participants": "Participants",
-            "weekday": "Weekday",
-            "dateFrom": "From",
-            "dateTo": "To",
-            "section": "Section",
-            "logs": "Logs"
-        },
-        "members": {
-            "title": "Members",
-            "id": "ID",
-            "lastName": "Last Name",
-            "firstName": "First Name",
-            "birthday": "Birthday",
-            "mobile": "Mobile",
-            "labels": "Labels"
-        },
-        "stats": {
-            "all": "All",
-            "topAthletes": "Top Athletes",
-            "topParticipants": "Top Participants per training"
-        }
+  "page": {
+    "routes": {
+      "welcomeMessage": "Welcome to Administra",
+      "hi": "hi"
     },
-    "button": {
-        "view": "View",
-        "openDashboard": "Open Dashboard",
-        "login": "Login",
-        "logout": "Logout",
-        "day": "Day",
-        "week": "Week",
-        "year": "Year",
-        "trackAttendance": "Track Attendance",
-        "loadMore": "Load More"
+    "dashboard": {
+      "today": "Today",
+      "trainings": "Trainings",
+      "members": "Members",
+      "stats": "Stats",
+      "noTrainingsToday": "There are no trainings happening today!"
+    },
+    "trainings": {
+      "title": "Trainings",
+      "id": "ID",
+      "trainingsTitle": "Title",
+      "participants": "Participants",
+      "weekday": "Weekday",
+      "dateFrom": "From",
+      "dateTo": "To",
+      "section": "Section",
+      "logs": "Logs",
+      "searchMembersPlaceholder": "Search Member...",
+      "memberNotFound": "Member not found",
+      "addMemberPlaceholder": "Add Member..."
+    },
+    "members": {
+      "title": "Members",
+      "id": "ID",
+      "lastName": "Last Name",
+      "firstName": "First Name",
+      "birthday": "Birthday",
+      "mobile": "Mobile",
+      "labels": "Labels"
+    },
+    "stats": {
+      "all": "All",
+      "topAthletes": "Top Athletes",
+      "topParticipants": "Top Participants per training"
     }
+  },
+  "button": {
+    "view": "View",
+    "openDashboard": "Open Dashboard",
+    "login": "Login",
+    "logout": "Logout",
+    "day": "Day",
+    "week": "Week",
+    "year": "Year",
+    "trackAttendance": "Track Attendance",
+    "loadMore": "Load More",
+    "remove": "Remove",
+    "add": "Add",
+    "createNew": "Create New",
+    "cancle": "Cancel",
+    "confirm": "Confirm"
+  },
+  "dialog": {
+    "newMember": {
+      "title": "New Member",
+      "lastName": "Last Name",
+      "firstName": "First Name",
+      "lastNamePlaceholder": "Enter Last Name...",
+      "firstNamePlaceholder": "Enter First Name..."
+    },
+    "confirm": {
+      "title": "Please Confirm",
+      "body": "Are you sure you wish to proceed?"
+    }
+  }
 }

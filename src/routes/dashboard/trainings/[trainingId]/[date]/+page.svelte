@@ -8,6 +8,7 @@
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import { supabaseClient } from '$lib/supabase';
+  import { _ } from 'svelte-i18n';
 
   export let data: PageData;
   let searchterm: string = '';
@@ -140,7 +141,7 @@
 <div class="flex justify-between items-center my-2">
   <div>
     <button class="btn btn-sm variant-filled-primary" on:click={previousWeek}>
-      <Fa icon={faArrowLeft} /><span>Week</span>
+      <Fa icon={faArrowLeft} /><span>{$_('button.week')}</span>
     </button>
   </div>
   <div>
@@ -148,7 +149,7 @@
   </div>
   <div>
     <button class="btn btn-sm variant-filled-primary" on:click={nextWeek}>
-      <span>Week</span><Fa icon={faArrowRight} />
+      <span>{$_('button.week')}</span><Fa icon={faArrowRight} />
     </button>
   </div>
 </div>
@@ -163,7 +164,7 @@
           class="input"
           on:keydown={navigateList}
           type="text"
-          placeholder="Search Member..."
+          placeholder={$_('page.trainings.searchMembersPlaceholder')}
           bind:value={searchterm}
           on:input={filterData}
         />

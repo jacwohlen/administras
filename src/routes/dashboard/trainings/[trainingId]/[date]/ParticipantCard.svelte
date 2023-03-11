@@ -5,6 +5,7 @@
   import { menu, type ModalSettings, Avatar } from '@skeletonlabs/skeleton';
   import { modalStore } from '@skeletonlabs/skeleton';
   import Labels from './Labels.svelte';
+  import { _ } from 'svelte-i18n';
 
   import type { MMember } from './types';
 
@@ -20,13 +21,13 @@
   function triggerConfirm(): void {
     const confirm: ModalSettings = {
       type: 'confirm',
-      title: 'Please Confirm',
-      body: 'Are you sure you wish to proceed?',
+      title: $_('dialog.confirm.title'),
+      body: $_('dialog.confirm.body'),
       // TRUE if confirm pressed, FALSE if cancel pressed
       response: (r: boolean) => r === true && dispatch('remove', { member }),
       // Optionally override the button text
-      buttonTextCancel: 'Cancel',
-      buttonTextConfirm: 'Confirm'
+      buttonTextCancel: $_('button.cancle'),
+      buttonTextConfirm: $_('button.confirm')
     };
     modalStore.trigger(confirm);
   }
@@ -59,15 +60,17 @@
       <nav class="card p-2 w-32 shadow-xl" data-menu={'ParticipantCard' + member.id}>
         <ul>
           <li>
-            <a href={'/dashboard/members/' + member.id} class="btn option w-full">View</a>
+            <a href={'/dashboard/members/' + member.id} class="btn option w-full"
+              >{$_('button.view')}</a
+            >
           </li>
           <li>
-            <button class="option w-full" on:click={triggerConfirm}>Remove</button>
+            <button class="option w-full" on:click={triggerConfirm}>{$_('button.remove')}</button>
           </li>
         </ul>
       </nav>
     </div>
   {:else}
-    Member not found
+    {$_('page.trainings.memberNotFound')}
   {/if}
 </li>
