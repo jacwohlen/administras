@@ -4,7 +4,6 @@
   import ParticipantCard from './ParticipantCard.svelte';
   import Fa from 'svelte-fa';
   import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-  import moment from 'moment';
   import dayjs from 'dayjs';
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';

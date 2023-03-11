@@ -1,4 +1,3 @@
-import moment, { type Moment } from 'moment';
 import dayjs, { type Dayjs } from 'dayjs';
 
 export enum Weekday {

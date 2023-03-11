@@ -2,8 +2,6 @@
   import Fa from 'svelte-fa';
   import { faClipboardCheck, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
   import type { Training } from '$lib/models';
-  import moment from 'moment';
-  import type { Moment } from 'moment';
   import dayjs, { type Dayjs } from 'dayjs';
   import utils from '$lib/utils';
   import { supabaseClient } from '$lib/supabase';
