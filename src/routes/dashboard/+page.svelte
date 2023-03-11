@@ -26,7 +26,7 @@
     const { data } = await supabaseClient
       .from('trainings')
       .select()
-      .eq('weekday', date.format('dddd'))
+      .eq('weekday', date.locale('en').format('dddd'))
       .returns<Training[]>();
 
     if (data) trainings = data;
