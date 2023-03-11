@@ -23,7 +23,6 @@
   }
 
   async function getTrainingsForDay() {
-    console.log(date.locale());
     const { data } = await supabaseClient
       .from('trainings')
       .select()

@@ -2,7 +2,6 @@
   import type { PageData } from './$types';
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
-  import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
 
   export let data: PageData;
