@@ -9,6 +9,7 @@
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
+  import { flip } from 'svelte/animate';
 
   export let data: PageData;
   let searchterm: string = '';
@@ -172,12 +173,14 @@
     </div>
     <ul class="list">
       {#each filteredData as p, i (p.id)}
-        <ParticipantCard
-          highlight={hiIndex === i}
-          member={p}
-          on:change={changePresence}
-          on:remove={removeParticipant}
-        />
+        <div class="item" animate:flip>
+          <ParticipantCard
+            highlight={hiIndex === i}
+            member={p}
+            on:change={changePresence}
+            on:remove={removeParticipant}
+          />
+        </div>
       {/each}
       <li>
         <aside class="alert variant-ghost-tertiary w-full justify-items-center">
