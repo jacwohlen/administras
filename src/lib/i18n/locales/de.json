@@ -12,10 +12,19 @@
             "noTrainingsToday": "Heute findet kein Training statt!"
         },
         "trainings": {
-            "title": "Trainings"
+            "title": "Trainings",
+            "id": "ID",
+            "trainingsTitle": "Titel",
+            "participants": "Teilnehmer",
+            "weekday": "Wochentag",
+            "dateFrom": "Von",
+            "dateTo": "Bis",
+            "section": "Sektion",
+            "logs": "Protokolle"
         },
         "members": {
             "title": "Mitglieder",
+            "id": "ID",
             "lastName": "Nachname",
             "firstName": "Vorname",
             "birthday": "Geburtstag",
