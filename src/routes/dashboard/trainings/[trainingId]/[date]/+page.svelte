@@ -10,6 +10,7 @@
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
   import { flip } from 'svelte/animate';
+  import { quintOut } from 'svelte/easing';
 
   export let data: PageData;
   let searchterm: string = '';
@@ -173,7 +174,7 @@
     </div>
     <ul class="list">
       {#each filteredData as p, i (p.id)}
-        <div class="item" animate:flip>
+        <div class="item" animate:flip={{ delay: 0, duration: 500, easing: quintOut }}>
           <ParticipantCard
             highlight={hiIndex === i}
             member={p}
