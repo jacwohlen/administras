@@ -1,4 +1,5 @@
 import dayjs, { type Dayjs } from 'dayjs';
+import { initialLocale } from '$lib/i18n';
 
 export enum Weekday {
   Sunday = 0,
@@ -18,7 +19,7 @@ function weekdayToNumber(weekday: string): number {
 
 function getMostRecentDateByWeekday(weekday: number): Dayjs {
   const today = dayjs();
-  const mostRecentWeekday = dayjs().day(weekday);
+  const mostRecentWeekday = dayjs().locale(initialLocale).day(weekday);
   if (mostRecentWeekday.isAfter(today)) {
     mostRecentWeekday.subtract(7, 'days');
   }

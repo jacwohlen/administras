@@ -6,8 +6,9 @@
   import utils from '$lib/utils';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
+  import { initialLocale } from '$lib/i18n';
 
-  let date: Dayjs = dayjs();
+  let date: Dayjs = dayjs().locale(initialLocale);
   const dateFormat = 'YYYY-MM-DD';
   let trainings: Training[] = [];
 
@@ -22,6 +23,7 @@
   }
 
   async function getTrainingsForDay() {
+    console.log(date.locale());
     const { data } = await supabaseClient
       .from('trainings')
       .select()
