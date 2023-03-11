@@ -5,6 +5,7 @@
   import Fa from 'svelte-fa';
   import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
   import moment from 'moment';
+  import dayjs from 'dayjs';
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import { supabaseClient } from '$lib/supabase';
@@ -107,7 +108,7 @@
 
   async function nextWeek() {
     console.log('nextWeek', data.date);
-    let d = moment(data.date, 'yyyy-MM-DD');
+    let d = dayjs(data.date, 'yyyy-MM-DD');
     d.add(7, 'days');
     await goto(d.format('yyyy-MM-DD'));
     filterData();
@@ -115,7 +116,7 @@
 
   async function previousWeek() {
     console.log('previousWeek');
-    let d = moment(data.date, 'yyyy-MM-DD');
+    let d = dayjs(data.date, 'yyyy-MM-DD');
     d.subtract(7, 'days');
     await goto(d.format('yyyy-MM-DD'));
     filterData();

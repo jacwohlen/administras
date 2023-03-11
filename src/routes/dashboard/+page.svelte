@@ -4,11 +4,12 @@
   import type { Training } from '$lib/models';
   import moment from 'moment';
   import type { Moment } from 'moment';
+  import dayjs, { type Dayjs } from 'dayjs';
   import utils from '$lib/utils';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
 
-  let date: Moment = moment();
+  let date: Dayjs = dayjs();
   const dateFormat = 'YYYY-MM-DD';
   let trainings: Training[] = [];
 

@@ -1,4 +1,5 @@
 import moment, { type Moment } from 'moment';
+import dayjs, { type Dayjs } from 'dayjs';
 
 export enum Weekday {
   Sunday = 0,
@@ -16,9 +17,9 @@ function weekdayToNumber(weekday: string): number {
   return weekdayEnum;
 }
 
-function getMostRecentDateByWeekday(weekday: number): Moment {
-  const today = moment();
-  const mostRecentWeekday = moment().day(weekday);
+function getMostRecentDateByWeekday(weekday: number): Dayjs {
+  const today = dayjs();
+  const mostRecentWeekday = dayjs().day(weekday);
   if (mostRecentWeekday.isAfter(today)) {
     mostRecentWeekday.subtract(7, 'days');
   }
