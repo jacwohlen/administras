@@ -68,5 +68,14 @@
       "title": "Please Confirm",
       "body": "Are you sure you wish to proceed?"
     }
+  },
+  "weekday": {
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday",
+    "Sunday": "Sunday"
   }
 }

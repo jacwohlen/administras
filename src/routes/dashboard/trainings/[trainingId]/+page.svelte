@@ -23,7 +23,7 @@
   </tr>
   <tr>
     <td>{$_('page.trainings.weekday')}:</td>
-    <td>{data.weekday}</td>
+    <td>{$_('weekday.' + data.weekday)}</td>
   </tr>
   <tr>
     <td>{$_('page.trainings.dateFrom')}:</td>

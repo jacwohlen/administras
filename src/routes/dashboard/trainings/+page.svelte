@@ -14,12 +14,12 @@
     {#if index > 0}
       {#if t.weekday != data.trainings[index - 1].weekday}
         <div class="relative flex pt-4 justify-center">
-          <span class="flex-shrink mx-4 text-gray-400">{t.weekday}</span>
+          <span class="flex-shrink mx-4 text-gray-400">{$_('weekday.' + t.weekday)}</span>
         </div>
       {/if}
     {:else}
       <div class="relative flex pt-4 justify-center">
-        <span class="flex-shrink mx-4 text-gray-400">{t.weekday}</span>
+        <span class="flex-shrink mx-4 text-gray-400">{$_('weekday.' + t.weekday)}</span>
       </div>
     {/if}
     <li>
@@ -27,7 +27,7 @@
         <dt class="font-bold">
           {t.title}
         </dt>
-        <dd class="text-sm">{t.weekday} - {t.dateFrom} | {t.section}</dd>
+        <dd class="text-sm">{$_('weekday.' + t.weekday)} - {t.dateFrom} | {t.section}</dd>
       </span>
       <span>
         <a class="btn btn-sm variant-filled-secondary" href="/dashboard/trainings/{t.id}">

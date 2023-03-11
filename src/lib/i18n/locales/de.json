@@ -68,5 +68,14 @@
       "title": "Bitte Bestätigen",
       "body": "Bist du sicher, dass du fortfahren möchtest?"
     }
+  },
+  "weekday": {
+    "Monday": "Montag",
+    "Tuesday": "Dienstag",
+    "Wednesday": "Mittwoch",
+    "Thursday": "Donnerstag",
+    "Friday": "Freitag",
+    "Saturday": "Samstag",
+    "Sunday": "Sonntag"
   }
 }
