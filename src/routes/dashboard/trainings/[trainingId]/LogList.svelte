@@ -4,6 +4,7 @@
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
+  import { _ } from 'svelte-i18n';
 
   export let trainingId: String;
 
@@ -44,7 +45,7 @@
             href="/dashboard/trainings/{trainingId}/{i.date}"
           >
             <Fa icon={faGripLines} />
-            <span>View</span>
+            <span>{$_('button.view')}</span>
           </a>
         </span>
       </li>

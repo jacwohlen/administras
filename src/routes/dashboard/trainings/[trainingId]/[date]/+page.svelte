@@ -4,13 +4,16 @@
   import ParticipantCard from './ParticipantCard.svelte';
   import Fa from 'svelte-fa';
   import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-  import moment from 'moment';
+  import dayjs from 'dayjs';
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
   import { supabaseClient } from '$lib/supabase';
+  import { _ } from 'svelte-i18n';
+  import { flip } from 'svelte/animate';
+  import { quintInOut } from 'svelte/easing';
 
   export let data: PageData;
-  let searchterm: string = '';
+  let searchterm = '';
 
   let filteredData: MMember[] = [];
   $: presentParticipants = filteredData.filter((p) => p.isPresent);
@@ -44,32 +47,40 @@
 
   filterData();
 
-  async function changePresence(event: CustomEvent<{ member: MMember; checked: boolean }>) {
-    await _changePresence(event.detail.member, event.detail.checked);
+  async function changePresence(
+    event: CustomEvent<{ member: MMember; checked: boolean; isMainTrainer: boolean }>
+  ) {
+    await _changePresence(event.detail.member, event.detail.checked, event.detail.isMainTrainer);
     clearSearch();
   }
-  async function _changePresence(member: MMember, checked: boolean) {
-    console.log('changePresense triggreed', member.id, checked);
+  async function _changePresence(member: MMember, checked: boolean, isMainTrainer: boolean) {
+    console.log('changePresense triggreed', member.id, checked, isMainTrainer);
+
+    // Always delete any existing entry (code simplicity to the tradeoff of executing 2 api calls)
+    const { error } = await supabaseClient
+      .from('logs')
+      .delete()
+      .eq('date', data.date)
+      .eq('trainingId', data.trainingId)
+      .eq('memberId', member.id);
+    if (error) {
+      console.log(error);
+    }
+
     if (checked) {
-      const { error } = await supabaseClient
-        .from('logs')
-        .insert({ date: data.date, trainingId: data.trainingId, memberId: member.id });
-      if (error) {
-        console.log(error);
-      }
-    } else {
-      const { error } = await supabaseClient
-        .from('logs')
-        .delete()
-        .eq('date', data.date)
-        .eq('trainingId', data.trainingId)
-        .eq('memberId', member.id);
+      const { error } = await supabaseClient.from('logs').insert({
+        date: data.date,
+        trainingId: data.trainingId,
+        memberId: member.id,
+        isMainTrainer
+      });
       if (error) {
         console.log(error);
       }
     }
     const index = data.participants.findIndex((m) => m.id === member.id);
     data.participants[index].isPresent = checked;
+    data.participants[index].isMainTrainer = isMainTrainer;
     filterData(); // force reactivity
   }
 
@@ -85,7 +96,7 @@
       .select('members(*)')
       .single();
     data.participants.push(d.data!.members as MMember);
-    _changePresence(event.detail.member, true);
+    _changePresence(event.detail.member, true, false);
     filterData(); // force reactivity
   }
 
@@ -106,7 +117,7 @@
 
   async function nextWeek() {
     console.log('nextWeek', data.date);
-    let d = moment(data.date, 'yyyy-MM-DD');
+    let d = dayjs(data.date, 'yyyy-MM-DD');
     d.add(7, 'days');
     await goto(d.format('yyyy-MM-DD'));
     filterData();
@@ -114,7 +125,7 @@
 
   async function previousWeek() {
     console.log('previousWeek');
-    let d = moment(data.date, 'yyyy-MM-DD');
+    let d = dayjs(data.date, 'yyyy-MM-DD');
     d.subtract(7, 'days');
     await goto(d.format('yyyy-MM-DD'));
     filterData();
@@ -126,7 +137,7 @@
     } else if (e.key === 'ArrowUp' && hiIndex !== -1) {
       hiIndex === 0 ? (hiIndex = filteredData.length - 1) : (hiIndex -= 1);
     } else if (e.key === 'Enter') {
-      _changePresence(filteredData[hiIndex], !filteredData[hiIndex].isPresent);
+      _changePresence(filteredData[hiIndex], !filteredData[hiIndex].isPresent, false);
       clearSearch();
     } else {
       return;
@@ -139,16 +150,16 @@
 <hr class="my-2" />
 <div class="flex justify-between items-center my-2">
   <div>
-    <button class="btn btn-sm variant-filled-primary" on:click={previousWeek}>
-      <Fa icon={faArrowLeft} /><span>Week</span>
+    <button class="btn" on:click={previousWeek}>
+      <Fa icon={faArrowLeft} /><span>{$_('button.week')}</span>
     </button>
   </div>
   <div>
-    <button class="btn variant-ghost-primary">{data.date}</button>
+    <h2>{data.date}</h2>
   </div>
   <div>
-    <button class="btn btn-sm variant-filled-primary" on:click={nextWeek}>
-      <span>Week</span><Fa icon={faArrowRight} />
+    <button class="btn" on:click={nextWeek}>
+      <span>{$_('button.week')}</span><Fa icon={faArrowRight} />
     </button>
   </div>
 </div>
@@ -156,14 +167,14 @@
   <div>
     <div class="flex items-center">
       <div class="mr-2">
-        <span class="chip variant-filled-primary">{presentParticipants.length}</span>
+        <span class="chip variant-filled-secondary">{presentParticipants.length}</span>
       </div>
       <div class="grow">
         <input
           class="input"
           on:keydown={navigateList}
           type="text"
-          placeholder="Search Member..."
+          placeholder={$_('page.trainings.searchMembersPlaceholder')}
           bind:value={searchterm}
           on:input={filterData}
         />
@@ -171,12 +182,14 @@
     </div>
     <ul class="list">
       {#each filteredData as p, i (p.id)}
-        <ParticipantCard
-          highlight={hiIndex === i}
-          member={p}
-          on:change={changePresence}
-          on:remove={removeParticipant}
-        />
+        <div class="item" animate:flip={{ delay: 0, duration: 400, easing: quintInOut }}>
+          <ParticipantCard
+            highlight={hiIndex === i}
+            member={p}
+            on:change={changePresence}
+            on:remove={removeParticipant}
+          />
+        </div>
       {/each}
       <li>
         <aside class="alert variant-ghost-tertiary w-full justify-items-center">

@@ -3,6 +3,7 @@
   import { invalidateAll } from '$app/navigation';
   import { supabaseClient } from '$lib/supabase';
   import { onMount } from 'svelte';
+  import 'dayjs/locale/de';
   import '../theme.postcss';
   import '@skeletonlabs/skeleton/styles/all.css';
   import '../app.postcss';

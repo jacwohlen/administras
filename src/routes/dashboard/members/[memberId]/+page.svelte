@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import { Avatar } from '@skeletonlabs/skeleton';
+  import { _ } from 'svelte-i18n';
   export let data: PageData;
 </script>
 
@@ -15,27 +16,27 @@
   <div class="table-container">
     <table class="table">
       <tr>
-        <td><b>Id</b></td>
+        <td><b>{$_('page.members.id')}</b></td>
         <td>{data.id}</td>
       </tr>
       <tr>
-        <td><b>Lastname</b></td>
+        <td><b>{$_('page.members.lastName')}</b></td>
         <td>{data.lastname}</td>
       </tr>
       <tr>
-        <td><b>Firstname</b></td>
+        <td><b>{$_('page.members.firstName')}</b></td>
         <td>{data.firstname}</td>
       </tr>
       <tr>
-        <td><b>Birthday</b></td>
+        <td><b>{$_('page.members.birthday')}</b></td>
         <td>{data.birthday}</td>
       </tr>
       <tr>
-        <td><b>Mobile</b></td>
+        <td><b>{$_('page.members.mobile')}</b></td>
         <td>{data.mobile}</td>
       </tr>
       <tr>
-        <td><b>Labels</b></td>
+        <td><b>{$_('page.members.labels')}</b></td>
         <td>
           {#if data.labels}
             {#each data.labels as l}

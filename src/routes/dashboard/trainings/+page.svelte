@@ -2,23 +2,23 @@
   import type { PageData } from './$types';
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
-  import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+  import { _ } from 'svelte-i18n';
 
   export let data: PageData;
 </script>
 
-<h1>Trainings</h1>
+<h1>{$_('page.trainings.title')}</h1>
 <ul class="list">
   {#each data.trainings as t, index (t.id)}
     {#if index > 0}
       {#if t.weekday != data.trainings[index - 1].weekday}
         <div class="relative flex pt-4 justify-center">
-          <span class="flex-shrink mx-4 text-gray-400">{t.weekday}</span>
+          <span class="flex-shrink mx-4 text-gray-400">{$_('weekday.' + t.weekday)}</span>
         </div>
       {/if}
     {:else}
       <div class="relative flex pt-4 justify-center">
-        <span class="flex-shrink mx-4 text-gray-400">{t.weekday}</span>
+        <span class="flex-shrink mx-4 text-gray-400">{$_('weekday.' + t.weekday)}</span>
       </div>
     {/if}
     <li>
@@ -26,12 +26,12 @@
         <dt class="font-bold">
           {t.title}
         </dt>
-        <dd class="text-sm">{t.weekday} - {t.dateFrom} | {t.section}</dd>
+        <dd class="text-sm">{$_('weekday.' + t.weekday)} - {t.dateFrom} | {t.section}</dd>
       </span>
       <span>
         <a class="btn btn-sm variant-filled-secondary" href="/dashboard/trainings/{t.id}">
           <Fa icon={faGripLines} />
-          <span>View</span>
+          <span>{$_('button.view')}</span>
         </a>
       </span>
     </li>

@@ -98,15 +98,15 @@ select date, "trainingId", count("memberId") from logs group by date, "trainingI
 ```sql
 -- drop function get_checklist_members(d text, tId int);
 CREATE OR REPLACE function get_checklist_members(d text, tId int)
-returns table (trainingId int2, memberId int2, lastname text, firstname text, labels jsonb, img text, date text) language plpgsql
+returns table (trainingId int2, memberId int2, lastname text, firstname text, labels jsonb, img text, date text, isMainTrainer boolean) language plpgsql
 as
 $$
 declare
 begin
   return query
-    select participants."trainingId", participants."memberId", members."lastname", members."firstname", members."labels", members."img", logs."date"
+    select participants."trainingId", participants."memberId", members."lastname", members."firstname", members."labels", members."img", logs."date", logs."isMainTrainer"
     from participants
-    full outer join logs on participants."memberId" = logs."memberId" and logs."date" = $1
+    full outer join logs on participants."memberId" = logs."memberId" and logs."date" = $1 and logs."trainingId" = $2
     inner join members on members.id =  participants."memberId"
     where participants."trainingId" = $2;
 end;

@@ -6,6 +6,7 @@
   import { menu, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
   import { supabaseClient } from '$lib/supabase';
   import { modalStore } from '@skeletonlabs/skeleton';
+  import { _ } from 'svelte-i18n';
 
   let searchterm = '';
 
@@ -77,7 +78,7 @@
     <input
       class="input"
       type="text"
-      placeholder="Add Member..."
+      placeholder={$_('page.trainings.addMemberPlaceholder')}
       bind:value={searchterm}
       on:input={filterData}
       use:menu={{ menu: 'menu1' }}
@@ -91,7 +92,7 @@
           <div class="justify-self-end relative">
             <button class="btn btn-sm variant-ringed-primary" on:click={() => add(p)}>
               <Fa icon={faUserPlus} />
-              <span>Add</span>
+              <span>{$_('button.add')}</span>
             </button>
           </div>
         </li>
@@ -100,7 +101,7 @@
         <span class="flex-auto">{searchterm}...</span>
         <div class="justify-self-end relative">
           <button class="btn btn-sm variant-filled-primary" on:click={createNewMember}>
-            Create New
+            {$_('button.createNew')}
           </button>
         </div>
       </li>
