@@ -14,6 +14,7 @@
 
   export let data: PageData;
   let searchterm = '';
+  let animateList = true;
 
   let filteredData: MMember[] = [];
   $: presentParticipants = filteredData.filter((p) => p.isPresent);
@@ -177,12 +178,17 @@
           placeholder={$_('page.trainings.searchMembersPlaceholder')}
           bind:value={searchterm}
           on:input={filterData}
+          on:focus={() => (animateList = false)}
+          on:blur={() => (animateList = true)}
         />
       </div>
     </div>
     <ul class="list">
       {#each filteredData as p, i (p.id)}
-        <div class="item" animate:flip={{ delay: 0, duration: 400, easing: quintInOut }}>
+        <div
+          class="item"
+          animate:flip={{ delay: 0, duration: animateList ? 400 : 0, easing: quintInOut }}
+        >
           <ParticipantCard
             highlight={hiIndex === i}
             member={p}
