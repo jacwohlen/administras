@@ -51,10 +51,14 @@
     event: CustomEvent<{ member: MMember; checked: boolean; isMainTrainer: boolean }>
   ) {
     await _changePresence(event.detail.member, event.detail.checked, event.detail.isMainTrainer);
-    clearSearch();
   }
+
   async function _changePresence(member: MMember, checked: boolean, isMainTrainer: boolean) {
     console.log('changePresense triggreed', member.id, checked, isMainTrainer);
+    const index = data.participants.findIndex((m) => m.id === member.id);
+    data.participants[index].isPresent = checked;
+    data.participants[index].isMainTrainer = isMainTrainer;
+    clearSearch();
 
     // Always delete any existing entry (code simplicity to the tradeoff of executing 2 api calls)
     const { error } = await supabaseClient
@@ -78,10 +82,6 @@
         console.log(error);
       }
     }
-    const index = data.participants.findIndex((m) => m.id === member.id);
-    data.participants[index].isPresent = checked;
-    data.participants[index].isMainTrainer = isMainTrainer;
-    filterData(); // force reactivity
   }
 
   async function addParticipant(event: CustomEvent<{ member: MMember }>) {
