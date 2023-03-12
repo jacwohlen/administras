@@ -21,7 +21,7 @@ function getMostRecentDateByWeekday(weekday: number): Dayjs {
   const today = dayjs();
   const mostRecentWeekday = dayjs().locale(initialLocale).day(weekday);
   if (mostRecentWeekday.isAfter(today)) {
-    mostRecentWeekday.subtract(7, 'days');
+    return mostRecentWeekday.subtract(7, 'days');
   }
   return mostRecentWeekday;
 }
