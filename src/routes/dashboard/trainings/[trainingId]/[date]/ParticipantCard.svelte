@@ -10,12 +10,12 @@
   import type { MMember } from './types';
 
   export let member: MMember;
-  export let highlight: boolean = false;
+  export let highlight = false;
 
   const dispatch = createEventDispatcher();
 
   function change() {
-    dispatch('change', { member, checked: !member.isPresent });
+    dispatch('change', { member, checked: !member.isPresent, isMainTrainer: false });
   }
 
   function triggerConfirm(): void {
@@ -31,6 +31,10 @@
     };
     modalStore.trigger(confirm);
   }
+
+  function toogleMainTrainer(): void {
+    dispatch('change', { member, checked: true, isMainTrainer: !member.isMainTrainer });
+  }
 </script>
 
 <li class={highlight ? 'bg-primary-50' : ''}>
@@ -42,11 +46,18 @@
       checked={member.isPresent}
       on:change={change}
     />
-    {#if member.img}
-      <Avatar src={member.img} />
-    {:else}
-      <Avatar initials={member.lastname.charAt(0) + member.firstname.charAt(0)} />
-    {/if}
+    <div class="relative inline-block">
+      {#if member.isMainTrainer}
+        <span class="badge-icon absolute -bottom-0 -right-0 z-10">
+          <img src="/judo-icon.svg" alt="judo-icon" />
+        </span>
+      {/if}
+      {#if member.img}
+        <Avatar src={member.img} />
+      {:else}
+        <Avatar initials={member.lastname.charAt(0) + member.firstname.charAt(0)} />
+      {/if}
+    </div>
     <span class="flex-auto">
       <dt>{member.lastname} {member.firstname}</dt>
       <dd>
@@ -54,18 +65,26 @@
       </dd>
     </span>
     <div class="justify-self-end relative">
-      <button class="btn btn-sm" use:menu={{ menu: 'ParticipantCard' + member.id }}>
+      <button class="btn" use:menu={{ menu: 'ParticipantCard' + member.id }}>
         <Fa icon={faEllipsisVertical} />
       </button>
-      <nav class="card p-2 w-32 shadow-xl" data-menu={'ParticipantCard' + member.id}>
+      <nav class="card p-2 w-48 shadow-xl" data-menu={'ParticipantCard' + member.id}>
         <ul>
           <li>
-            <a href={'/dashboard/members/' + member.id} class="btn option w-full"
-              >{$_('button.view')}</a
-            >
+            <a href={'/dashboard/members/' + member.id} class="btn option w-full">
+              {$_('components.ParticipantCard.View')}
+            </a>
           </li>
           <li>
-            <button class="option w-full" on:click={triggerConfirm}>{$_('button.remove')}</button>
+            <button class="option w-full" on:click={toogleMainTrainer}>
+              <img class="inline-block w-4" src="/judo-icon.svg" alt="judo-icon" />
+              <span class="pl-1">{$_('components.ParticipantCard.ToggleTrainerFlag')}</span>
+            </button>
+          </li>
+          <li>
+            <button class="option w-full" on:click={triggerConfirm}>
+              {$_('components.ParticipantCard.Remove')}
+            </button>
           </li>
         </ul>
       </nav>

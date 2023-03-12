@@ -40,6 +40,13 @@
       "topParticipants": "Top Teilnehmer pro Training"
     }
   },
+  "components": {
+    "ParticipantCard": {
+      "View": "Anzeigen",
+      "ToggleTrainerFlag": "Trainer Flag umschalten",
+      "Remove": "Entfernen"
+    }
+  },
   "button": {
     "view": "Anzeigen",
     "openDashboard": "Dashboard Öffnen",

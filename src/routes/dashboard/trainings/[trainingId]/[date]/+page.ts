@@ -24,7 +24,8 @@ export const load = (async ({ params }) => {
           lastname: item.lastname,
           labels: item.labels,
           img: item.img,
-          isPresent: item.date ? true : false
+          isPresent: item.date ? true : false,
+          isMainTrainer: item.ismaintrainer
         } as MMember)
     );
   }

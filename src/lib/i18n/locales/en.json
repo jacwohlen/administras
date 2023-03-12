@@ -40,6 +40,13 @@
       "topParticipants": "Top Participants per training"
     }
   },
+  "components": {
+    "ParticipantCard": {
+      "View": "View",
+      "ToggleTrainerFlag": "Toogle Trainer Flag",
+      "Remove": "Remove"
+    }
+  },
   "button": {
     "view": "View",
     "openDashboard": "Open Dashboard",
