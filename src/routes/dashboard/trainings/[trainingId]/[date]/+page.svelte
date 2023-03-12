@@ -147,7 +147,7 @@
 </script>
 
 <h2>{data.title}</h2>
-<h4>{data.weekday} {data.dateFrom} | {data.section}</h4>
+<h4>{$_('weekday.' + data.weekday)} {data.dateFrom} | {data.section}</h4>
 <hr class="my-2" />
 <div class="flex justify-between items-center my-2">
   <div>
