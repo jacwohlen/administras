@@ -2,7 +2,7 @@
   "page": {
     "routes": {
       "welcomeMessage": "Welcome to Administra",
-      "hi": "hi"
+      "hi": "Hi"
     },
     "dashboard": {
       "today": "Today",
