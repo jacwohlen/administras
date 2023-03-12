@@ -118,17 +118,17 @@
 
   async function nextWeek() {
     console.log('nextWeek', data.date);
-    let d = dayjs(data.date, 'yyyy-MM-DD');
-    d.add(7, 'days');
-    await goto(d.format('yyyy-MM-DD'));
+    let d = dayjs(data.date, 'YYYY-MM-DD');
+    d = d.add(7, 'days');
+    await goto(d.format('YYYY-MM-DD'));
     filterData();
   }
 
   async function previousWeek() {
-    console.log('previousWeek');
-    let d = dayjs(data.date, 'yyyy-MM-DD');
-    d.subtract(7, 'days');
-    await goto(d.format('yyyy-MM-DD'));
+    console.log('previousWeek', data.date);
+    let d = dayjs(data.date, 'YYYY-MM-DD');
+    d = d.subtract(7, 'days');
+    await goto(d.format('YYYY-MM-DD'));
     filterData();
   }
 
