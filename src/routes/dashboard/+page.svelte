@@ -6,19 +6,18 @@
   import utils from '$lib/utils';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
-  import { initialLocale } from '$lib/i18n';
 
-  let date: Dayjs = dayjs().locale(initialLocale);
+  let date: Dayjs = utils.getMostRecentDateByWeekday(dayjs().day());
   const dateFormat = 'YYYY-MM-DD';
   let trainings: Training[] = [];
 
   function nextDay() {
-    date = utils.getMostRecentDateByWeekday(date.day() + 1);
+    date = utils.getMostRecentDateByWeekday(date.add(1, 'days').day());
     getTrainingsForDay();
   }
 
   function previousDay() {
-    date = utils.getMostRecentDateByWeekday(date.day() - 1);
+    date = utils.getMostRecentDateByWeekday(date.subtract(1, 'days').day());
     getTrainingsForDay();
   }
 
