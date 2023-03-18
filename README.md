@@ -45,9 +45,47 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Testing
+## Testing / Local Development
 
-tbd
+This setup requires Google Credentials to allow redirect URL of `http://localhost:54321/auth/v1/callback`
+In addition `supabase/.env` needs to have
+
+```bash
+export GOOGLE_CLIENT_ID=""
+export GOOGLE_SECRET=""
+```
+
+Then source it `source supabase/.env`
+
+1. Start local supabase database
+```
+npx supabase start # stated local supabase
+```
+
+Save environment variable in `.env`, including the service account
+
+```bash
+PUBLIC_SUPABASE_URL="http://localhost:54321"
+PUBLIC_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
+PUBLIC_MODE=DEV # PROD, DEV
+```
+
+2. Reset database (applies migrations, seed)
+```bash
+npx supabase db reset # drops any db setting and executes recreation + seeding content
+node supabase/seed_user.js # creates user used by cypress
+```
+
+3. Seed user name 
+```bash
+node supabase/seed_user.js
+```
+
+4. Execute tests using cypress
+```bash
+npx cypress open
+```
 
 ## Building
 
