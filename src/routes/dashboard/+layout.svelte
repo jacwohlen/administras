@@ -39,6 +39,11 @@
   }
 
   function getInitials(): string {
+    // when logging in using username and password (testing with cypress), 
+    // user_metadata is not set
+    if (!data.session.user.user_metadata !== {})
+      return data.session.user.email.charAt(0)
+
     let fullname = data.session.user.user_metadata.full_name;
     if (fullname === null || fullname.length === 0) {
       return '';

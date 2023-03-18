@@ -35,3 +35,10 @@
 //     }
 //   }
 // }
+Cypress.Commands.add('login', (user) => {
+  cy.task('getUserSession', {
+    user,
+  }).then((sessionData) => {
+    cy.setCookie("supabase-auth-token", JSON.stringify(sessionData))
+  });
+});
