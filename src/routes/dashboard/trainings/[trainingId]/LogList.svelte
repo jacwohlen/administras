@@ -19,6 +19,7 @@
       .from('view_logs_summary')
       .select(`trainingId, date, count`)
       .eq('trainingId', trainingId)
+      .order('date', { ascending: false })
       .returns<LogSummary[]>();
 
     console.log(data);
