@@ -143,3 +143,29 @@ $$;
 
 --select * from get_top_athletes(text '2022');
 ```
+
+5. Secure Login (restrict to google accounts of given domain)
+```sql
+-- create function with validates email to be from domain "jacwohlen.ch"
+CREATE OR REPLACE FUNCTION validate_google_domain()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Check if the user's email domain is 'jacwohlen.ch'
+  IF NEW.email LIKE '%@jacwohlen.ch' THEN
+    -- If valid, allow the operation to proceed
+    RETURN NEW;
+  ELSE
+    -- If invalid, raise an error
+    RAISE EXCEPTION 'Invalid email domain. Only jacwohlen.ch is allowed.';
+  END IF;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+
+-- create trigger which fires if new login
+CREATE TRIGGER check_user_domain
+BEFORE INSERT OR UPDATE ON auth.users
+FOR EACH ROW
+EXECUTE FUNCTION validate_google_domain();
+```
+
