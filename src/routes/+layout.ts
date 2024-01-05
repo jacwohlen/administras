@@ -11,5 +11,6 @@ export const load: LayoutLoad = async (event) => {
 		locale.set(window.navigator.language)
 	}
 	await waitLocale()
-	return { session, event};
+
+	return { session };
 };
