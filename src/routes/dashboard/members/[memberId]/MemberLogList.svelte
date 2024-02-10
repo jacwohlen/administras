@@ -103,7 +103,9 @@
 
   function checkViewportWidth() {
     // This example checks for viewport width of 768 pixels
-    isWideScreen = window.matchMedia('(min-width: 768px)').matches;
+    isWideScreen =
+      window.matchMedia('(min-width: 768px)').matches ||
+      window.matchMedia('(orientation: landscape)').matches;
   }
 
   onMount(() => {
