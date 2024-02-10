@@ -32,7 +32,11 @@
       "firstName": "Vorname",
       "birthday": "Geburtstag",
       "mobile": "Mobiltelefon",
-      "labels": "Labels"
+      "labels": "Labels",
+      "trainingsHistory": {
+        "title": "Trainings Historie",
+        "noItems": "Keine Trainings registriert"
+      }
     },
     "stats": {
       "all": "Alle",
