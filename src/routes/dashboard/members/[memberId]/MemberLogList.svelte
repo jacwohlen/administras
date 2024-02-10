@@ -5,10 +5,11 @@
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
+  import dayjs, { type Dayjs } from 'dayjs';
+  import SvelteHeatmap from 'svelte-heatmap';
+  import { onMount } from 'svelte';
 
   export let memberId: String;
-
-  $: year = new Date().getFullYear();
 
   interface LogSummary {
     trainingId: number;
@@ -72,13 +73,57 @@
     currentItem = 10;
     l = getLogs();
   }
-  let currentItem = 10;
 
+  interface HeatmapData {
+    date: Date;
+    value: any;
+  }
+
+  function getHeatmapData(data: LogSummary[]): HeatmapData[] {
+    let dateMap = new Map<string, HeatmapData>();
+
+    data.forEach((e: LogSummary) => {
+      const dateKey = dayjs(e.date).format('YYYY-MM-DD'); // Convert date to string key
+      if (dateMap.has(dateKey)) {
+        // If the date already exists, increase its value
+        let heatMapData = dateMap.get(dateKey)!;
+        heatMapData.value += 1;
+        dateMap.set(dateKey, heatMapData);
+      } else {
+        // If the date does not exist, add it with value 1
+        dateMap.set(dateKey, { date: dayjs(e.date).toDate(), value: 1 });
+      }
+    });
+
+    // Convert the map values back to an array
+    return Array.from(dateMap.values());
+  }
+
+  let isWideScreen = true; // Assume a wide screen by default
+
+  function checkViewportWidth() {
+    // This example checks for viewport width of 768 pixels
+    isWideScreen = window.matchMedia('(min-width: 768px)').matches;
+  }
+
+  onMount(() => {
+    checkViewportWidth(); // Check once when the component mounts
+
+    // Listen for changes in viewport size
+    window.addEventListener('resize', checkViewportWidth);
+
+    return () => {
+      // Remove the event listener when the component is destroyed
+      window.removeEventListener('resize', checkViewportWidth);
+    };
+  });
+
+  let currentItem = 10;
+  $: year = new Date().getFullYear();
   $: l = getLogs();
 </script>
 
-<div class="card p-4">
-  <h3>{$_('page.members.trainingsHistory.title')}</h3>
+{#await l then logs}
   <div class="flex justify-between items-center m-2">
     <div>
       <button class="btn" on:click={previousYear}>
@@ -94,8 +139,32 @@
       </button>
     </div>
   </div>
+  <div class="card p-4">
+    {#if isWideScreen}
+      <div>
+        <SvelteHeatmap
+          allowOverflow={false}
+          data={getHeatmapData(logs)}
+          endDate={dayjs().year(year).endOf('year').toDate()}
+          startDate={dayjs().year(year).startOf('year').toDate()}
+          view={'yearly'}
+        />
+      </div>
+    {:else}
+      <div>
+        <SvelteHeatmap
+          allowOverflow={false}
+          data={getHeatmapData(logs)}
+          endDate={dayjs().toDate()}
+          startDate={dayjs().subtract(5, 'months').toDate()}
+          view={'yearly'}
+        />
+      </div>
+    {/if}
+  </div>
 
-  {#await l then logs}
+  <div class="card p-4">
+    <h3>{$_('page.members.trainingsHistory.title')}</h3>
     <ul class="list">
       {#each logs.slice(0, currentItem) as i}
         <li>
@@ -125,12 +194,14 @@
       {/each}
     </ul>
     {#if currentItem < logs.length}
-      <button
-        class="btn btn-sm variant-filled-secondary"
-        on:click={() => (currentItem = currentItem + 10)}
-      >
-        {$_('button.loadMore')}
-      </button>
+      <span class="flex justify-center">
+        <button
+          class="btn btn-sm variant-filled-secondary"
+          on:click={() => (currentItem = currentItem + 10)}
+        >
+          {$_('button.loadMore')}
+        </button>
+      </span>
     {/if}
-  {/await}
-</div>
+  </div>
+{/await}
