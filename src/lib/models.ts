@@ -21,5 +21,7 @@ export interface Training {
 export interface Log {
   id: number;
   date: string;
-  members: Member[];
+  trainingId: Training;
+  memberId: Member;
+  isMainTrainer: boolean;
 }

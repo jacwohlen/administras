@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Log } from '$lib/models';
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
   import { faGripLines } from '@fortawesome/free-solid-svg-icons';

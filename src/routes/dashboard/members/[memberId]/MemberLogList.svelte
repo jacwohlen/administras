@@ -8,19 +8,9 @@
   import dayjs, { type Dayjs } from 'dayjs';
   import SvelteHeatmap from 'svelte-heatmap';
   import { onMount } from 'svelte';
+  import type { Log } from '$lib/models';
 
   export let memberId: String;
-
-  interface Logs {
-    date: string;
-    trainingId: Training;
-  }
-
-  interface Training {
-    id: number;
-    title: string;
-    section: string;
-  }
 
   async function getLogs() {
     // Fetch logs
@@ -31,7 +21,7 @@
       .gte('date', year + '-01-01')
       .lte('date', year + '-12-31')
       .order('date', { ascending: false })
-      .returns<Logs[]>();
+      .returns<Log[]>();
 
     if (error) {
       throw err(404, error);
@@ -57,10 +47,10 @@
     value: any;
   }
 
-  function getHeatmapData(data: Logs[]): HeatmapData[] {
+  function getHeatmapData(data: Log[]): HeatmapData[] {
     let dateMap = new Map<string, HeatmapData>();
 
-    data.forEach((e: Logs) => {
+    data.forEach((e: Log) => {
       const dateKey = dayjs(e.date).format('YYYY-MM-DD'); // Convert date to string key
       if (dateMap.has(dateKey)) {
         // If the date already exists, increase its value
