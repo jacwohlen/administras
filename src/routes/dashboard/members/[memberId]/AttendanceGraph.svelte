@@ -1,7 +1,6 @@
 <script lang="ts">
   import dayjs, { type Dayjs } from 'dayjs';
   import SvelteHeatmap from 'svelte-heatmap';
-  import { onMount } from 'svelte';
   import type { Log } from '$lib/models';
 
   export let logs: Promise<Log[]>;
