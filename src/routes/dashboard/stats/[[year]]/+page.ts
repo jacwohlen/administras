@@ -26,7 +26,7 @@ export const load = (async ({ params }) => {
     count: number;
   }
 
-  async function getTopAthletes(mode: 'YEAR' | 'ALL', y: number) {
+  async function getTopAthletes(mode: 'YEAR' | 'ALL', y: number | '') {
     if (mode === 'ALL') y = '';
     const { error, data } = await supabaseClient
       .rpc('get_top_athletes', {
