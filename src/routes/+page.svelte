@@ -19,15 +19,15 @@
   import type { SignInWithOAuthCredentials } from '@supabase/supabase-js';
   export let data: PageData;
 
-  // supabase policy will prevent google accounts to log in if not using the 
+  // supabase policy will prevent google accounts to log in if not using the
   // proper domain (e.g. jacwohlen.ch). In such a case the error is passed
-  // via GET parameters. We catch it here and sign out the user at google. 
+  // via GET parameters. We catch it here and sign out the user at google.
   // This way the user can start over loggign in with the right google account
-  export let error = null
-  let signInError = data.event.url.searchParams.get('error')
+  export let error: string | null = null;
+  let signInError = data.event.url.searchParams.get('error');
   if (signInError) {
-    error = "Error: Could not log in: " + data.event.url.searchParams.get('error_description')
-    supabaseClient.auth.signOut()
+    error = 'Error: Could not log in: ' + data.event.url.searchParams.get('error_description');
+    supabaseClient.auth.signOut();
   }
 </script>
 

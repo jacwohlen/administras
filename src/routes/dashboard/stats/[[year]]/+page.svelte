@@ -2,7 +2,7 @@
   import Fa from 'svelte-fa';
   import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
   import { goto } from '$app/navigation';
-  import type { PageData } from '../$types';
+  import type { PageData } from './$types';
   import TopParticipantsStats from './TopParticipantsStats.svelte';
   import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';

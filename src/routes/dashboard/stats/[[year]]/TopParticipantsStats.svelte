@@ -2,7 +2,6 @@
   export let year: number;
   export let yearmode: 'YEAR' | 'ALL';
 
-  //import '@carbon/styles/css/styles.css';
   import '@carbon/charts/styles.css';
   import { LineChart } from '@carbon/charts-svelte';
   import { ScaleTypes } from '@carbon/charts/interfaces';
@@ -15,7 +14,7 @@
     count: number;
   }
 
-  async function getLogsSummary(mode, y) {
+  async function getLogsSummary(mode: 'ALL' | 'YEAR', y: number | '') {
     if (mode === 'ALL') y = '';
     const { error, data } = await supabaseClient
       .from('view_logs_summary')

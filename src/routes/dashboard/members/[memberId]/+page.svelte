@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import { Avatar } from '@skeletonlabs/skeleton';
-  import MemberLogList from './MemberLogList.svelte';
   import { _ } from 'svelte-i18n';
+  import MemberLogs from './MemberLogs.svelte';
   export let data: PageData;
 </script>
 
@@ -53,5 +53,5 @@
       </table>
     </div>
   </div>
-  <MemberLogList memberId={data.id} />
+  <MemberLogs memberId={data.id} />
 </div>
