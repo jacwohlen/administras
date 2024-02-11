@@ -6,8 +6,8 @@
   export let logs: Promise<Log[]>;
   export let year: number;
 
-  let startDate: Date = dayjs().subtract(5, 'months').toDate();
-  let endDate: Date = dayjs().toDate();
+  let startDate: Dayjs = dayjs().subtract(5, 'months');
+  let endDate: Dayjs = dayjs();
 
   let isWideScreen = true; // Assume a wide screen by default
 
@@ -37,12 +37,21 @@
   }
 
   function setDatesToView(y: number) {
-    if (isWideScreen) {
-      startDate = dayjs().year(y).startOf('year').toDate();
-      endDate = dayjs().year(y).endOf('year').toDate();
-    } else {
-      startDate = dayjs().subtract(5, 'months').toDate();
-      endDate = dayjs().toDate();
+    startDate = dayjs().year(y).startOf('year');
+    endDate = dayjs().year(y).endOf('year');
+
+    if (!isWideScreen) {
+      let now: Dayjs = dayjs();
+      if (now.year() == year) {
+        if (now.isAfter(startDate.add(5, 'months'))) {
+          startDate = now.subtract(5, 'months');
+          endDate = now;
+        } else {
+          endDate = startDate.add(5, 'months');
+        }
+      } else {
+        startDate = endDate.subtract(5, 'months');
+      }
     }
   }
 
@@ -71,9 +80,19 @@
 </script>
 
 {#await logs}
-  <SvelteHeatmap data={[]} {endDate} {startDate} view={'yearly'} />
+  <SvelteHeatmap
+    data={[]}
+    endDate={endDate.toDate()}
+    startDate={startDate.toDate()}
+    view={'yearly'}
+  />
 {:then l}
-  <SvelteHeatmap data={convertLogsToHeatmapData(l)} {endDate} {startDate} view={'yearly'} />
+  <SvelteHeatmap
+    data={convertLogsToHeatmapData(l)}
+    endDate={endDate.toDate()}
+    startDate={startDate.toDate()}
+    view={'yearly'}
+  />
 {:catch err}
   {err}
 {/await}
