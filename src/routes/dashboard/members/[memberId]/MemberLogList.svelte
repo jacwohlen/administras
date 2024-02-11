@@ -11,55 +11,33 @@
 
   export let memberId: String;
 
-  interface LogSummary {
-    trainingId: number;
+  interface Logs {
     date: string;
-    trainingsInfo: Training;
+    trainingId: Training;
   }
 
   interface Training {
     id: number;
-    weekDay: string;
     title: string;
     section: string;
   }
+
   async function getLogs() {
     // Fetch logs
-    const { error: logsError, data: logsData } = await supabaseClient
+    const { error, data } = await supabaseClient
       .from('logs')
-      .select()
+      .select('date, trainingId ( id, title, section )')
       .eq('memberId', memberId)
       .gte('date', year + '-01-01')
       .lte('date', year + '-12-31')
       .order('date', { ascending: false })
-      .returns<LogSummary[]>();
+      .returns<Logs[]>();
 
-    if (logsError) {
-      throw err(404, logsError);
+    if (error) {
+      throw err(404, error);
     }
 
-    // Fetch trainings
-    const { error: trainingsError, data: trainingsData } = await supabaseClient
-      .from('trainings')
-      .select()
-      .returns<Training[]>();
-
-    if (trainingsError) {
-      throw err(404, trainingsError);
-    }
-
-    // Convert trainingsData into a map for easy lookup
-    const trainingsMap = trainingsData.reduce((map: any, training: Training) => {
-      map[training.id] = training;
-      return map;
-    }, {});
-
-    // Assign the corresponding Trainings information to each LogSummary
-    const enrichedLogs = logsData.map((log: LogSummary) => ({
-      ...log,
-      trainingsInfo: trainingsMap[log.trainingId] || null // Fallback to null if no matching training is found
-    }));
-    return enrichedLogs;
+    return data;
   }
 
   async function previousYear() {
@@ -79,10 +57,10 @@
     value: any;
   }
 
-  function getHeatmapData(data: LogSummary[]): HeatmapData[] {
+  function getHeatmapData(data: Logs[]): HeatmapData[] {
     let dateMap = new Map<string, HeatmapData>();
 
-    data.forEach((e: LogSummary) => {
+    data.forEach((e: Logs) => {
       const dateKey = dayjs(e.date).format('YYYY-MM-DD'); // Convert date to string key
       if (dateMap.has(dateKey)) {
         // If the date already exists, increase its value
@@ -120,7 +98,7 @@
     };
   });
 
-  let currentItem = 10;
+  let currentItem: number = 10;
   $: year = new Date().getFullYear();
   $: l = getLogs();
 </script>
@@ -174,15 +152,15 @@
             {i.date}
           </span>
           <span class="flex-auto">
-            {i.trainingsInfo.title}
+            {i.trainingId.title}
           </span>
           <span class="flex-right">
-            {i.trainingsInfo.section}
+            {i.trainingId.section}
           </span>
           <span>
             <a
               class="btn btn-sm variant-filled-secondary"
-              href="/dashboard/trainings/{i.trainingId}/{i.date}"
+              href="/dashboard/trainings/{i.trainingId.id}/{i.date}"
             >
               <Fa icon={faGripLines} />
               <span>{$_('button.view')}</span>
