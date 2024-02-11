@@ -9,8 +9,6 @@
   let startDate: Dayjs = dayjs().subtract(5, 'months');
   let endDate: Dayjs = dayjs();
 
-  let isWideScreen = true; // Assume a wide screen by default
-
   interface HeatmapData {
     date: Date;
     value: any;
@@ -39,60 +37,29 @@
   function setDatesToView(y: number) {
     startDate = dayjs().year(y).startOf('year');
     endDate = dayjs().year(y).endOf('year');
-
-    if (!isWideScreen) {
-      let now: Dayjs = dayjs();
-      if (now.year() == year) {
-        if (now.isAfter(startDate.add(5, 'months'))) {
-          startDate = now.subtract(5, 'months');
-          endDate = now;
-        } else {
-          endDate = startDate.add(5, 'months');
-        }
-      } else {
-        startDate = endDate.subtract(5, 'months');
-      }
-    }
   }
-
-  function checkViewportWidth() {
-    // This example checks for viewport width of 768 pixels
-    isWideScreen =
-      window.matchMedia('(min-width: 768px)').matches ||
-      window.matchMedia('(orientation: landscape)').matches;
-
-    setDatesToView(year);
-  }
-
-  onMount(() => {
-    checkViewportWidth(); // Check once when the component mounts
-
-    // Listen for changes in viewport size
-    window.addEventListener('resize', checkViewportWidth);
-
-    return () => {
-      // Remove the event listener when the component is destroyed
-      window.removeEventListener('resize', checkViewportWidth);
-    };
-  });
 
   $: setDatesToView(year);
 </script>
 
-{#await logs}
-  <SvelteHeatmap
-    data={[]}
-    endDate={endDate.toDate()}
-    startDate={startDate.toDate()}
-    view={'yearly'}
-  />
-{:then l}
-  <SvelteHeatmap
-    data={convertLogsToHeatmapData(l)}
-    endDate={endDate.toDate()}
-    startDate={startDate.toDate()}
-    view={'yearly'}
-  />
-{:catch err}
-  {err}
-{/await}
+<div class=" overflow-x-auto">
+  <div class="min-w-[700px] pb-2 md:pb-0">
+    {#await logs}
+      <SvelteHeatmap
+        data={[]}
+        endDate={endDate.toDate()}
+        startDate={startDate.toDate()}
+        view={'yearly'}
+      />
+    {:then l}
+      <SvelteHeatmap
+        data={convertLogsToHeatmapData(l)}
+        endDate={endDate.toDate()}
+        startDate={startDate.toDate()}
+        view={'yearly'}
+      />
+    {:catch err}
+      {err}
+    {/await}
+  </div>
+</div>
