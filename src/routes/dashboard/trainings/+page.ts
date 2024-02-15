@@ -1,5 +1,4 @@
 import { supabaseClient } from '$lib/supabase';
-import type { PageLoad } from './$types';
 import { error as err } from '@sveltejs/kit';
 import type { Training } from '$lib/models';
 import utils from '$lib/utils';
