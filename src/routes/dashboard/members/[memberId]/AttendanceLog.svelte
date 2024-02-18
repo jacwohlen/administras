@@ -36,13 +36,13 @@
   <ul class="list">
     {#each l.slice(0, currentItem) as i}
       <li>
-        <span>
-          {i.date}
+        <span class="flex-auto truncate">
+          <dt>
+            {i.date}
+          </dt>
+          <dd class="text-sm">{i.trainingId.title}</dd>
         </span>
-        <span class="flex-auto">
-          {i.trainingId.title}
-        </span>
-        <span class="flex-right">
+        <span class="text-sm">
           {i.trainingId.section}
         </span>
         <span>

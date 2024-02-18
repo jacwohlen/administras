@@ -1,6 +1,7 @@
 import { supabaseClient } from '$lib/supabase';
 import { to_number } from 'svelte/internal';
 import type { PageLoad } from './$types';
+import type { Athletes } from '$lib/models';
 
 export const load = (async ({ params }) => {
   let year: number;
@@ -19,23 +20,28 @@ export const load = (async ({ params }) => {
     }
   }
 
-  interface Athletes {
-    memberId: number;
-    lastname: string;
-    firstname: string;
-    count: number;
-  }
-
   async function getTopAthletes(mode: 'YEAR' | 'ALL', y: number | '') {
     if (mode === 'ALL') y = '';
     const { error, data } = await supabaseClient
-      .rpc('get_top_athletes', {
+      .rpc('get_top_athletes_by_section', {
         year: y
       })
       .returns<Athletes[]>();
 
     if (error) return [];
-    return data;
+
+    // Use reduce to group by 'section'
+    return data.reduce((accumulator: { [key: string]: Athletes[] }, currentItem: Athletes) => {
+      // If the section does not exist in the accumulator, create a new array for it
+      if (!accumulator[currentItem.section]) {
+        accumulator[currentItem.section] = [];
+      }
+
+      // Push the current item into the appropriate section
+      accumulator[currentItem.section].push(currentItem);
+
+      return accumulator;
+    }, {});
   }
 
   return {

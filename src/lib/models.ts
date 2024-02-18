@@ -25,3 +25,11 @@ export interface Log {
   memberId: Member;
   isMainTrainer: boolean;
 }
+
+export interface Athletes {
+  section: string;
+  memberId: number;
+  lastname: string;
+  firstname: string;
+  count: number;
+}

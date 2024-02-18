@@ -30,17 +30,14 @@
 
   async function previousYear() {
     year = year - 1;
-    currentItem = 10;
     l = getLogs();
   }
 
   async function nextYear() {
     year = year + 1;
-    currentItem = 10;
     l = getLogs();
   }
 
-  let currentItem: number = 10;
   $: year = new Date().getFullYear();
   $: l = getLogs();
 </script>

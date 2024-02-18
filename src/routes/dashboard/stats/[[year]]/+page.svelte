@@ -1,4 +1,5 @@
 <script lang="ts">
+  import TopAthletes from './TopAthletes.svelte';
   import Fa from 'svelte-fa';
   import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
   import { goto } from '$app/navigation';
@@ -22,9 +23,6 @@
     if (yearmode === 'YEAR') year = year + 1;
     goto(`/dashboard/stats/${year.toString()}`);
   }
-
-  $: topAthletes = data.topAthletes;
-  let currentItem = 10;
 </script>
 
 <div class="flex justify-between items-center m-2">
@@ -58,26 +56,13 @@
   </div>
 </div>
 
-<div class="card p-4">
-  {#await topAthletes.slice(0, currentItem) then items}
-    <h3>{$_('page.stats.topAthletes')}</h3>
-    <ol class="list-decimal py-4 px-8">
-      {#each items as item}
-        <li>{item.lastname} {item.firstname} ({item.count})</li>
-      {/each}
-    </ol>
-    {#if currentItem < topAthletes.length}
-      <button
-        class="btn btn-sm variant-filled-secondary"
-        on:click={() => (currentItem = currentItem + 10)}
-      >
-        {$_('button.loadMore')}
-      </button>
-    {/if}
-  {/await}
-</div>
+<div class="space-y-4">
+  <div class="card p-4">
+    <TopAthletes {data} />
+  </div>
 
-<div class="card p-4">
-  <h3>{$_('page.stats.topParticipants')}</h3>
-  <TopParticipantsStats {yearmode} {year} />
+  <div class="card p-4">
+    <h3>{$_('page.stats.topParticipants')}</h3>
+    <TopParticipantsStats {yearmode} {year} />
+  </div>
 </div>
