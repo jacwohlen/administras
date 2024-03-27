@@ -28,11 +28,11 @@
         .from('members')
         .update({ img: reader.result })
         .eq('id', data.id)
-        .single<Member>();
+        .select();
       if (error) {
         throw err(404, error);
       }
-      data.img = member.img;
+      data.img = member[0]['img'];
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
