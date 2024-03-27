@@ -72,6 +72,7 @@
           style="display: none;"
           accept="image/*"
           on:change={handlePhotoChange}
+          capture="user"
         />
         <button class="btn variant-filled-secondary" on:click={selectFiles}
           ><Fa icon={faCamera} /></button
