@@ -7,19 +7,20 @@
   import { supabaseClient } from '$lib/supabase';
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
+  import type { Member } from '$lib/models';
 
   export let data: PageData;
 
-  function handlePhotoChange(event: Event): void {
+  async function handlePhotoChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file: File = input.files[0];
       data.img = URL.createObjectURL(file);
-      updateSupabaseMember(file);
+      await updateSupabaseMember(file);
     }
   }
 
-  function updateSupabaseMember(file: File) {
+  async function updateSupabaseMember(file: File) {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = async function () {
@@ -27,10 +28,11 @@
         .from('members')
         .update({ img: reader.result })
         .eq('id', data.id)
-        .select();
+        .single<Member>();
       if (error) {
         throw err(404, error);
       }
+      data.img = member.img;
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
