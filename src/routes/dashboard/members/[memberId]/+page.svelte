@@ -3,7 +3,7 @@
   import { Avatar } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
   import MemberLogs from './MemberLogs.svelte';
-  import { faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
+  import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
@@ -51,7 +51,10 @@
   }
 
   function selectFiles() {
-    document.getElementById('selectedFile')?.click();
+    document.getElementById('selectFiles')?.click();
+  }
+  function takePhoto() {
+    document.getElementById('takePhoto')?.click();
   }
 </script>
 
@@ -66,22 +69,33 @@
           initials={data.lastname.charAt(0) + data.firstname.charAt(0)}
         />
       {/if}
-      <div class="flex flex-row justify-center">
-        <input
-          type="file"
-          id="selectedFile"
-          style="display: none;"
-          accept="image/*"
-          on:change={handlePhotoChange}
-          capture="user"
-        />
-        <button class="btn variant-filled-secondary" on:click={selectFiles}
-          ><Fa icon={faCamera} /></button
-        >
-        <div class="w-20" />
-        <button class="btn variant-filled-secondary" on:click={resetImage}
-          ><Fa icon={faTrash} /></button
-        >
+      <div class="flex flex-auto justify-center pt-2">
+        <div class="btn-group variant-filled-secondary">
+          <div>
+            <input
+              type="file"
+              id="selectFiles"
+              style="display: none;"
+              accept="image/*"
+              on:change={handlePhotoChange}
+            />
+            <button class="" on:click={selectFiles}><Fa icon={faUpload} /></button>
+          </div>
+          <div>
+            <input
+              type="file"
+              id="takePhoto"
+              style="display: none;"
+              accept="image/*"
+              on:change={handlePhotoChange}
+              capture="user"
+            />
+            <button class="" on:click={takePhoto}><Fa icon={faCamera} /></button>
+          </div>
+          <div>
+            <button class="" on:click={resetImage}><Fa icon={faTrash} /></button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="table-container">
