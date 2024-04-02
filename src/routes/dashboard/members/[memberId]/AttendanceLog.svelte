@@ -5,7 +5,7 @@
   import type { Log } from '$lib/models';
 
   export let logs: Promise<Log[]>;
-  let currentItem: number = 10;
+  let currentItem = 10;
 
   // Function to be called when logs is set or changed
   async function handleLogsChange(logsPromise: Promise<Log[]>) {

@@ -27,4 +27,3 @@ export SUPABASE_ANON_KEY=
 
 python webling.py
 ```
-

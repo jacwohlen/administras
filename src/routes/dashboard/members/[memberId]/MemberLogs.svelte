@@ -8,7 +8,7 @@
   import AttendanceGraph from './AttendanceGraph.svelte';
   import AttendanceLog from './AttendanceLog.svelte';
 
-  export let memberId: String;
+  export let memberId: string;
 
   async function getLogs() {
     // Fetch logs

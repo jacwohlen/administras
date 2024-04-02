@@ -38,7 +38,7 @@
   }
 
   async function resetImage() {
-    const { data: member, error } = await supabaseClient
+    const { error } = await supabaseClient
       .from('members')
       .update({ img: null })
       .eq('id', data.id)
