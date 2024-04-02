@@ -3,7 +3,7 @@
   export let yearmode: 'YEAR' | 'ALL';
 
   import '@carbon/charts/styles.css';
-  import { LineChart } from '@carbon/charts-svelte';
+  import { LineChart, type ChartTabularData } from '@carbon/charts-svelte';
   import { ScaleTypes } from '@carbon/charts/interfaces';
   import { supabaseClient } from '$lib/supabase';
 
@@ -26,7 +26,7 @@
       group: item.trainings.title,
       date: item.date,
       count: item.count
-    }));
+    })) as ChartTabularData;
   }
 
   $: data = getLogsSummary(yearmode, year);

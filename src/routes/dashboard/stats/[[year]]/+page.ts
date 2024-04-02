@@ -1,5 +1,4 @@
 import { supabaseClient } from '$lib/supabase';
-import { to_number } from 'svelte/internal';
 import type { PageLoad } from './$types';
 import type { Athletes } from '$lib/models';
 
@@ -16,7 +15,7 @@ export const load = (async ({ params }) => {
       year = new Date().getFullYear(); // Default
     } else {
       yearmode = 'YEAR';
-      year = to_number(params.year);
+      year = parseInt(params.year);
     }
   }
 
@@ -47,6 +46,6 @@ export const load = (async ({ params }) => {
   return {
     yearmode,
     year,
-    topAthletes: getTopAthletes(yearmode, year)
+    topAthletes: await getTopAthletes(yearmode, year)
   };
 }) satisfies PageLoad;

@@ -96,7 +96,8 @@
       .upsert({ trainingId: data.trainingId, memberId: event.detail.member.id })
       .select('members(*)')
       .single();
-    data.participants.push(d.data!.members as MMember);
+    console.log(d.data!);
+    data.participants.push(d.data!.members as unknown as MMember);
     _changePresence(event.detail.member, true, false);
     filterData(); // force reactivity
   }
