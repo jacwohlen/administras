@@ -21,7 +21,6 @@
       .order('date', { ascending: false })
       .returns<LogSummary[]>();
 
-    console.log(data);
     if (error) {
       throw err(404, error);
     }

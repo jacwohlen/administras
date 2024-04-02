@@ -55,7 +55,6 @@
   }
 
   async function _changePresence(member: MMember, checked: boolean, isMainTrainer: boolean) {
-    console.log('changePresense triggreed', member.id, checked, isMainTrainer);
     const index = data.participants.findIndex((m) => m.id === member.id);
     data.participants[index].isPresent = checked;
     data.participants[index].isMainTrainer = isMainTrainer;
@@ -86,7 +85,6 @@
   }
 
   async function addParticipant(event: CustomEvent<{ member: MMember }>) {
-    console.log('addParticipant triggered: ', event);
     const foundIndex = filteredData.findIndex((item) => item.id === event.detail.member.id);
     if (foundIndex > -1) {
       return; // member already there
@@ -96,14 +94,13 @@
       .upsert({ trainingId: data.trainingId, memberId: event.detail.member.id })
       .select('members(*)')
       .single();
-    console.log(d.data!);
+
     data.participants.push(d.data!.members as unknown as MMember);
     _changePresence(event.detail.member, true, false);
     filterData(); // force reactivity
   }
 
   async function removeParticipant(event: CustomEvent<{ member: MMember; checked: boolean }>) {
-    console.log('removeParticipant triggered: ', event.detail.member.id);
     await supabaseClient
       .from('participants')
       .delete()
@@ -118,7 +115,6 @@
   }
 
   async function nextWeek() {
-    console.log('nextWeek', data.date);
     let d = dayjs(data.date, 'YYYY-MM-DD');
     d = d.add(7, 'days');
     await goto(d.format('YYYY-MM-DD'));
@@ -126,7 +122,6 @@
   }
 
   async function previousWeek() {
-    console.log('previousWeek', data.date);
     let d = dayjs(data.date, 'YYYY-MM-DD');
     d = d.subtract(7, 'days');
     await goto(d.format('YYYY-MM-DD'));
