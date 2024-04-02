@@ -144,33 +144,32 @@ $$;
 --select * from get_top_athletes(text '2022');
 ```
 
-
 ```sql
 -- drop function get_top_athletes_by_section(d text);
-CREATE OR REPLACE function get_top_athletes_by_section (year text) 
-returns table (section text, memberId int2, lastname text, firstname text, count bigint) 
+CREATE OR REPLACE function get_top_athletes_by_section (year text)
+returns table (section text, memberId int2, lastname text, firstname text, count bigint)
 language plpgsql as $$
 declare
 begin
   return query
-select 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname, 
-  count(*) 
-from 
-  logs 
-  inner join members on members."id" = logs."memberId" 
-  inner join trainings on trainings."id" = logs."trainingId" 
-where 
-  logs."date" like concat(year, '%') 
-group by 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname 
-order by 
+select
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname,
+  count(*)
+from
+  logs
+  inner join members on members."id" = logs."memberId"
+  inner join trainings on trainings."id" = logs."trainingId"
+where
+  logs."date" like concat(year, '%')
+group by
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname
+order by
   count desc;
 end;
 $$;
@@ -179,6 +178,7 @@ $$;
 ```
 
 5. Secure Login (restrict to google accounts of given domain)
+
 ```sql
 -- create function with validates email to be from domain "jacwohlen.ch"
 CREATE OR REPLACE FUNCTION validate_google_domain()
@@ -202,4 +202,3 @@ BEFORE INSERT OR UPDATE ON auth.users
 FOR EACH ROW
 EXECUTE FUNCTION validate_google_domain();
 ```
-

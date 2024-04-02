@@ -5,7 +5,7 @@
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
 
-  export let trainingId: String;
+  export let trainingId: string;
 
   interface LogSummary {
     trainingId: number;

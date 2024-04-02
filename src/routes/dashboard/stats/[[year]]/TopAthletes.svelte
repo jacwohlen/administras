@@ -6,6 +6,7 @@
   export let data: PageData;
 
   $: topAthletes = data.topAthletes as { [key: string]: Athletes[] };
+  console.log(topAthletes);
 </script>
 
 <h3>{$_('page.stats.topAthletes')}</h3>

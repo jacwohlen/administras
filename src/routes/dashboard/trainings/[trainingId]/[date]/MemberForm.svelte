@@ -2,8 +2,8 @@
   import { modalStore } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
 
-  export let lastname: string = '';
-  export let firstname: string = '';
+  export let lastname = '';
+  export let firstname = '';
 
   let formData = {
     lastname: lastname,

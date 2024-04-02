@@ -27,7 +27,7 @@
     cancel();
   };
 
-  let tabSet: number = 0;
+  let tabSet = 0;
   if ($page.route.id == '/dashboard') {
     tabSet = 0;
   } else if ($page.route.id?.startsWith('/dashboard/trainings')) {
