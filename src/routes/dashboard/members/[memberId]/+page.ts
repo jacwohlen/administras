@@ -2,15 +2,34 @@ import type { PageLoad } from './$types';
 import { error as err } from '@sveltejs/kit';
 import type { Member } from '$lib/models';
 import { supabaseClient } from '$lib/supabase';
+import { blobToURL } from 'image-resize-compress';
+import dayjs from 'dayjs';
+
 
 export const load = (async ({ params }) => {
-  const { error, data } = await supabaseClient
+  const { data: memberData, error: memberError } = await supabaseClient
     .from('members')
     .select()
     .eq('id', params.memberId)
     .single<Member>();
-  if (error) {
-    throw err(404, error);
+
+  if (memberError) {
+    throw err(404, memberError);
   }
-  return data;
+  if (memberData.img && memberData.imgUploaded) {
+    memberData.imgUploaded = dayjs(memberData.imgUploaded) // cast to dayjs for easier handling
+
+    const { data: avatarData, error: avatarError } = await supabaseClient.storage
+      .from('avatars')
+      .download(memberData.id + '_' + memberData.imgUploaded.valueOf() + '.webp');
+
+    if (avatarData) {
+      memberData.img = await blobToURL(avatarData);
+    }
+    if (avatarError) {
+      throw err(404, avatarError);
+    }
+  }
+
+  return memberData;
 }) satisfies PageLoad;

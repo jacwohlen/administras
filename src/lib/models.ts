@@ -1,3 +1,5 @@
+import type { Dayjs } from "dayjs";
+
 export interface Member {
   id: string;
   firstname: string;
@@ -6,6 +8,7 @@ export interface Member {
   mobile?: string;
   labels?: string[];
   img?: string;
+  imgUploaded?: string | Dayjs;
 }
 
 export interface Training {

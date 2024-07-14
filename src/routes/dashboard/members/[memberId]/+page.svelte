@@ -1,52 +1,104 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import { Avatar } from '@skeletonlabs/skeleton';
+  import { Avatar, ProgressRadial } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
   import MemberLogs from './MemberLogs.svelte';
   import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
+  import { blobToURL, fromBlob } from 'image-resize-compress';
+  import dayjs, { type Dayjs } from 'dayjs';
 
   export let data: PageData;
+  let loadingImage: boolean = false;
 
   async function handlePhotoChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file: File = input.files[0];
-      await updateSupabaseMember(file);
+      const newTimeStamp = dayjs();
+      const oldTimeStamp = data.imgUploaded;
+      loadingImage = true;
+      const url = await uploadNewProfilePictureToStorage(newTimeStamp, file);
+      await updateSupabaseMember(file, newTimeStamp);
+      await removeOldProfilePictureFromStorage(oldTimeStamp);
+      data.img = url;
+      data.imgUploaded = newTimeStamp;
+      loadingImage = false;
     }
   }
 
-  async function updateSupabaseMember(file: File) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = async function () {
-      const { data: member, error } = await supabaseClient
-        .from('members')
-        .update({ img: reader.result })
-        .eq('id', data.id)
-        .select();
-      if (error) {
-        throw err(404, error);
-      }
-      data.img = member[0]['img'];
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-  }
+  async function updateSupabaseMember(file: File, timeStamp: Dayjs) {
+    const quality = 80;
+    const width = 128;
+    const height = 'auto';
+    const format = 'webp';
+    const blob = await fromBlob(file, quality, width, height, format);
+    const url = await blobToURL(blob);
 
-  async function resetImage() {
     const { error } = await supabaseClient
       .from('members')
-      .update({ img: null })
-      .eq('id', data.id)
-      .select();
+      .update({ img: url, imgUploaded: timeStamp })
+      .eq('id', data.id);
+
     if (error) {
       throw err(404, error);
     }
+  }
+
+  async function removeOldProfilePictureFromStorage(timestamp: string | Dayjs | undefined) {
+    if (timestamp) {
+      const oldFileName = data.id + '_' + timestamp.valueOf() + '.webp';
+      const { error: deleteError } = await supabaseClient.storage
+        .from('avatars')
+        .remove([oldFileName]);
+
+      if (deleteError) {
+        throw err(404, deleteError);
+      }
+    }
+  }
+
+  async function uploadNewProfilePictureToStorage(timestamp: Dayjs, file: File) {
+    const quality = 80;
+    const width = 512;
+    const height = 'auto';
+    const format = 'webp';
+    const newFileName = data.id + '_' + timestamp.valueOf() + '.webp';
+    const blob = await fromBlob(file, quality, width, height, format);
+    const url = await blobToURL(blob);
+
+    const { error: uploadError } = await supabaseClient.storage
+      .from('avatars')
+      .upload(newFileName, blob, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) {
+      throw err(404, uploadError);
+    }
+
+    return url;
+  }
+
+  async function resetImage() {
+    loadingImage = true;
+    const { error } = await supabaseClient
+      .from('members')
+      .update({ img: null, imgUploaded: null })
+      .eq('id', data.id)
+      .select();
+
+    if (error) {
+      throw err(404, error);
+    }
+
+    await removeOldProfilePictureFromStorage(data.imgUploaded);
     data.img = undefined;
+    data.imgUploaded = undefined;
+    loadingImage = false;
   }
 
   function selectFiles() {
@@ -60,14 +112,21 @@
 <div class="space-y-4">
   <div class="card p-4">
     <div class="mb-4">
-      {#if data.img}
-        <Avatar class="mx-auto w-56" src={data.img} />
-      {:else}
-        <Avatar
-          class="mx-auto w-56"
-          initials={data.lastname.charAt(0) + data.firstname.charAt(0)}
-        />
-      {/if}
+      <div class="relative w-56 mx-auto">
+        {#if data.img}
+          <Avatar class="mx-auto w-56" src={data.img} />
+        {:else}
+          <Avatar
+            class="mx-auto w-56"
+            initials={data.lastname.charAt(0) + data.firstname.charAt(0)}
+          />
+        {/if}
+        {#if loadingImage}
+          <div class="absolute inset-0">
+            <ProgressRadial value={undefined} />
+          </div>
+        {/if}
+      </div>
       <div class="flex flex-auto justify-center pt-2">
         <div class="btn-group variant-filled-secondary">
           <div>
