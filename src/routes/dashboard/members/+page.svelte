@@ -20,7 +20,7 @@
         <dd class="text-xs">
           {#if m.labels}
             {#each m.labels as l (l)}
-              <span class="badge variant-filled-secondary font-normal h-4">{l}</span>
+              <span class="badge variant-filled-secondary font-normal h-4 mx-0.5">{l}</span>
             {/each}
           {/if}
         </dd>

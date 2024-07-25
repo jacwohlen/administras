@@ -5,7 +5,7 @@ import { supabaseClient } from '$lib/supabase';
 export async function load() {
   const { error, data } = await supabaseClient
     .from('members')
-    .select()
+    .select('id, lastname, firstname, labels')
     .order('lastname', { ascending: true })
     .order('firstname', { ascending: true })
     .returns<Member[]>();
