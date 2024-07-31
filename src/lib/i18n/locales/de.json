@@ -33,6 +33,17 @@
       "birthday": "Geburtstag",
       "mobile": "Mobiltelefon",
       "labels": "Labels",
+      "trainingsSummary": {
+        "title": "Trainings Übersicht",
+        "noItems": "Keine Trainings registriert",
+        "table": {
+          "title": "Training",
+          "section": "Sektion",
+          "attendance": "#Teilnahmen",
+          "trainer": "#Trainer",
+          "total": "#Total"
+        }
+      },
       "trainingsHistory": {
         "title": "Trainings Historie",
         "noItems": "Keine Trainings registriert"
@@ -88,5 +99,14 @@
     "Friday": "Freitag",
     "Saturday": "Samstag",
     "Sunday": "Sonntag"
+  },
+  "weekdayShort": {
+    "Monday": "Mo",
+    "Tuesday": "Di",
+    "Wednesday": "Mi",
+    "Thursday": "Do",
+    "Friday": "Fr",
+    "Saturday": "Sa",
+    "Sunday": "So"
   }
 }

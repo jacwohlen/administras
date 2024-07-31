@@ -7,6 +7,7 @@
   import type { Log } from '$lib/models';
   import AttendanceGraph from './AttendanceGraph.svelte';
   import AttendanceLog from './AttendanceLog.svelte';
+  import AttendanceSummary from './AttendanceSummary.svelte';
 
   export let memberId: string;
 
@@ -14,7 +15,7 @@
     // Fetch logs
     const { error, data } = await supabaseClient
       .from('logs')
-      .select('date, trainingId ( id, title, section )')
+      .select('date, trainingId ( id, title, section, weekday ), isMainTrainer')
       .eq('memberId', memberId)
       .gte('date', year + '-01-01')
       .lte('date', year + '-12-31')
@@ -59,6 +60,9 @@
 </div>
 <div class="card p-4">
   <AttendanceGraph logs={l} {year} />
+</div>
+<div class="card p-4">
+  <AttendanceSummary logs={l} />
 </div>
 <div class="card p-4">
   <AttendanceLog logs={l} />
