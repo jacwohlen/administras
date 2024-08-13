@@ -89,8 +89,13 @@ TODO
 1. Create View for logs summary
 
 ```sql
-create view view_logs_summary as
-select date, "trainingId", count("memberId") from logs group by date, "trainingId"
+create view view_logs_summary
+  with (security_invoker=on)
+  as
+select
+  date, "trainingId", count("memberId")
+from
+  logs group by date, "trainingId"
 ```
 
 2. Create function for checklist
@@ -117,8 +122,13 @@ $$;
 3. Create View to faciliate seaching members
 
 ```sql
-create view view_search_members as
-  select id, concat(lastname, ' ', firstname) as fullname, firstname, lastname from members
+create view view_search_members
+  with (security_invoker=on)
+  as
+select
+  id, concat(lastname, ' ', firstname) as fullname, firstname, lastname
+from
+  members
 ```
 
 4. Create functions for stats
