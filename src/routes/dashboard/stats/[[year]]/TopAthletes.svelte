@@ -2,6 +2,7 @@
   import type { Athletes } from '$lib/models';
   import type { PageData } from './$types';
   import { _ } from 'svelte-i18n';
+  import TopList from './TopList.svelte';
 
   export let data: PageData;
 
@@ -9,19 +10,8 @@
 </script>
 
 <h3>{$_('page.stats.topAthletes')}</h3>
-<div class="flex flex-row overflow-x-auto snap-x gap-4">
+<div class="gap-4 justify-start flex flex-col sm:flex-row">
   {#each Object.keys(topAthletes) as section}
-    <div class="flex-none snap-start pl-4 pt-2 pb-4 card bg-white">
-      <h3 class="indent-2">{section}</h3>
-      <div class="overflow-y-auto h-60 mr-2">
-        <ol class="list-decimal list-inside mr-2">
-          {#each topAthletes[section] as item}
-            <li>
-              <span class="text-nowrap">{item.lastname} {item.firstname} ({item.count})</span>
-            </li>
-          {/each}
-        </ol>
-      </div>
-    </div>
+    <TopList {section} athletes={topAthletes} />
   {/each}
 </div>
