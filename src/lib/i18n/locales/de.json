@@ -52,6 +52,7 @@
     "stats": {
       "all": "Alle",
       "topAthletes": "Top Athleten",
+      "topTrainers": "Top Trainers",
       "topParticipants": "Top Teilnehmer pro Training"
     }
   },

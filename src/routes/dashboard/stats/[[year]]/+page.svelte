@@ -7,6 +7,7 @@
   import TopParticipantsStats from './TopParticipantsStats.svelte';
   import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
+  import TopTrainers from './TopTrainers.svelte';
 
   export let data: PageData;
 
@@ -59,6 +60,10 @@
 <div class="space-y-4">
   <div class="card p-4">
     <TopAthletes {data} />
+  </div>
+
+  <div class="card p-4">
+    <TopTrainers {data} />
   </div>
 
   <div class="card p-4">
