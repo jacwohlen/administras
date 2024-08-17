@@ -1,5 +1,6 @@
 import { supabaseClient } from '$lib/supabase';
 import type { PageLoad } from './$types';
+import { error as err } from '@sveltejs/kit';
 import type { Athletes } from '$lib/models';
 
 export const load = (async ({ params }) => {
@@ -27,10 +28,12 @@ export const load = (async ({ params }) => {
       })
       .returns<Athletes[]>();
 
-    if (error) return [];
+    if (error) {
+      throw err(404, error);
+    }
 
     // Use reduce to group by 'section'
-    return data.reduce((accumulator: { [key: string]: Athletes[] }, currentItem: Athletes) => {
+    const groupedData = data.reduce((accumulator: { [key: string]: Athletes[] }, currentItem: Athletes) => {
       // If the section does not exist in the accumulator, create a new array for it
       if (!accumulator[currentItem.section]) {
         accumulator[currentItem.section] = [];
@@ -41,6 +44,15 @@ export const load = (async ({ params }) => {
 
       return accumulator;
     }, {});
+
+    const orderedData = Object.keys(groupedData)
+      .sort() // Sort the keys alphabetically
+      .reduce((sortedAccumulator: { [key: string]: Athletes[] }, key: string) => {
+        sortedAccumulator[key] = groupedData[key];
+        return sortedAccumulator;
+      }, {});
+
+    return orderedData as { [key: string]: Athletes[] };
   }
 
   return {
