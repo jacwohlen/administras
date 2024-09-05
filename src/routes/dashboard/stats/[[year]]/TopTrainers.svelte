@@ -48,7 +48,7 @@
 </script>
 
 <h3>{$_('page.stats.topTrainers')}</h3>
-<div class="gap-4 justify-start flex flex-col sm:flex-row">
+<div class="gap-4 justify-start flex flex-col md:flex-row">
   {#await getTopTrainers(data.yearmode, data.year)}
     <div class="overflow-y-auto w-full h-72 mx-2">
       <span class="flex gap-2">

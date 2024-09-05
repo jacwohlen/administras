@@ -10,7 +10,7 @@
 </script>
 
 <h3>{$_('page.stats.topAthletes')}</h3>
-<div class="gap-4 justify-start flex flex-col sm:flex-row">
+<div class="gap-4 justify-start flex flex-col md:flex-row">
   {#each Object.keys(topAthletes) as section}
     <TopList {section} athletes={topAthletes} />
   {/each}
