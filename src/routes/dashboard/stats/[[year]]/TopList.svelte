@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Athletes } from '$lib/models';
   import { supabaseClient } from '$lib/supabase';
-  import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+  import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
   import { Avatar } from '@skeletonlabs/skeleton';
   import Fa from 'svelte-fa';
 
@@ -29,7 +29,7 @@
   <div class="flex justify-between">
     <h3 class="indent-2">{section}</h3>
     <a class="btn btn-sm" href={'/dashboard/stats/' + year + '/top/' + category + '/' + section}>
-      <Fa icon={faArrowRight} />
+      <Fa icon={faAngleRight} />
     </a>
   </div>
   <div class="grid grid-cols-3 gap-4">
