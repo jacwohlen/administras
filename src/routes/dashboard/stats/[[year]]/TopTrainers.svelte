@@ -63,7 +63,12 @@
     </div>
   {:then topTrainers}
     {#each Object.keys(topTrainers) as section}
-      <TopList {section} category="trainers" athletes={topTrainers} />
+      <TopList
+        {section}
+        year={data.yearmode === 'ALL' ? 'ALL' : data.year.toString()}
+        category="trainers"
+        athletes={topTrainers}
+      />
     {/each}
   {/await}
 </div>

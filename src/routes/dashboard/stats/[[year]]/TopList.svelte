@@ -4,15 +4,16 @@
   import { Avatar } from '@skeletonlabs/skeleton';
   import Fa from 'svelte-fa';
 
-  export let section: string;
+  export let year: string;
   export let category: string;
+  export let section: string;
   export let athletes: { [key: string]: Athletes[] };
 </script>
 
 <div class="card bg-white p-4 pt-2 pb-4 min-w-72">
   <div class="flex justify-between">
     <h3 class="indent-2">{section}</h3>
-    <a class="btn btn-sm" href={'/dashboard/stats/2024/top/' + category + '/' + section}>
+    <a class="btn btn-sm" href={'/dashboard/stats/' + year + '/top/' + category + '/' + section}>
       <Fa icon={faArrowRight} />
     </a>
   </div>
