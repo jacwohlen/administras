@@ -12,6 +12,6 @@
 <h3>{$_('page.stats.topAthletes')}</h3>
 <div class="gap-4 justify-start flex flex-col md:flex-row">
   {#each Object.keys(topAthletes) as section}
-    <TopList {section} athletes={topAthletes} />
+    <TopList {section} category="athletes" athletes={topAthletes} />
   {/each}
 </div>

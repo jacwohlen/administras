@@ -63,7 +63,7 @@
     </div>
   {:then topTrainers}
     {#each Object.keys(topTrainers) as section}
-      <TopList {section} athletes={topTrainers} />
+      <TopList {section} category="trainers" athletes={topTrainers} />
     {/each}
   {/await}
 </div>
