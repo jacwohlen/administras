@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import Fa from 'svelte-fa';
-  import { faGripLines } from '@fortawesome/free-solid-svg-icons';
+  import { faDownload, faGripLines } from '@fortawesome/free-solid-svg-icons';
   import { _ } from 'svelte-i18n';
+  import type { Athletes } from '$lib/models';
 
   export let data: PageData;
   let searchTerm: string = '';
@@ -13,16 +14,41 @@
     let lastfirst = lastname.toLowerCase() + ' ' + firstname.toLowerCase();
     return firstlast.startsWith(q) || lastfirst.startsWith(q);
   };
+
+  // Convert data to CSV format
+  function convertToCSV(data: Athletes[]) {
+    const headers = Object.keys(data[0]).join(',') + '\n'; // Get the keys for headers
+    const rows = data.map((row) => Object.values(row).join(',')).join('\n'); // Get the rows
+    return headers + rows;
+  }
+
+  // Download the CSV file
+  function downloadCsv() {
+    const csvData = convertToCSV(data.athletes);
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+
+    const filename = data.category + '_' + data.section + '_' + data.year + '.csv';
+    a.setAttribute('href', url);
+    a.setAttribute('download', filename);
+    a.click();
+
+    window.URL.revokeObjectURL(url); // Clean up the URL object after download
+  }
 </script>
 
-<h1>
-  {#if data.category?.toLowerCase() == 'athletes'}
-    {$_('page.stats.topAthletes')}
-  {:else}
-    {$_('page.stats.topTrainers')}
-  {/if}
-  {data.section}
-</h1>
+<span class="flex justify-between">
+  <h1>
+    {#if data.category?.toLowerCase() == 'athletes'}
+      {$_('page.stats.topAthletes')}
+    {:else}
+      {$_('page.stats.topTrainers')}
+    {/if}
+    {data.section}
+  </h1>
+  <button type="button" class="btn-icon" on:click={downloadCsv}><Fa icon={faDownload} /></button>
+</span>
 <div class="m-2">
   <input
     class="input"

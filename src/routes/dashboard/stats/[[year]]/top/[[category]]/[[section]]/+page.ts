@@ -26,6 +26,7 @@ export async function load({ params }) {
                 throw err(404, athletesError);
             }
             return {
+                year: params.year,
                 section: params.section,
                 category: params.category,
                 athletes: athletesData
@@ -44,6 +45,7 @@ export async function load({ params }) {
             }
 
             return {
+                year: params.year,
                 section: params.section,
                 category: params.category,
                 athletes: trainersData
