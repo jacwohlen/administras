@@ -1,17 +1,19 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import { Avatar, ProgressRadial } from '@skeletonlabs/skeleton';
+  import { Avatar, ProgressRadial, modalStore, toastStore } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
   import MemberLogs from './MemberLogs.svelte';
-  import { faCamera, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
+  import { faCamera, faTrash, faUpload, faUserMinus } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
   import { blobToURL, fromBlob } from 'image-resize-compress';
   import dayjs, { type Dayjs } from 'dayjs';
+  import { goto } from '$app/navigation';
 
   export let data: PageData;
   let loadingImage: boolean = false;
+  let isDeleting: boolean = false;
 
   async function handlePhotoChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -107,9 +109,78 @@
   function takePhoto() {
     document.getElementById('takePhoto')?.click();
   }
+
+  function confirmDelete() {
+    const modal = {
+      type: 'confirm',
+      title: $_('page.members.deleteConfirmTitle'),
+      body: `${$_('page.members.deleteConfirmMessage')} ${data.firstname} ${data.lastname}?`,
+      buttonTextConfirm: $_('button.delete'),
+      buttonTextCancel: $_('button.cancel'),
+      response: handleDeleteResponse
+    };
+    modalStore.trigger(modal);
+  }
+
+  async function handleDeleteResponse(confirmed: boolean) {
+    if (!confirmed) return;
+
+    isDeleting = true;
+
+    try {
+      // First remove profile picture from storage if it exists
+      if (data.imgUploaded) {
+        await removeOldProfilePictureFromStorage(data.imgUploaded);
+      }
+
+      // Delete the member from the database
+      const { error } = await supabaseClient.from('members').delete().eq('id', data.id);
+
+      if (error) {
+        throw error;
+      }
+
+      // Show success toast
+      toastStore.trigger({
+        message: $_('page.members.deleteSuccess'),
+        background: 'variant-filled-success'
+      });
+
+      // Navigate back to members list
+      goto('/dashboard/members');
+    } catch (error) {
+      console.error('Error deleting member:', error);
+      toastStore.trigger({
+        message: $_('page.members.deleteError'),
+        background: 'variant-filled-error'
+      });
+      isDeleting = false;
+    }
+  }
 </script>
 
 <div class="space-y-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="h2">{data.firstname} {data.lastname}</h2>
+    <button
+      class="btn btn-sm variant-filled-secondary"
+      on:click={confirmDelete}
+      disabled={isDeleting}
+    >
+      {#if isDeleting}
+        <ProgressRadial
+          width="w-6"
+          stroke={100}
+          meter="stroke-surface-50"
+          track="stroke-error-500"
+        />
+      {:else}
+        <Fa icon={faUserMinus} />
+        <span>{$_('button.delete')}</span>
+      {/if}
+    </button>
+  </div>
+
   <div class="card p-4">
     <div class="mb-4">
       <div class="relative w-56 mx-auto">

@@ -37,6 +37,10 @@
       "newMember": "New Member",
       "createdSuccess": "Member created successfully",
       "createError": "Error creating member",
+      "deleteConfirmTitle": "Delete Member",
+      "deleteConfirmMessage": "Are you sure you want to delete",
+      "deleteSuccess": "Member deleted successfully",
+      "deleteError": "Error deleting member",
       "trainingsSummary": {
         "title": "Trainings Summary",
         "noItems": "No trainings registered",
@@ -80,8 +84,9 @@
     "remove": "Remove",
     "add": "Add",
     "createNew": "Create New",
-    "cancle": "Cancel",
-    "confirm": "Confirm"
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete"
   },
   "dialog": {
     "newMember": {

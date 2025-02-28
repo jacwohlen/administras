@@ -37,6 +37,10 @@
       "newMember": "Neues Mitglied",
       "createdSuccess": "Mitglied erfolgreich erstellt",
       "createError": "Fehler beim Erstellen des Mitglieds",
+      "deleteConfirmTitle": "Mitglied löschen",
+      "deleteConfirmMessage": "Bist du sicher, dass du das Mitglied löschen möchtest",
+      "deleteSuccess": "Mitglied erfolgreich gelöscht",
+      "deleteError": "Fehler beim Löschen des Mitglieds",
       "trainingsSummary": {
         "title": "Trainings Übersicht",
         "noItems": "Keine Trainings registriert",
@@ -80,8 +84,9 @@
     "remove": "Entfernen",
     "add": "Hinzufügen",
     "createNew": "Neu Erstellen",
-    "cancle": "Abbrechen",
-    "confirm": "Bestätigen"
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "delete": "Löschen"
   },
   "dialog": {
     "newMember": {
