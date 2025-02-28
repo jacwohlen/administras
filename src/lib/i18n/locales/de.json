@@ -33,6 +33,10 @@
       "birthday": "Geburtstag",
       "mobile": "Mobiltelefon",
       "labels": "Labels",
+      "addMember": "Mitglied hinzufügen",
+      "newMember": "Neues Mitglied",
+      "createdSuccess": "Mitglied erfolgreich erstellt",
+      "createError": "Fehler beim Erstellen des Mitglieds",
       "trainingsSummary": {
         "title": "Trainings Übersicht",
         "noItems": "Keine Trainings registriert",

@@ -1,13 +1,17 @@
 <script lang="ts">
   import { modalStore } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
+  import Fa from 'svelte-fa';
+  import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
   export let lastname = '';
   export let firstname = '';
+  export let isSubmitting = false;
 
   let formData = {
     lastname: lastname,
-    firstname: firstname
+    firstname: firstname,
+    labels: ['new']
   };
 
   function cancel() {
@@ -29,6 +33,7 @@
       bind:value={formData.lastname}
       type="text"
       placeholder={$_('dialog.newMember.lastNamePlaceholder')}
+      required
     />
   </label>
   <label class="label">
@@ -38,10 +43,22 @@
       bind:value={formData.firstname}
       type="text"
       placeholder={$_('dialog.newMember.firstNamePlaceholder')}
+      required
     />
   </label>
 </form>
 <footer class="modal-footer flex justify-end space-x-2">
   <button class="btn variant-ghost-surface" on:click={cancel}>{$_('button.cancle')}</button>
-  <button class="btn variant-filled" on:click={onFormSubmit}>{$_('button.add')}</button>
+  <button
+    class="btn variant-filled-primary"
+    disabled={!formData.firstname || !formData.lastname || isSubmitting}
+    on:click={onFormSubmit}
+  >
+    {#if isSubmitting}
+      <Fa icon={faSpinner} spin />
+    {:else}
+      {$_('button.add')}
+    {/if}
+  </button>
 </footer>
+
