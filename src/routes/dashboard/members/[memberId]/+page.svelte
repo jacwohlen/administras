@@ -143,7 +143,9 @@
       // Show success toast
       toastStore.trigger({
         message: $_('page.members.deleteSuccess'),
-        background: 'variant-filled-success'
+        background: 'variant-filled-success',
+        timeout: 4000,
+        classes: 'border-l-4 border-green-500'
       });
 
       // Navigate back to members list
@@ -152,7 +154,9 @@
       console.error('Error deleting member:', error);
       toastStore.trigger({
         message: $_('page.members.deleteError'),
-        background: 'variant-filled-error'
+        background: 'variant-filled-error',
+        timeout: 6000,
+        classes: 'border-l-4 border-red-500'
       });
       isDeleting = false;
     }
