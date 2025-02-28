@@ -42,6 +42,6 @@
   </label>
 </form>
 <footer class="modal-footer flex justify-end space-x-2">
-  <button class="btn variant-ghost-surface" on:click={cancel}>{$_('button.cancle')}</button>
+  <button class="btn variant-ghost-surface" on:click={cancel}>{$_('button.cancel')}</button>
   <button class="btn variant-filled" on:click={onFormSubmit}>{$_('button.add')}</button>
 </footer>

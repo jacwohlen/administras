@@ -48,7 +48,7 @@
   </label>
 </form>
 <footer class="modal-footer flex justify-end space-x-2">
-  <button class="btn variant-ghost-surface" on:click={cancel}>{$_('button.cancle')}</button>
+  <button class="btn variant-ghost-surface" on:click={cancel}>{$_('button.cancel')}</button>
   <button
     class="btn variant-filled-primary"
     disabled={!formData.firstname || !formData.lastname || isSubmitting}
@@ -61,4 +61,3 @@
     {/if}
   </button>
 </footer>
-

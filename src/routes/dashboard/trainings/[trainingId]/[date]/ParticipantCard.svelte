@@ -26,7 +26,7 @@
       // TRUE if confirm pressed, FALSE if cancel pressed
       response: (r: boolean) => r === true && dispatch('remove', { member }),
       // Optionally override the button text
-      buttonTextCancel: $_('button.cancle'),
+      buttonTextCancel: $_('button.cancel'),
       buttonTextConfirm: $_('button.confirm')
     };
     modalStore.trigger(confirm);
