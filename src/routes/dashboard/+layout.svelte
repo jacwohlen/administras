@@ -10,7 +10,7 @@
     faList,
     faUser
   } from '@fortawesome/free-solid-svg-icons';
-  import { Modal } from '@skeletonlabs/skeleton';
+  import { Modal, Toast } from '@skeletonlabs/skeleton';
   import type { SubmitFunction } from '@sveltejs/kit';
   import { supabaseClient } from '$lib/supabase';
   import { enhance } from '$app/forms';
@@ -102,4 +102,5 @@
     <slot />
   </div>
   <Modal />
+  <Toast />
 </AppShell>
