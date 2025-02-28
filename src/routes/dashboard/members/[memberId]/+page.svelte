@@ -1,19 +1,21 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import { Avatar, ProgressRadial, modalStore, toastStore } from '@skeletonlabs/skeleton';
+  import { Avatar, ProgressRadial, modalStore, toastStore, type ModalComponent } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
   import MemberLogs from './MemberLogs.svelte';
-  import { faCamera, faTrash, faUpload, faUserMinus } from '@fortawesome/free-solid-svg-icons';
+  import { faCamera, faEdit, faTrash, faUpload, faUserMinus } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
   import { blobToURL, fromBlob } from 'image-resize-compress';
   import dayjs, { type Dayjs } from 'dayjs';
-  import { goto } from '$app/navigation';
+  import { goto, invalidate } from '$app/navigation';
+  import MemberForm from '../MemberForm.svelte';
 
   export let data: PageData;
   let loadingImage: boolean = false;
   let isDeleting: boolean = false;
+  let isEditing: boolean = false;
 
   async function handlePhotoChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -110,6 +112,75 @@
     document.getElementById('takePhoto')?.click();
   }
 
+  function showEditForm() {
+    const modalComponent: ModalComponent = {
+      ref: MemberForm,
+      props: { 
+        isEditing: true,
+        isSubmitting: isEditing,
+        id: data.id,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        birthday: data.birthday,
+        mobile: data.mobile,
+        labels: data.labels
+      }
+    };
+
+    const modal = {
+      type: 'component',
+      component: modalComponent,
+      response: handleEditResponse
+    };
+
+    modalStore.trigger(modal);
+  }
+
+  async function handleEditResponse(result: any) {
+    if (!result) return;
+
+    isEditing = true;
+
+    try {
+      // Update the member in the database
+      const { error } = await supabaseClient
+        .from('members')
+        .update({
+          firstname: result.firstname,
+          lastname: result.lastname,
+          birthday: result.birthday,
+          mobile: result.mobile,
+          labels: result.labels
+        })
+        .eq('id', data.id);
+
+      if (error) {
+        throw error;
+      }
+
+      // Show success toast
+      toastStore.trigger({
+        message: $_('dialog.editMember.updateSuccess'),
+        background: 'variant-filled-success',
+        timeout: 4000,
+        classes: 'border-l-4 border-green-500'
+      });
+      
+      // Invalidate the data to refresh
+      invalidate('app:member:' + data.id);
+    } catch (error) {
+      console.error('Error updating member:', error);
+      toastStore.trigger({
+        message: $_('dialog.editMember.updateError'),
+        background: 'variant-filled-error',
+        timeout: 6000,
+        classes: 'border-l-4 border-red-500'
+      });
+    } finally {
+      isEditing = false;
+    }
+  }
+
   function confirmDelete() {
     const modal = {
       type: 'confirm',
@@ -166,23 +237,32 @@
 <div class="space-y-4">
   <div class="flex justify-between items-center mb-4">
     <h2 class="h2">{data.firstname} {data.lastname}</h2>
-    <button
-      class="btn btn-sm variant-filled-secondary"
-      on:click={confirmDelete}
-      disabled={isDeleting}
-    >
-      {#if isDeleting}
-        <ProgressRadial
-          width="w-6"
-          stroke={100}
-          meter="stroke-surface-50"
-          track="stroke-error-500"
-        />
-      {:else}
-        <Fa icon={faUserMinus} />
-        <span>{$_('button.delete')}</span>
-      {/if}
-    </button>
+    <div class="flex gap-2">
+      <button
+        class="btn btn-sm variant-filled-primary"
+        on:click={showEditForm}
+      >
+        <Fa icon={faEdit} />
+        <span>{$_('button.edit')}</span>
+      </button>
+      <button
+        class="btn btn-sm variant-filled-secondary"
+        on:click={confirmDelete}
+        disabled={isDeleting}
+      >
+        {#if isDeleting}
+          <ProgressRadial
+            width="w-6"
+            stroke={100}
+            meter="stroke-surface-50"
+            track="stroke-error-500"
+          />
+        {:else}
+          <Fa icon={faUserMinus} />
+          <span>{$_('button.delete')}</span>
+        {/if}
+      </button>
+    </div>
   </div>
 
   <div class="card p-4">

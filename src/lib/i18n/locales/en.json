@@ -83,6 +83,8 @@
     "loadMore": "Load More",
     "remove": "Remove",
     "add": "Add",
+    "save": "Save",
+    "edit": "Edit",
     "createNew": "Create New",
     "cancel": "Cancel",
     "confirm": "Confirm",
@@ -95,6 +97,11 @@
       "firstName": "First Name",
       "lastNamePlaceholder": "Enter Last Name...",
       "firstNamePlaceholder": "Enter First Name..."
+    },
+    "editMember": {
+      "title": "Edit Member",
+      "updateSuccess": "Member updated successfully",
+      "updateError": "Error updating member"
     },
     "confirm": {
       "title": "Please Confirm",

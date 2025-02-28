@@ -83,6 +83,8 @@
     "loadMore": "Mehr Laden",
     "remove": "Entfernen",
     "add": "Hinzufügen",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
     "createNew": "Neu Erstellen",
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
@@ -95,6 +97,11 @@
       "lastNamePlaceholder": "Nachname eingeben...",
       "firstName": "Vorname",
       "firstNamePlaceholder": "Vorname eingeben..."
+    },
+    "editMember": {
+      "title": "Mitglied bearbeiten",
+      "updateSuccess": "Mitglied erfolgreich aktualisiert",
+      "updateError": "Fehler beim Aktualisieren des Mitglieds"
     },
     "confirm": {
       "title": "Bitte Bestätigen",
