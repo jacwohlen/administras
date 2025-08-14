@@ -23,6 +23,7 @@
   let searchterm = '';
   let animateList = true;
   let showLessonPlan = false;
+  let hasLessonPlan = false;
 
   let filteredData: MMember[] = [];
   $: presentParticipants = filteredData.filter((p) => p.isPresent);
@@ -163,7 +164,7 @@
   </div>
   <button class="btn variant-outline-primary flex items-center gap-2" on:click={toggleView}>
     <Fa icon={showLessonPlan ? faUsers : faClipboardList} />
-    <span>{showLessonPlan ? 'Anwesenheit' : 'Trainingsplan'}</span>
+    <span>{showLessonPlan ? $_('page.trainings.attendance') : $_('page.trainings.lessonPlan')}</span>
   </button>
 </div>
 <hr class="my-2" />
