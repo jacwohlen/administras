@@ -37,3 +37,14 @@ export interface Athletes {
   count: number;
   rank: number;
 }
+
+export interface LessonPlan {
+  id: string;
+  trainingId: number;
+  date: string;
+  title?: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
+}
