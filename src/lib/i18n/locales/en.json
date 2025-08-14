@@ -23,7 +23,12 @@
       "logs": "Logs",
       "searchMembersPlaceholder": "Search Member...",
       "memberNotFound": "Member not found",
-      "addMemberPlaceholder": "Add Member..."
+      "addMemberPlaceholder": "Add Member...",
+      "noTrainerWarning": {
+        "title": "No Trainer Marked",
+        "message": "Please mark at least one participant as the main trainer for this session.",
+        "action": "Use the menu (⋮) next to a participant's name to mark them as trainer."
+      }
     },
     "members": {
       "title": "Members",

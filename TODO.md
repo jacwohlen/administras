@@ -3,7 +3,7 @@
 Next
 
 - [ ] Checklist: Hint if trainer not selected
-- [ ] Checklist: Track Training Plan 
+- [ ] Checklist: Track Training Plan
 
 Backlog
 

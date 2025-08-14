@@ -5,7 +5,6 @@ import { supabaseClient } from '$lib/supabase';
 import { blobToURL } from 'image-resize-compress';
 import dayjs from 'dayjs';
 
-
 export const load = (async ({ params, depends }) => {
   // Register a dependency on this key, so we can invalidate it after edits
   depends('app:member:' + params.memberId);
@@ -19,7 +18,7 @@ export const load = (async ({ params, depends }) => {
     throw err(404, memberError);
   }
   if (memberData.img && memberData.imgUploaded) {
-    memberData.imgUploaded = dayjs(memberData.imgUploaded) // cast to dayjs for easier handling
+    memberData.imgUploaded = dayjs(memberData.imgUploaded); // cast to dayjs for easier handling
 
     const { data: avatarData, error: avatarError } = await supabaseClient.storage
       .from('avatars')

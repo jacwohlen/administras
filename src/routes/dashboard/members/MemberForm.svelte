@@ -56,21 +56,11 @@
   </label>
   <label class="label">
     <span>{$_('page.members.birthday')}</span>
-    <input
-      class="input"
-      bind:value={formData.birthday}
-      type="date"
-      placeholder="YYYY-MM-DD"
-    />
+    <input class="input" bind:value={formData.birthday} type="date" placeholder="YYYY-MM-DD" />
   </label>
   <label class="label">
     <span>{$_('page.members.mobile')}</span>
-    <input
-      class="input"
-      bind:value={formData.mobile}
-      type="tel"
-      placeholder="+41 79 123 45 67"
-    />
+    <input class="input" bind:value={formData.mobile} type="tel" placeholder="+41 79 123 45 67" />
   </label>
 </form>
 <footer class="modal-footer flex justify-end space-x-2">

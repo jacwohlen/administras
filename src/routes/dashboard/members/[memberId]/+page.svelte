@@ -1,9 +1,21 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  import { Avatar, ProgressRadial, modalStore, toastStore, type ModalComponent } from '@skeletonlabs/skeleton';
+  import {
+    Avatar,
+    ProgressRadial,
+    modalStore,
+    toastStore,
+    type ModalComponent
+  } from '@skeletonlabs/skeleton';
   import { _ } from 'svelte-i18n';
   import MemberLogs from './MemberLogs.svelte';
-  import { faCamera, faEdit, faTrash, faUpload, faUserMinus } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faCamera,
+    faEdit,
+    faTrash,
+    faUpload,
+    faUserMinus
+  } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
@@ -115,7 +127,7 @@
   function showEditForm() {
     const modalComponent: ModalComponent = {
       ref: MemberForm,
-      props: { 
+      props: {
         isEditing: true,
         isSubmitting: isEditing,
         id: data.id,
@@ -165,7 +177,7 @@
         timeout: 4000,
         classes: 'border-l-4 border-green-500'
       });
-      
+
       // Invalidate the data to refresh
       invalidate('app:member:' + data.id);
     } catch (error) {
@@ -238,10 +250,7 @@
   <div class="flex justify-between items-center mb-4">
     <h2 class="h2">{data.firstname} {data.lastname}</h2>
     <div class="flex gap-2">
-      <button
-        class="btn btn-sm variant-filled-primary"
-        on:click={showEditForm}
-      >
+      <button class="btn btn-sm variant-filled-primary" on:click={showEditForm}>
         <Fa icon={faEdit} />
         <span>{$_('button.edit')}</span>
       </button>

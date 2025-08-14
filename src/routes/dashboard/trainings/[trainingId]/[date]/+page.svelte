@@ -3,7 +3,11 @@
   import type { MMember } from './types';
   import ParticipantCard from './ParticipantCard.svelte';
   import Fa from 'svelte-fa';
-  import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faArrowLeft,
+    faArrowRight,
+    faExclamationTriangle
+  } from '@fortawesome/free-solid-svg-icons';
   import dayjs from 'dayjs';
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
@@ -18,6 +22,8 @@
 
   let filteredData: MMember[] = [];
   $: presentParticipants = filteredData.filter((p) => p.isPresent);
+  $: presentTrainers = presentParticipants.filter((p) => p.isMainTrainer);
+  $: hasTrainerMarked = presentTrainers.length > 0;
 
   let hiIndex = -1;
 
@@ -179,6 +185,22 @@
         />
       </div>
     </div>
+
+    <!-- Trainer Warning Alert -->
+    {#if presentParticipants.length > 0 && !hasTrainerMarked}
+      <div class="alert variant-ghost-warning mt-3">
+        <div class="alert-message">
+          <Fa icon={faExclamationTriangle} class="text-warning-500" />
+          <div class="alert-text">
+            <h3 class="h3">{$_('page.trainings.noTrainerWarning.title')}</h3>
+            <p>{$_('page.trainings.noTrainerWarning.message')}</p>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <small class="opacity-75">{$_('page.trainings.noTrainerWarning.action')}</small>
+        </div>
+      </div>
+    {/if}
     <ul class="list">
       {#each filteredData as p, i (p.id)}
         <div

@@ -156,30 +156,30 @@ $$;
 
 ```sql
 -- drop function get_top_athletes_by_section (year text);
-CREATE OR REPLACE function get_top_athletes_by_section (year text) 
-returns table (section text, memberId int4, lastname text, firstname text, count bigint) 
+CREATE OR REPLACE function get_top_athletes_by_section (year text)
+returns table (section text, memberId int4, lastname text, firstname text, count bigint)
 language plpgsql as $$
 declare
 begin
   return query
-select 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname, 
-  count(*) 
-from 
-  logs 
-  inner join members on members."id" = logs."memberId" 
-  inner join trainings on trainings."id" = logs."trainingId" 
-where 
-  logs."date" like concat(year, '%') 
-group by 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname 
-order by 
+select
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname,
+  count(*)
+from
+  logs
+  inner join members on members."id" = logs."memberId"
+  inner join trainings on trainings."id" = logs."trainingId"
+where
+  logs."date" like concat(year, '%')
+group by
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname
+order by
   count desc, members.lastname;
 end;
 $$;
@@ -223,32 +223,32 @@ $$;
 
 ```sql
 -- drop function get_top_athletes_from_section (sect text, year text);
-CREATE OR REPLACE function get_top_athletes_from_section (sect text, year text) 
-returns table (rank bigint, section text, memberId int4, lastname text, firstname text, count bigint) 
+CREATE OR REPLACE function get_top_athletes_from_section (sect text, year text)
+returns table (rank bigint, section text, memberId int4, lastname text, firstname text, count bigint)
 language plpgsql as $$
 declare
 begin
   return query
 select
-  ROW_NUMBER() OVER (ORDER BY count(*) DESC, members.lastname) AS rank, 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname, 
+  ROW_NUMBER() OVER (ORDER BY count(*) DESC, members.lastname) AS rank,
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname,
   count(*)
-from 
-  logs 
-  inner join members on members."id" = logs."memberId" 
-  inner join trainings on trainings."id" = logs."trainingId" 
-where 
+from
+  logs
+  inner join members on members."id" = logs."memberId"
+  inner join trainings on trainings."id" = logs."trainingId"
+where
   logs."date" like concat(year, '%') and
   LOWER(trainings.section) = LOWER(sect)
-group by 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname 
-order by 
+group by
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname
+order by
   count desc, members.lastname;
 end;
 $$;

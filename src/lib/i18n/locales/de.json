@@ -23,7 +23,12 @@
       "logs": "Protokolle",
       "searchMembersPlaceholder": "Mitglied Suchen...",
       "memberNotFound": "Mitglied nicht gefunden",
-      "addMemberPlaceholder": "Mitglied Hinzufügen..."
+      "addMemberPlaceholder": "Mitglied Hinzufügen...",
+      "noTrainerWarning": {
+        "title": "Kein Trainer markiert",
+        "message": "Bitte markiere mindestens einen Teilnehmer als Haupttrainer für diese Session.",
+        "action": "Nutze das Menü (⋮) neben dem Namen eines Teilnehmers, um ihn als Trainer zu markieren."
+      }
     },
     "members": {
       "title": "Mitglieder",
