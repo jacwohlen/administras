@@ -2,10 +2,12 @@
 
 Next
 
-- [ ] Member: Pagination (only load 20 and lazy load on scroll) + Search
+- [ ] Checklist: Hint if trainer not selected
+- [ ] Checklist: Track Training Plan 
 
 Backlog
 
+- [ ] Member: Pagination (only load 20 and lazy load on scroll) + Search
 - [ ] Checklist, Member photo
 - [ ] Create cronjob for webling sync
 - [ ] Beautify member detail page (add photo)
