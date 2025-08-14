@@ -3,16 +3,16 @@
 --
 
 INSERT INTO "public"."members" ("id", "labels", "birthday", "lastname", "firstname", "mobile", "img", "imgUploaded") VALUES
-(1, '["member","judo"]', '1990-05-14', 'Müller', 'Anna', '+41791234567', NULL, TRUE),
-(2, '["member","aikido"]', '1985-11-02', 'Schmid', 'Lukas', '+41795554433', NULL, TRUE),
-(3, '["coach","judo"]', '1978-03-27', 'Meier', 'Thomas', '+41791112233', NULL, FALSE),
-(4, '["member"]', '2002-08-19', 'Keller', 'Sofia', '+41798887766', NULL, TRUE),
-(5, '["admin","aikido"]', '1995-12-05', 'Fischer', 'Marco', '+41797776655', NULL, FALSE),
-(6, '["member","judo"]', '1988-07-09', 'Huber', 'Jan', '+41796661122', NULL, TRUE),
-(7, '["member"]', '1993-04-21', 'Baumann', 'Laura', '+41794443322', NULL, FALSE),
-(8, '["coach","aikido"]', '1975-09-30', 'Steiner', 'Patrick', '+41797778899', NULL, TRUE),
-(9, '["member","judo"]', '2000-02-15', 'Graf', 'Nina', '+41795552211', NULL, TRUE),
-(10, '["member"]', '1998-06-11', 'Brunner', 'Simon', '+41796664455', NULL, FALSE);
+(1, '["member","judo"]', '1990-05-14', 'Müller', 'Anna', '+41791234567', NULL, NULL),
+(2, '["member","aikido"]', '1985-11-02', 'Schmid', 'Lukas', '+41795554433', NULL, NULL),
+(3, '["coach","judo"]', '1978-03-27', 'Meier', 'Thomas', '+41791112233', NULL, NULL),
+(4, '["member"]', '2002-08-19', 'Keller', 'Sofia', '+41798887766', NULL, NULL),
+(5, '["admin","aikido"]', '1995-12-05', 'Fischer', 'Marco', '+41797776655', NULL, NULL),
+(6, '["member","judo"]', '1988-07-09', 'Huber', 'Jan', '+41796661122', NULL, NULL),
+(7, '["member"]', '1993-04-21', 'Baumann', 'Laura', '+41794443322', NULL, NULL),
+(8, '["coach","aikido"]', '1975-09-30', 'Steiner', 'Patrick', '+41797778899', NULL, NULL),
+(9, '["member","judo"]', '2000-02-15', 'Graf', 'Nina', '+41795552211', NULL, NULL),
+(10, '["member"]', '1998-06-11', 'Brunner', 'Simon', '+41796664455', NULL, NULL);
 
 
 
