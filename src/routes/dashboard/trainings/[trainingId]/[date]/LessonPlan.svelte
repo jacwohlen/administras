@@ -150,7 +150,7 @@
 
 <div class="card p-4">
   <header class="card-header flex justify-between items-center mb-4">
-    <h3 class="h3">Trainingsplan</h3>
+    <h3 class="h3">{$_('page.trainings.lessonPlanTitle')}</h3>
     <div class="flex gap-2">
       {#if isEditing}
         <button
@@ -159,14 +159,14 @@
           disabled={isLoading || !content.trim()}
         >
           <Fa icon={faSave} />
-          <span>Speichern</span>
+          <span>{$_('button.save')}</span>
         </button>
         <button
           class="btn btn-sm variant-outline-secondary"
           on:click={cancelEditing}
           disabled={isLoading}
         >
-          Abbrechen
+          {$_('button.cancel')}
         </button>
       {:else if lessonPlan}
         <button
@@ -175,7 +175,7 @@
           disabled={isLoading}
         >
           <Fa icon={faEdit} />
-          <span>Bearbeiten</span>
+          <span>{$_('button.edit')}</span>
         </button>
       {:else}
         <button
@@ -184,7 +184,7 @@
           disabled={isLoading}
         >
           <Fa icon={faPlus} />
-          <span>Plan erstellen</span>
+          <span>{$_('page.trainings.createLessonPlan')}</span>
         </button>
       {/if}
     </div>
@@ -199,20 +199,20 @@
     {:else if isEditing}
       <div class="space-y-4">
         <label class="label">
-          <span>Titel (optional)</span>
+          <span>{$_('page.trainings.titleOptional')}</span>
           <input
             class="input"
             type="text"
-            placeholder="z.B. Grundtechniken, Sparring-Training..."
+            placeholder="{$_('page.trainings.titlePlaceholder')}"
             bind:value={title}
           />
         </label>
         <label class="label">
-          <span>Trainingsplan</span>
+          <span>{$_('page.trainings.lessonPlanTitle')}</span>
           <textarea
             class="textarea"
             rows="20"
-            placeholder="Trainingsplan hier eingeben..."
+            placeholder="{$_('page.trainings.contentPlaceholder')}"
             bind:value={content}
           />
         </label>
@@ -238,12 +238,12 @@
           {/each}
         </div>
         <footer class="text-sm opacity-60">
-          Zuletzt bearbeitet: {new Date(lessonPlan.updatedAt).toLocaleString('de-DE')}
+          {$_('page.trainings.lastEdited')}: {new Date(lessonPlan.updatedAt).toLocaleString()}
         </footer>
       </div>
     {:else}
       <div class="text-center py-8">
-        <p class="opacity-60">Noch kein Trainingsplan für dieses Datum erstellt.</p>
+        <p class="opacity-60">{$_('page.trainings.noLessonPlanMessage')}</p>
       </div>
     {/if}
   </section>

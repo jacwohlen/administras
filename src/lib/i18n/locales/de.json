@@ -29,7 +29,18 @@
         "message": "Bitte markiere mindestens einen Teilnehmer als Haupttrainer für diese Session.",
         "action": "Nutze das Menü (⋮) neben dem Namen eines Teilnehmers, um ihn als Trainer zu markieren."
       },
-      "noTrainer": "Kein Trainer"
+      "noTrainer": "Kein Trainer",
+      "lessonPlan": "Trainingsplan",
+      "attendance": "Anwesenheit",
+      "hasLessonPlan": "Plan",
+      "noLessonPlan": "Kein Plan",
+      "lessonPlanTitle": "Trainingsplan",
+      "createLessonPlan": "Plan erstellen",
+      "titleOptional": "Titel (optional)",
+      "titlePlaceholder": "z.B. Grundtechniken, Sparring-Training...",
+      "contentPlaceholder": "Trainingsplan hier eingeben...",
+      "lastEdited": "Zuletzt bearbeitet",
+      "noLessonPlanMessage": "Noch kein Trainingsplan für dieses Datum erstellt."
     },
     "members": {
       "title": "Mitglieder",

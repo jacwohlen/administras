@@ -1,7 +1,11 @@
 <script lang="ts">
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
-  import { faGripLines, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faGripLines,
+    faExclamationTriangle,
+    faClipboardList
+  } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
 
@@ -12,12 +16,13 @@
     date: string;
     count: number;
     trainerCount: number;
+    hasLessonPlan: boolean;
   }
 
   async function getLogs() {
     const { error, data } = await supabaseClient
       .from('view_logs_summary')
-      .select(`trainingId, date, count, trainerCount`)
+      .select(`trainingId, date, count, trainerCount, hasLessonPlan`)
       .eq('trainingId', trainingId)
       .order('date', { ascending: false })
       .returns<LogSummary[]>();
@@ -49,6 +54,12 @@
               <span class="chip variant-filled-warning">
                 <Fa icon={faExclamationTriangle} class="w-3" />
                 <span class="text-xs">{$_('page.trainings.noTrainer')}</span>
+              </span>
+            {/if}
+            {#if !i.hasLessonPlan}
+              <span class="chip variant-filled-warning">
+                <Fa icon={faExclamationTriangle} class="w-3" />
+                <span class="text-xs">{$_('page.trainings.noLessonPlan')}</span>
               </span>
             {/if}
           </div>

@@ -29,7 +29,18 @@
         "message": "Please mark at least one participant as the main trainer for this session.",
         "action": "Use the menu (⋮) next to a participant's name to mark them as trainer."
       },
-      "noTrainer": "No Trainer"
+      "noTrainer": "No Trainer",
+      "lessonPlan": "Lesson Plan",
+      "attendance": "Attendance",
+      "hasLessonPlan": "Plan",
+      "noLessonPlan": "No Plan",
+      "lessonPlanTitle": "Lesson Plan",
+      "createLessonPlan": "Create Plan",
+      "titleOptional": "Title (optional)",
+      "titlePlaceholder": "e.g. Basic techniques, Sparring training...",
+      "contentPlaceholder": "Enter lesson plan here...",
+      "lastEdited": "Last edited",
+      "noLessonPlanMessage": "No lesson plan created for this date yet."
     },
     "members": {
       "title": "Members",
