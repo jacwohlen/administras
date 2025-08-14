@@ -28,7 +28,8 @@
         "title": "Kein Trainer markiert",
         "message": "Bitte markiere mindestens einen Teilnehmer als Haupttrainer für diese Session.",
         "action": "Nutze das Menü (⋮) neben dem Namen eines Teilnehmers, um ihn als Trainer zu markieren."
-      }
+      },
+      "noTrainer": "Kein Trainer"
     },
     "members": {
       "title": "Mitglieder",
