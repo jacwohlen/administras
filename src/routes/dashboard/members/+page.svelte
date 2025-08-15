@@ -1,11 +1,21 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import Fa from 'svelte-fa';
-  import { faGripLines } from '@fortawesome/free-solid-svg-icons';
+  import { faGripLines, faPlus } from '@fortawesome/free-solid-svg-icons';
   import { _ } from 'svelte-i18n';
+  import { supabaseClient } from '$lib/supabase';
+  import {
+    toastStore,
+    type ModalSettings,
+    modalStore,
+    type ModalComponent
+  } from '@skeletonlabs/skeleton';
+  import { invalidate } from '$app/navigation';
+  import MemberForm from './MemberForm.svelte';
 
   export let data: PageData;
   let searchTerm: string = '';
+  let isSubmitting = false;
 
   $: search = (firstname: string, lastname: string): boolean => {
     let q = searchTerm.toLowerCase().trim();
@@ -13,9 +23,72 @@
     let lastfirst = lastname.toLowerCase() + ' ' + firstname.toLowerCase();
     return firstlast.startsWith(q) || lastfirst.startsWith(q);
   };
+
+  function showMemberForm() {
+    const modalComponent: ModalComponent = {
+      ref: MemberForm,
+      props: { isSubmitting }
+    };
+
+    const modal: ModalSettings = {
+      type: 'component',
+      component: modalComponent,
+      response: addMember
+    };
+
+    modalStore.trigger(modal);
+  }
+
+  async function addMember(
+    result: { firstname: string; lastname: string; labels: string[] } | undefined
+  ) {
+    if (!result) return;
+
+    isSubmitting = true;
+
+    try {
+      const { error, data } = await supabaseClient
+        .from('members')
+        .insert({ ...result, labels: result.labels || ['new'] })
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      // Invalidate the members list to trigger a reload
+      invalidate('members:list');
+
+      // Show success toast
+      toastStore.trigger({
+        message: $_('page.members.createdSuccess'),
+        background: 'variant-filled-success',
+        timeout: 4000,
+        classes: 'border-l-4 border-green-500'
+      });
+    } catch (error) {
+      console.error('Error creating member:', error);
+      toastStore.trigger({
+        message: $_('page.members.createError'),
+        background: 'variant-filled-error',
+        timeout: 6000,
+        classes: 'border-l-4 border-red-500'
+      });
+    } finally {
+      isSubmitting = false;
+    }
+  }
 </script>
 
-<h1>{$_('page.members.title')}</h1>
+<div class="flex items-center justify-between mb-4">
+  <h1>{$_('page.members.title')}</h1>
+  <button class="btn btn-sm variant-filled-primary" on:click={showMemberForm}>
+    <Fa icon={faPlus} />
+    <span>{$_('page.members.addMember')}</span>
+  </button>
+</div>
+
 <div class="m-2">
   <input
     class="input"

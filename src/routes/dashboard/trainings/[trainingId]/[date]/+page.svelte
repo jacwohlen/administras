@@ -3,7 +3,13 @@
   import type { MMember } from './types';
   import ParticipantCard from './ParticipantCard.svelte';
   import Fa from 'svelte-fa';
-  import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faArrowLeft,
+    faArrowRight,
+    faExclamationTriangle,
+    faClipboardList,
+    faUsers
+  } from '@fortawesome/free-solid-svg-icons';
   import dayjs from 'dayjs';
   import { goto } from '$app/navigation';
   import AddParticipantInputBox from './AddParticipantInputBox.svelte';
@@ -11,13 +17,18 @@
   import { _ } from 'svelte-i18n';
   import { flip } from 'svelte/animate';
   import { quintInOut } from 'svelte/easing';
+  import LessonPlan from './LessonPlan.svelte';
 
   export let data: PageData;
   let searchterm = '';
   let animateList = true;
+  let showLessonPlan = false;
+  let hasLessonPlan = false;
 
   let filteredData: MMember[] = [];
   $: presentParticipants = filteredData.filter((p) => p.isPresent);
+  $: presentTrainers = presentParticipants.filter((p) => p.isMainTrainer);
+  $: hasTrainerMarked = presentTrainers.length > 0;
 
   let hiIndex = -1;
 
@@ -140,10 +151,22 @@
       return;
     }
   };
+
+  function toggleView() {
+    showLessonPlan = !showLessonPlan;
+  }
 </script>
 
-<h2>{data.title}</h2>
-<h4>{$_('weekday.' + data.weekday)} {data.dateFrom} | {data.section}</h4>
+<div class="flex justify-between items-center">
+  <div>
+    <h2>{data.title}</h2>
+    <h4>{$_('weekday.' + data.weekday)} {data.dateFrom} | {data.section}</h4>
+  </div>
+  <button class="btn variant-outline-primary flex items-center gap-2" on:click={toggleView}>
+    <Fa icon={showLessonPlan ? faUsers : faClipboardList} />
+    <span>{showLessonPlan ? $_('page.trainings.attendance') : $_('page.trainings.lessonPlan')}</span>
+  </button>
+</div>
 <hr class="my-2" />
 <div class="flex justify-between items-center my-2">
   <div>
@@ -160,44 +183,65 @@
     </button>
   </div>
 </div>
-<div>
+{#if !showLessonPlan}
   <div>
-    <div class="flex items-center">
-      <div class="mr-2">
-        <span class="chip variant-filled-secondary">{presentParticipants.length}</span>
-      </div>
-      <div class="grow">
-        <input
-          class="input"
-          on:keydown={navigateList}
-          type="text"
-          placeholder={$_('page.trainings.searchMembersPlaceholder')}
-          bind:value={searchterm}
-          on:input={filterData}
-          on:focus={() => (animateList = false)}
-          on:blur={() => (animateList = true)}
-        />
-      </div>
-    </div>
-    <ul class="list">
-      {#each filteredData as p, i (p.id)}
-        <div
-          class="item"
-          animate:flip={{ delay: 0, duration: animateList ? 400 : 0, easing: quintInOut }}
-        >
-          <ParticipantCard
-            highlight={hiIndex === i}
-            member={p}
-            on:change={changePresence}
-            on:remove={removeParticipant}
+    <div>
+      <div class="flex items-center">
+        <div class="mr-2">
+          <span class="chip variant-filled-secondary">{presentParticipants.length}</span>
+        </div>
+        <div class="grow">
+          <input
+            class="input"
+            on:keydown={navigateList}
+            type="text"
+            placeholder={$_('page.trainings.searchMembersPlaceholder')}
+            bind:value={searchterm}
+            on:input={filterData}
+            on:focus={() => (animateList = false)}
+            on:blur={() => (animateList = true)}
           />
         </div>
-      {/each}
-      <li>
-        <aside class="alert variant-ghost-tertiary w-full justify-items-center">
-          <AddParticipantInputBox on:add={addParticipant} />
-        </aside>
-      </li>
-    </ul>
+      </div>
+
+      <!-- Trainer Warning Alert -->
+      {#if presentParticipants.length > 0 && !hasTrainerMarked}
+        <div class="alert variant-ghost-warning mt-3">
+          <div class="alert-message">
+            <Fa icon={faExclamationTriangle} class="text-warning-500" />
+            <div class="alert-text">
+              <h3 class="h3">{$_('page.trainings.noTrainerWarning.title')}</h3>
+              <p>{$_('page.trainings.noTrainerWarning.message')}</p>
+            </div>
+          </div>
+          <div class="alert-actions">
+            <small class="opacity-75">{$_('page.trainings.noTrainerWarning.action')}</small>
+          </div>
+        </div>
+      {/if}
+      <ul class="list">
+        {#each filteredData as p, i (p.id)}
+          <div
+            class="item"
+            animate:flip={{ delay: 0, duration: animateList ? 400 : 0, easing: quintInOut }}
+          >
+            <ParticipantCard
+              highlight={hiIndex === i}
+              member={p}
+              on:change={changePresence}
+              on:remove={removeParticipant}
+            />
+          </div>
+        {/each}
+        <li>
+          <aside class="alert variant-ghost-tertiary w-full justify-items-center">
+            <AddParticipantInputBox on:add={addParticipant} />
+          </aside>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+{:else}
+  <LessonPlan trainingId={data.trainingId} date={data.date} />
+{/if}
+

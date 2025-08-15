@@ -33,17 +33,20 @@ export const load = (async ({ params }) => {
     }
 
     // Use reduce to group by 'section'
-    const groupedData = data.reduce((accumulator: { [key: string]: Athletes[] }, currentItem: Athletes) => {
-      // If the section does not exist in the accumulator, create a new array for it
-      if (!accumulator[currentItem.section]) {
-        accumulator[currentItem.section] = [];
-      }
+    const groupedData = data.reduce(
+      (accumulator: { [key: string]: Athletes[] }, currentItem: Athletes) => {
+        // If the section does not exist in the accumulator, create a new array for it
+        if (!accumulator[currentItem.section]) {
+          accumulator[currentItem.section] = [];
+        }
 
-      // Push the current item into the appropriate section
-      accumulator[currentItem.section].push(currentItem);
+        // Push the current item into the appropriate section
+        accumulator[currentItem.section].push(currentItem);
 
-      return accumulator;
-    }, {});
+        return accumulator;
+      },
+      {}
+    );
 
     const orderedData = Object.keys(groupedData)
       .sort() // Sort the keys alphabetically

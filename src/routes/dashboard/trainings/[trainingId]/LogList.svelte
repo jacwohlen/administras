@@ -1,7 +1,11 @@
 <script lang="ts">
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
-  import { faGripLines } from '@fortawesome/free-solid-svg-icons';
+  import {
+    faGripLines,
+    faExclamationTriangle,
+    faClipboardList
+  } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
 
@@ -11,12 +15,14 @@
     trainingId: number;
     date: string;
     count: number;
+    trainerCount: number;
+    hasLessonPlan: boolean;
   }
 
   async function getLogs() {
     const { error, data } = await supabaseClient
       .from('view_logs_summary')
-      .select(`trainingId, date, count`)
+      .select(`trainingId, date, count, trainerCount, hasLessonPlan`)
       .eq('trainingId', trainingId)
       .order('date', { ascending: false })
       .returns<LogSummary[]>();
@@ -36,7 +42,27 @@
           {i.date}
         </span>
         <span class="flex-auto">
-          {i.count}
+          <div class="flex items-center gap-2">
+            <span class="chip variant-filled-secondary">{i.count}</span>
+            <span class="text-sm opacity-75">{$_('page.trainings.participants')}</span>
+            {#if i.trainerCount > 0}
+              <span class="chip variant-filled-success">
+                <img class="inline-block w-3" src="/judo-icon.svg" alt="trainer" />
+                {i.trainerCount}
+              </span>
+            {:else}
+              <span class="chip variant-filled-warning">
+                <Fa icon={faExclamationTriangle} class="w-3" />
+                <span class="text-xs">{$_('page.trainings.noTrainer')}</span>
+              </span>
+            {/if}
+            {#if !i.hasLessonPlan}
+              <span class="chip variant-filled-warning">
+                <Fa icon={faExclamationTriangle} class="w-3" />
+                <span class="text-xs">{$_('page.trainings.noLessonPlan')}</span>
+              </span>
+            {/if}
+          </div>
         </span>
         <span>
           <a
