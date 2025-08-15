@@ -40,7 +40,28 @@
       "titlePlaceholder": "z.B. Grundtechniken, Sparring-Training...",
       "contentPlaceholder": "Trainingsplan hier eingeben...",
       "lastEdited": "Zuletzt bearbeitet",
-      "noLessonPlanMessage": "Noch kein Trainingsplan für dieses Datum erstellt."
+      "noLessonPlanMessage": "Noch kein Trainingsplan für dieses Datum erstellt.",
+      "defaultTemplate": [
+        "## Aufwärmen (10-15 Min)",
+        "- ",
+        "- ",
+        "## Hauptteil (30-40 Min)",
+        "### Technik",
+        "- ",
+        "- ",
+        "",
+        "### Übungen/Sparring",
+        "- ",
+        "- ",
+        "",
+        "## Abkühlung (5-10 Min)",
+        "- ",
+        "- ",
+        "",
+        "## Notizen",
+        "- ",
+        ""
+      ]
     },
     "members": {
       "title": "Mitglieder",

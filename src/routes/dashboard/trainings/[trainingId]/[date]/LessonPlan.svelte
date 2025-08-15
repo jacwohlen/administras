@@ -1,7 +1,6 @@
 <script lang="ts">
   import { supabaseClient } from '$lib/supabase';
   import type { LessonPlan } from '$lib/models';
-  import { defaultLessonPlanTemplate } from '$lib/lessonPlanTemplate';
   import Fa from 'svelte-fa';
   import { faEdit, faSave, faPlus, faEye } from '@fortawesome/free-solid-svg-icons';
   import { _ } from 'svelte-i18n';
@@ -21,11 +20,14 @@
       const { data, error } = await supabaseClient
         .from('lesson_plans')
         .select('*')
+        .select(
+          'id, date, title, content, created_at, updated_at'
+        )
         .eq('training_id', trainingId)
         .eq('date', date)
-        .single();
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         console.error('Error loading lesson plan:', error);
         return;
       }
@@ -125,7 +127,8 @@
 
   function startEditing() {
     if (!lessonPlan) {
-      content = defaultLessonPlanTemplate;
+      const template = $_('page.trainings.defaultTemplate');
+      content = Array.isArray(template) ? template.join('\n') : template;
       title = '';
     }
     isEditing = true;
