@@ -208,18 +208,15 @@
 
       <!-- Trainer Warning Alert -->
       {#if presentParticipants.length > 0 && !hasTrainerMarked}
-        <div class="alert variant-ghost-warning mt-3">
+        <aside class="alert variant-ghost-warning my-2">
+          <div><Fa icon={faExclamationTriangle} class="text-warning-500" /></div>
           <div class="alert-message">
-            <Fa icon={faExclamationTriangle} class="text-warning-500" />
-            <div class="alert-text">
-              <h3 class="h3">{$_('page.trainings.noTrainerWarning.title')}</h3>
-              <p>{$_('page.trainings.noTrainerWarning.message')}</p>
-            </div>
+            <p>
+              <span class="font-bold">{$_('page.trainings.noTrainerWarning.title')}</span>
+              {$_('page.trainings.noTrainerWarning.message')}
+            </p>
           </div>
-          <div class="alert-actions">
-            <small class="opacity-75">{$_('page.trainings.noTrainerWarning.action')}</small>
-          </div>
-        </div>
+        </aside>
       {/if}
       <ul class="list">
         {#each filteredData as p, i (p.id)}
