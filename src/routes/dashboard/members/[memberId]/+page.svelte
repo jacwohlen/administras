@@ -25,9 +25,9 @@
   import MemberForm from '../MemberForm.svelte';
 
   export let data: PageData;
-  let loadingImage: boolean = false;
-  let isDeleting: boolean = false;
-  let isEditing: boolean = false;
+  let loadingImage = false;
+  let isDeleting = false;
+  let isEditing = false;
 
   async function handlePhotoChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -148,7 +148,15 @@
     modalStore.trigger(modal);
   }
 
-  async function handleEditResponse(result: any) {
+  async function handleEditResponse(
+    result: {
+      firstname: string;
+      lastname: string;
+      birthday?: string;
+      mobile?: string;
+      labels?: string[];
+    } | null
+  ) {
     if (!result) return;
 
     isEditing = true;

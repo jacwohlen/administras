@@ -105,7 +105,9 @@
       .select('members(*)')
       .single();
 
-    data.participants.push(d.data!.members as unknown as MMember);
+    if (d.data?.members) {
+      data.participants.push(d.data.members as unknown as MMember);
+    }
     _changePresence(event.detail.member, true, false);
     filterData(); // force reactivity
   }
@@ -163,7 +165,8 @@
   </div>
   <button class="btn variant-outline-primary flex items-center gap-2" on:click={toggleView}>
     <Fa icon={showLessonPlan ? faUsers : faClipboardList} />
-    <span>{showLessonPlan ? $_('page.trainings.attendance') : $_('page.trainings.lessonPlan')}</span>
+    <span>{showLessonPlan ? $_('page.trainings.attendance') : $_('page.trainings.lessonPlan')}</span
+    >
   </button>
 </div>
 <hr class="my-2" />
@@ -243,4 +246,3 @@
 {:else}
   <LessonPlan trainingId={data.trainingId} date={data.date} />
 {/if}
-

@@ -3,6 +3,16 @@ import type { MMember } from './types';
 import { supabaseClient } from '$lib/supabase';
 import { error as err } from '@sveltejs/kit';
 
+interface ChecklistMemberData {
+  memberId: string;
+  firstname: string;
+  lastname: string;
+  labels: string[];
+  img: string;
+  date: string | null;
+  isMainTrainer: boolean;
+}
+
 export const load = (async ({ params }) => {
   async function getMembersWithPresentStatus(): Promise<MMember[]> {
     const { error, data } = await supabaseClient
@@ -17,7 +27,7 @@ export const load = (async ({ params }) => {
       throw err(404, error);
     }
     return data.map(
-      (item: any) =>
+      (item: ChecklistMemberData) =>
         ({
           id: item.memberId,
           firstname: item.firstname,
