@@ -199,11 +199,11 @@
     {:else if isEditing}
       <div class="space-y-4">
         <label class="label">
-          <span>{$_('page.trainings.titleOptional')}</span>
+          <span>{$_('page.trainings.titleTraining')}</span>
           <input
             class="input"
             type="text"
-            placeholder="{$_('page.trainings.titlePlaceholder')}"
+            placeholder={$_('page.trainings.titlePlaceholder')}
             bind:value={title}
           />
         </label>
@@ -212,7 +212,7 @@
           <textarea
             class="textarea"
             rows="20"
-            placeholder="{$_('page.trainings.contentPlaceholder')}"
+            placeholder={$_('page.trainings.contentPlaceholder')}
             bind:value={content}
           />
         </label>
@@ -248,4 +248,3 @@
     {/if}
   </section>
 </div>
-
