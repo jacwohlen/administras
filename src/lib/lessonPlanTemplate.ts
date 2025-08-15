@@ -1,10 +1,6 @@
-export const defaultLessonPlanTemplate = `# Trainingsplan
-
-## Aufwärmen (10-15 Min)
+export const defaultLessonPlanTemplate = `## Aufwärmen (10-15 Min)
 - 
 - 
-- 
-
 ## Hauptteil (30-40 Min)
 ### Technik
 - 

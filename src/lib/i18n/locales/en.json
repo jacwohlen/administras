@@ -36,7 +36,7 @@
       "noLessonPlan": "No Plan",
       "lessonPlanTitle": "Lesson Plan",
       "createLessonPlan": "Create Plan",
-      "titleOptional": "Title (optional)",
+      "titleTraining": "Title",
       "titlePlaceholder": "e.g. Basic techniques, Sparring training...",
       "contentPlaceholder": "Enter lesson plan here...",
       "lastEdited": "Last edited",
