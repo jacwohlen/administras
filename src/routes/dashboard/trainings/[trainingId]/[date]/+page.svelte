@@ -23,7 +23,6 @@
   let searchterm = '';
   let animateList = true;
   let showLessonPlan = false;
-  let hasLessonPlan = false;
 
   let filteredData: MMember[] = [];
   $: presentParticipants = filteredData.filter((p) => p.isPresent);
