@@ -40,7 +40,28 @@
       "titlePlaceholder": "e.g. Basic techniques, Sparring training...",
       "contentPlaceholder": "Enter lesson plan here...",
       "lastEdited": "Last edited",
-      "noLessonPlanMessage": "No lesson plan created for this date yet."
+      "noLessonPlanMessage": "No lesson plan created for this date yet.",
+      "defaultTemplate": [
+        "## Warm-up (10-15 Min)",
+        "- ",
+        "- ",
+        "## Main Part (30-40 Min)",
+        "### Technique",
+        "- ",
+        "- ",
+        "",
+        "### Exercises/Sparring",
+        "- ",
+        "- ",
+        "",
+        "## Cool-down (5-10 Min)",
+        "- ",
+        "- ",
+        "",
+        "## Notes",
+        "- ",
+        ""
+      ]
     },
     "members": {
       "title": "Members",
