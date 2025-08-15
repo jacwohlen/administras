@@ -1,11 +1,7 @@
 <script lang="ts">
   import { error as err } from '@sveltejs/kit';
   import Fa from 'svelte-fa';
-  import {
-    faGripLines,
-    faExclamationTriangle,
-    faClipboardList
-  } from '@fortawesome/free-solid-svg-icons';
+  import { faGripLines, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
   import { supabaseClient } from '$lib/supabase';
   import { _ } from 'svelte-i18n';
 

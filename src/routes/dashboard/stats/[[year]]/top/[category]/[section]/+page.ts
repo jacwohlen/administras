@@ -13,7 +13,7 @@ export async function load({ params }) {
 
   const category = params.category?.toLowerCase();
   switch (category) {
-    case 'athletes':
+    case 'athletes': {
       const { error: athletesError, data: athletesData } = await supabaseClient
         .rpc('get_top_athletes_from_section', {
           sect: params.section,
@@ -30,8 +30,9 @@ export async function load({ params }) {
         category: params.category,
         athletes: athletesData
       };
+    }
 
-    case 'trainers':
+    case 'trainers': {
       const { error: trainersError, data: trainersData } = await supabaseClient
         .rpc('get_top_trainers_from_section', {
           sect: params.section,
@@ -49,6 +50,7 @@ export async function load({ params }) {
         category: params.category,
         athletes: trainersData
       };
+    }
 
     default:
       throw err(404, 'No valid Category');

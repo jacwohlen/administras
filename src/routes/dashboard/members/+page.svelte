@@ -14,7 +14,7 @@
   import MemberForm from './MemberForm.svelte';
 
   export let data: PageData;
-  let searchTerm: string = '';
+  let searchTerm = '';
   let isSubmitting = false;
 
   $: search = (firstname: string, lastname: string): boolean => {
@@ -47,7 +47,7 @@
     isSubmitting = true;
 
     try {
-      const { error, data } = await supabaseClient
+      const { error } = await supabaseClient
         .from('members')
         .insert({ ...result, labels: result.labels || ['new'] })
         .select()

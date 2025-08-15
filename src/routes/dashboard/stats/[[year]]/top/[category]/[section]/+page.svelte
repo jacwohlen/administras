@@ -6,7 +6,7 @@
   import type { Athletes } from '$lib/models';
 
   export let data: PageData;
-  let searchTerm: string = '';
+  let searchTerm = '';
 
   $: search = (firstname: string, lastname: string): boolean => {
     let q = searchTerm.toLowerCase().trim();

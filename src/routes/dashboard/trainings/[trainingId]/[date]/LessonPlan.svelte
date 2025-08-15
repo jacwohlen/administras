@@ -2,7 +2,7 @@
   import { supabaseClient } from '$lib/supabase';
   import type { LessonPlan } from '$lib/models';
   import Fa from 'svelte-fa';
-  import { faEdit, faSave, faPlus, faEye } from '@fortawesome/free-solid-svg-icons';
+  import { faEdit, faSave, faPlus } from '@fortawesome/free-solid-svg-icons';
   import { _ } from 'svelte-i18n';
 
   export let trainingId: string;
