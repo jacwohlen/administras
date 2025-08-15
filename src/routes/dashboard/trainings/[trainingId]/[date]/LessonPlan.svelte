@@ -149,7 +149,7 @@
   }
 </script>
 
-<div class="card p-4">
+<div class="card">
   <header class="card-header flex justify-between items-center mb-4">
     <h3 class="h3">{$_('page.trainings.lessonPlanTitle')}</h3>
     <div class="flex gap-2">
@@ -191,7 +191,7 @@
     </div>
   </header>
 
-  <section class="card-section">
+  <section class="card-section px-4">
     {#if isLoading}
       <div class="placeholder animate-pulse">
         <div class="placeholder-circle w-8 h-8" />
@@ -226,13 +226,13 @@
         <div class="prose max-w-none">
           {#each lessonPlan.content.split('\n') as line}
             {#if line.startsWith('# ')}
-              <h1>{line.slice(2)}</h1>
+              <h1 class="mt-2">{line.slice(2)}</h1>
             {:else if line.startsWith('## ')}
-              <h2>{line.slice(3)}</h2>
+              <h2 class="mt-2">{line.slice(3)}</h2>
             {:else if line.startsWith('### ')}
-              <h3>{line.slice(4)}</h3>
+              <h3 class="mt-2">{line.slice(4)}</h3>
             {:else if line.startsWith('- ')}
-              <ul><li>{line.slice(2)}</li></ul>
+              <ul style="list-style: square;" class="px-8"><li>{line.slice(2)}</li></ul>
             {:else}
               <p>{line}</p>
             {/if}
