@@ -19,13 +19,13 @@ export const load = (async ({ params }) => {
     return data.map(
       (item: any) =>
         ({
-          id: item.memberid,
+          id: item.memberId,
           firstname: item.firstname,
           lastname: item.lastname,
           labels: item.labels,
           img: item.img,
           isPresent: item.date ? true : false,
-          isMainTrainer: item.ismaintrainer
+          isMainTrainer: item.isMainTrainer
         } as MMember)
     );
   }

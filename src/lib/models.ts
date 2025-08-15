@@ -31,7 +31,7 @@ export interface Log {
 
 export interface Athletes {
   section: string;
-  memberid: number;
+  memberId: number;
   lastname: string;
   firstname: string;
   count: number;

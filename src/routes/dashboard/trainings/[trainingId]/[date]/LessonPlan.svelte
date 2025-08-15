@@ -20,10 +20,8 @@
       const { data, error } = await supabaseClient
         .from('lesson_plans')
         .select('*')
-        .select(
-          'id, date, title, content, created_at, updated_at'
-        )
-        .eq('training_id', trainingId)
+        .select('id, date, title, content, created_at, updated_at')
+        .eq('trainingId', trainingId)
         .eq('date', date)
         .maybeSingle();
 
@@ -94,7 +92,7 @@
         const { data, error } = await supabaseClient
           .from('lesson_plans')
           .insert({
-            training_id: parseInt(trainingId),
+            trainingId: parseInt(trainingId),
             date,
             title: title || null,
             content: content.trim(),

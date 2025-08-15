@@ -3,7 +3,7 @@
 --
 
 
-INSERT INTO "public"."members" ("id", "labels", "birthday", "lastname", "firstname", "mobile", "img", "imgUploaded") VALUES
+INSERT INTO public.members (id, labels, birthday, lastname, firstname, mobile, img, "imgUploaded") VALUES
 	(103, '["new"]', NULL, 'Scott', 'Leo', NULL, NULL, NULL),
 	(32382, '["03_Austritt"]', '1963-11-24', 'Fernandez', 'Joseph', NULL, NULL, NULL),
 	(107, '["new"]', NULL, 'Guzman', 'Brandon', NULL, NULL, NULL),
@@ -645,7 +645,7 @@ INSERT INTO "public"."members" ("id", "labels", "birthday", "lastname", "firstna
 -- Data for Name: trainings; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."trainings" ("weekday", "dateFrom", "title", "section", "dateTo", "id") VALUES
+INSERT INTO public.trainings (weekday, "dateFrom", title, section, "dateTo", id) VALUES
 	('Wednesday', '20:00', 'Judo Randori', 'Judo', '21:30', 26),
 	('Thursday', '20:00', 'Aikido Erwachsene', 'Aikido', '21:30', 29),
 	('Thursday', '18.00', 'Judo Kinder', 'Judo', '19.15', 30),
@@ -666,7 +666,7 @@ INSERT INTO "public"."trainings" ("weekday", "dateFrom", "title", "section", "da
 -- Data for Name: logs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."logs" ("date", "trainingId", "memberId", "id", "isMainTrainer") VALUES
+INSERT INTO public.logs (date, "trainingId", "memberId", id, "isMainTrainer") VALUES
 	('2022-03-11', 23, 3311, 2863, false),
 	('2022-03-11', 23, 3366, 2864, false),
 	('2022-03-11', 23, 11001, 2865, false),
@@ -13691,7 +13691,7 @@ INSERT INTO "public"."logs" ("date", "trainingId", "memberId", "id", "isMainTrai
 -- Data for Name: participants; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."participants" ("id", "trainingId", "memberId") VALUES
+INSERT INTO public.participants (id, "trainingId", "memberId") VALUES
 	(1, 23, 3311),
 	(2, 23, 3251),
 	(3, 23, 20098),

@@ -24,7 +24,7 @@
   async function getTrainingsForDay() {
     const { data } = await supabaseClient
       .from('trainings')
-      .select()
+      .select(`id, title, dateFrom, dateTo, weekday, section`)
       .eq('weekday', date.locale('en').format('dddd'))
       .returns<Training[]>();
 

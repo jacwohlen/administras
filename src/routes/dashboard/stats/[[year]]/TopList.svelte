@@ -37,7 +37,7 @@
       {#if athletes[section][1] != undefined}
         <div class="relative inline-block">
           <span class="badge-icon absolute -top-0 -right-0 z-10 bg-gray-300">2</span>
-          {#await getImage(athletes[section][1].memberid)}
+          {#await getImage(athletes[section][1].memberId)}
             <Avatar
               class="mx-auto w-16"
               initials={athletes[section][1].firstname.charAt(0) +
@@ -69,7 +69,7 @@
       {#if athletes[section][0] != undefined}
         <div class="relative inline-block">
           <span class="badge-icon absolute -top-0 -right-0 z-10 bg-yellow-500">1</span>
-          {#await getImage(athletes[section][0].memberid)}
+          {#await getImage(athletes[section][0].memberId)}
             <Avatar
               class="mx-auto w-20"
               initials={athletes[section][0].firstname.charAt(0) +
@@ -101,7 +101,7 @@
       {#if athletes[section][2] != undefined}
         <div class="relative inline-block">
           <span class="badge-icon absolute -top-0 -right-0 z-10 bg-amber-700">3</span>
-          {#await getImage(athletes[section][2].memberid)}
+          {#await getImage(athletes[section][2].memberId)}
             <Avatar
               class="mx-auto w-16"
               initials={athletes[section][2].firstname.charAt(0) +
