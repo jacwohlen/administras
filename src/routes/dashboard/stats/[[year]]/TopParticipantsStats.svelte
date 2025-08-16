@@ -16,7 +16,7 @@
 
   async function getLogsSummary(mode: 'ALL' | 'YEAR', y: number | '') {
     if (mode === 'ALL') y = '';
-    const { error, data } = await supabaseClient
+    const { data } = await supabaseClient
       .from('view_logs_summary')
       .select('trainingId, date, count, trainings (title) as trainingTitle')
       .order('date')

@@ -8,12 +8,12 @@
   let currentItem = 10;
 
   // Function to be called when logs is set or changed
-  async function handleLogsChange(logsPromise: Promise<Log[]>) {
+  async function handleLogsChange() {
     currentItem = 10; // Reset currentItem when logs changes
   }
 
   // Reactively call handleLogsChange whenever logs is updated
-  $: handleLogsChange(logs);
+  $: logs, handleLogsChange();
 </script>
 
 <h3>{$_('page.members.trainingsHistory.title')}</h3>

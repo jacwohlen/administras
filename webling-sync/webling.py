@@ -42,7 +42,7 @@ def get_data(table_name):
     if response.status_code == 200:
         return response.json()
     else:
-        print("Error:", response.text)
+        print("Error:", response.status_code, response.text)
         return None
 
 def transform_label(label):
@@ -89,10 +89,10 @@ def upsert(table_name, data):
         'Prefer': 'resolution=merge-duplicates'
     }
     response = requests.post(f"{SUPABASE_URL}/rest/v1/{table_name}", headers=headers, data=json.dumps(data))
-    if response.status_code == 201:
+    if response.status_code == 200:
         return f"Updated: {data}"
     else:
-        print("Error:", response.text)
+        print("Error:", response.status_code, response.text)
         return None
 
 #print(get_data("members?select=id,firstname,lastname,labels,birthday,mobile"))

@@ -6,7 +6,7 @@
   import type { Athletes } from '$lib/models';
 
   export let data: PageData;
-  let searchTerm: string = '';
+  let searchTerm = '';
 
   $: search = (firstname: string, lastname: string): boolean => {
     let q = searchTerm.toLowerCase().trim();
@@ -59,7 +59,7 @@
 </div>
 
 <ul class="list">
-  {#each data.athletes as e (e.memberid)}
+  {#each data.athletes as e (e.memberId)}
     {#if search(e.firstname, e.lastname)}
       <li>
         <span>
@@ -71,7 +71,7 @@
           ({e.count})
         </span>
         <span>
-          <a class="btn btn-sm variant-filled-secondary" href={'/dashboard/members/' + e.memberid}>
+          <a class="btn btn-sm variant-filled-secondary" href={'/dashboard/members/' + e.memberId}>
             <Fa icon={faGripLines} />
             <span>{$_('button.view')}</span>
           </a>

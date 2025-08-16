@@ -11,7 +11,7 @@
 
   interface HeatmapData {
     date: Date;
-    value: any;
+    value: number;
   }
 
   function convertLogsToHeatmapData(data: Log[]): HeatmapData[] {
@@ -21,7 +21,8 @@
       const dateKey = dayjs(e.date).format('YYYY-MM-DD'); // Convert date to string key
       if (dateMap.has(dateKey)) {
         // If the date already exists, increase its value
-        let heatMapData = dateMap.get(dateKey)!;
+        const heatMapData = dateMap.get(dateKey);
+        if (!heatMapData) return;
         heatMapData.value += 1;
         dateMap.set(dateKey, heatMapData);
       } else {

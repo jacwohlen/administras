@@ -1,4 +1,4 @@
-import type { Dayjs } from "dayjs";
+import type { Dayjs } from 'dayjs';
 
 export interface Member {
   id: string;
@@ -31,9 +31,20 @@ export interface Log {
 
 export interface Athletes {
   section: string;
-  memberid: number;
+  memberId: number;
   lastname: string;
   firstname: string;
   count: number;
   rank: number;
+}
+
+export interface LessonPlan {
+  id: string;
+  trainingId: number;
+  date: string;
+  title?: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
 }

@@ -86,7 +86,7 @@
   </div>
   <nav class="card p-2 shadow-xl" data-menu={'menu1'}>
     <ul class="nav-list">
-      {#each filteredData as p, i (p.id)}
+      {#each filteredData as p (p.id)}
         <li>
           <span class="flex-auto">{p.lastname} {p.firstname}</span>
           <div class="justify-self-end relative">
