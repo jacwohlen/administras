@@ -3,8 +3,8 @@
   import type { Log, Training } from '$lib/models';
 
   export let logs: Promise<Log[]>;
-  let totalOverAll: number = 0;
-  let mainTrainerCountOverAll: number = 0;
+  let totalOverAll = 0;
+  let mainTrainerCountOverAll = 0;
 
   function countPerTraining(logs: Log[], id: string) {
     let total = 0;

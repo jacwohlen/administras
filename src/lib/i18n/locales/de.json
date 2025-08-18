@@ -23,7 +23,43 @@
       "logs": "Protokolle",
       "searchMembersPlaceholder": "Mitglied Suchen...",
       "memberNotFound": "Mitglied nicht gefunden",
-      "addMemberPlaceholder": "Mitglied Hinzufügen..."
+      "addMemberPlaceholder": "Mitglied Hinzufügen...",
+      "noTrainerWarning": {
+        "title": "Kein Trainer markiert",
+        "message": "Bitte markiere mindestens einen Teilnehmer als Haupttrainer für diese Session."
+      },
+      "noTrainer": "Kein Trainer",
+      "lessonPlan": "Trainingsplan",
+      "attendance": "Anwesenheit",
+      "hasLessonPlan": "Plan",
+      "noLessonPlan": "Kein Plan",
+      "lessonPlanTitle": "Trainingsplan",
+      "createLessonPlan": "Plan erstellen",
+      "titleTraining": "Titel",
+      "titlePlaceholder": "z.B. Grundtechniken, Sparring-Training...",
+      "contentPlaceholder": "Trainingsplan hier eingeben...",
+      "lastEdited": "Zuletzt bearbeitet",
+      "noLessonPlanMessage": "Noch kein Trainingsplan für dieses Datum erstellt.",
+      "defaultTemplate": [
+        "## Aufwärmen",
+        "- ",
+        "- ",
+        "- ",
+        "",
+        "## Hauptteil",
+        "- ",
+        "- ",
+        "- ",
+        "",
+        "## Ausklang",
+        "- ",
+        "- ",
+        "- ",
+        "",
+        "## Notizen",
+        "- ",
+        ""
+      ]
     },
     "members": {
       "title": "Mitglieder",
@@ -33,6 +69,14 @@
       "birthday": "Geburtstag",
       "mobile": "Mobiltelefon",
       "labels": "Labels",
+      "addMember": "Mitglied hinzufügen",
+      "newMember": "Neues Mitglied",
+      "createdSuccess": "Mitglied erfolgreich erstellt",
+      "createError": "Fehler beim Erstellen des Mitglieds",
+      "deleteConfirmTitle": "Mitglied löschen",
+      "deleteConfirmMessage": "Bist du sicher, dass du das Mitglied löschen möchtest",
+      "deleteSuccess": "Mitglied erfolgreich gelöscht",
+      "deleteError": "Fehler beim Löschen des Mitglieds",
       "trainingsSummary": {
         "title": "Trainings Übersicht",
         "noItems": "Keine Trainings registriert",
@@ -75,9 +119,12 @@
     "loadMore": "Mehr Laden",
     "remove": "Entfernen",
     "add": "Hinzufügen",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
     "createNew": "Neu Erstellen",
-    "cancle": "Abbrechen",
-    "confirm": "Bestätigen"
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "delete": "Löschen"
   },
   "dialog": {
     "newMember": {
@@ -86,6 +133,11 @@
       "lastNamePlaceholder": "Nachname eingeben...",
       "firstName": "Vorname",
       "firstNamePlaceholder": "Vorname eingeben..."
+    },
+    "editMember": {
+      "title": "Mitglied bearbeiten",
+      "updateSuccess": "Mitglied erfolgreich aktualisiert",
+      "updateError": "Fehler beim Aktualisieren des Mitglieds"
     },
     "confirm": {
       "title": "Bitte Bestätigen",

@@ -101,9 +101,9 @@ from
 2. Create function for checklist
 
 ```sql
--- drop function get_checklist_members(d text, tId int);
-CREATE OR REPLACE function get_checklist_members(d text, tId int)
-returns table (trainingId int2, memberId int2, lastname text, firstname text, labels jsonb, img text, date text, isMainTrainer boolean) language plpgsql
+-- drop function get_checklist_members (d text, tId int);
+CREATE OR REPLACE function get_checklist_members (d text, tId int)
+returns table (trainingId int2, memberId int4, lastname text, firstname text, labels jsonb, img text, date text, isMainTrainer boolean) language plpgsql
 as
 $$
 declare
@@ -134,9 +134,9 @@ from
 4. Create functions for stats
 
 ```sql
--- drop function get_top_athletes(d text);
-CREATE OR REPLACE function get_top_athletes(year text)
-returns table (memberId int2, lastname text, firstname text, count bigint) language plpgsql
+-- drop function get_top_athletes (year text);
+CREATE OR REPLACE function get_top_athletes (year text)
+returns table (memberId int4, lastname text, firstname text, count bigint) language plpgsql
 as
 $$
 declare
@@ -155,31 +155,31 @@ $$;
 ```
 
 ```sql
--- drop function get_top_athletes_by_section(d text);
-CREATE OR REPLACE function get_top_athletes_by_section (year text) 
-returns table (section text, memberId int2, lastname text, firstname text, count bigint) 
+-- drop function get_top_athletes_by_section (year text);
+CREATE OR REPLACE function get_top_athletes_by_section (year text)
+returns table (section text, memberId int4, lastname text, firstname text, count bigint)
 language plpgsql as $$
 declare
 begin
   return query
-select 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname, 
-  count(*) 
-from 
-  logs 
-  inner join members on members."id" = logs."memberId" 
-  inner join trainings on trainings."id" = logs."trainingId" 
-where 
-  logs."date" like concat(year, '%') 
-group by 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname 
-order by 
+select
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname,
+  count(*)
+from
+  logs
+  inner join members on members."id" = logs."memberId"
+  inner join trainings on trainings."id" = logs."trainingId"
+where
+  logs."date" like concat(year, '%')
+group by
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname
+order by
   count desc, members.lastname;
 end;
 $$;
@@ -188,9 +188,9 @@ $$;
 ```
 
 ```sql
--- drop function get_top_trainers_by_section(d text);
+-- drop function get_top_trainers_by_section (year text);
 CREATE OR REPLACE function get_top_trainers_by_section (year text)
-returns table (section text, memberId int2, lastname text, firstname text, count bigint)
+returns table (section text, memberId int4, lastname text, firstname text, count bigint)
 language plpgsql as $$
 declare
 begin
@@ -222,33 +222,33 @@ $$;
 ```
 
 ```sql
--- drop function get_top_athletes_from_section(d text);
-CREATE OR REPLACE function get_top_athletes_from_section (sect text, year text) 
-returns table (rank bigint, section text, memberId int2, lastname text, firstname text, count bigint) 
+-- drop function get_top_athletes_from_section (sect text, year text);
+CREATE OR REPLACE function get_top_athletes_from_section (sect text, year text)
+returns table (rank bigint, section text, memberId int4, lastname text, firstname text, count bigint)
 language plpgsql as $$
 declare
 begin
   return query
 select
-  ROW_NUMBER() OVER (ORDER BY count(*) DESC, members.lastname) AS rank, 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname, 
+  ROW_NUMBER() OVER (ORDER BY count(*) DESC, members.lastname) AS rank,
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname,
   count(*)
-from 
-  logs 
-  inner join members on members."id" = logs."memberId" 
-  inner join trainings on trainings."id" = logs."trainingId" 
-where 
+from
+  logs
+  inner join members on members."id" = logs."memberId"
+  inner join trainings on trainings."id" = logs."trainingId"
+where
   logs."date" like concat(year, '%') and
   LOWER(trainings.section) = LOWER(sect)
-group by 
-  trainings.section, 
-  logs."memberId", 
-  members.lastname, 
-  members.firstname 
-order by 
+group by
+  trainings.section,
+  logs."memberId",
+  members.lastname,
+  members.firstname
+order by
   count desc, members.lastname;
 end;
 $$;
@@ -257,9 +257,9 @@ $$;
 ```
 
 ```sql
--- drop function get_top_trainers_from_section(d text);
+-- drop function get_top_trainers_from_section (sect text, year text);
 CREATE OR REPLACE function get_top_trainers_from_section (sect text, year text)
-returns table (rank bigint, section text, memberId int2, lastname text, firstname text, count bigint)
+returns table (rank bigint, section text, memberId int4, lastname text, firstname text, count bigint)
 language plpgsql as $$
 declare
 begin

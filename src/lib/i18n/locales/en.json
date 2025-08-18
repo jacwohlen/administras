@@ -23,7 +23,43 @@
       "logs": "Logs",
       "searchMembersPlaceholder": "Search Member...",
       "memberNotFound": "Member not found",
-      "addMemberPlaceholder": "Add Member..."
+      "addMemberPlaceholder": "Add Member...",
+      "noTrainerWarning": {
+        "title": "Trainer missing:",
+        "message": "Please mark at least one trainer."
+      },
+      "noTrainer": "No Trainer",
+      "lessonPlan": "Lesson Plan",
+      "attendance": "Attendance",
+      "hasLessonPlan": "Plan",
+      "noLessonPlan": "No Plan",
+      "lessonPlanTitle": "Lesson Plan",
+      "createLessonPlan": "Create Plan",
+      "titleTraining": "Title",
+      "titlePlaceholder": "e.g. Basic techniques, Sparring training...",
+      "contentPlaceholder": "Enter lesson plan here...",
+      "lastEdited": "Last edited",
+      "noLessonPlanMessage": "No lesson plan created for this date yet.",
+      "defaultTemplate": [
+        "## Warm-up",
+        "- ",
+        "- ",
+        "- ",
+        "",
+        "## Main Part",
+        "- ",
+        "- ",
+        "- ",
+        "",
+        "## Cool-down",
+        "- ",
+        "- ",
+        "- ",
+        "",
+        "## Notes",
+        "- ",
+        ""
+      ]
     },
     "members": {
       "title": "Members",
@@ -33,6 +69,14 @@
       "birthday": "Birthday",
       "mobile": "Mobile",
       "labels": "Labels",
+      "addMember": "Add Member",
+      "newMember": "New Member",
+      "createdSuccess": "Member created successfully",
+      "createError": "Error creating member",
+      "deleteConfirmTitle": "Delete Member",
+      "deleteConfirmMessage": "Are you sure you want to delete",
+      "deleteSuccess": "Member deleted successfully",
+      "deleteError": "Error deleting member",
       "trainingsSummary": {
         "title": "Trainings Summary",
         "noItems": "No trainings registered",
@@ -75,9 +119,12 @@
     "loadMore": "Load More",
     "remove": "Remove",
     "add": "Add",
+    "save": "Save",
+    "edit": "Edit",
     "createNew": "Create New",
-    "cancle": "Cancel",
-    "confirm": "Confirm"
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete"
   },
   "dialog": {
     "newMember": {
@@ -86,6 +133,11 @@
       "firstName": "First Name",
       "lastNamePlaceholder": "Enter Last Name...",
       "firstNamePlaceholder": "Enter First Name..."
+    },
+    "editMember": {
+      "title": "Edit Member",
+      "updateSuccess": "Member updated successfully",
+      "updateError": "Error updating member"
     },
     "confirm": {
       "title": "Please Confirm",
