@@ -48,3 +48,46 @@ export interface LessonPlan {
   updatedAt: string;
   createdBy?: string;
 }
+
+export interface Event {
+  id: string;
+  title: string;
+  description?: string;
+  date: string;
+  timeFrom?: string;
+  timeTo?: string;
+  location?: string;
+  section: string;
+  maxParticipants?: number;
+  registrationDeadline?: string;
+  createdAt: string;
+  updatedAt: string;
+  participants?: Member[];
+}
+
+export interface EventParticipant {
+  id: string;
+  eventId: string;
+  memberId: string;
+  registeredAt: string;
+  attendanceStatus: 'registered' | 'attended' | 'absent' | 'cancelled';
+  notes?: string;
+}
+
+export interface EventLog {
+  id: number;
+  eventId: string;
+  memberId: string;
+  attendedAt: string;
+  isOrganizer: boolean;
+  notes?: string;
+}
+
+export interface EventStats {
+  section: string;
+  memberId: number;
+  lastname: string;
+  firstname: string;
+  count: number;
+  rank: number;
+}
