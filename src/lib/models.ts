@@ -43,7 +43,11 @@ export interface LessonPlan {
   trainingId: number;
   date: string;
   title?: string;
-  content: string;
+  content?: string; // Optional for backward compatibility
+  fileName?: string; // Original filename
+  filePath?: string; // Storage path
+  fileType?: string; // MIME type
+  fileSize?: number; // File size in bytes
   createdAt: string;
   updatedAt: string;
   createdBy?: string;
