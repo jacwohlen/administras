@@ -60,7 +60,14 @@
         "## Notizen",
         "- ",
         ""
-      ]
+      ],
+      "uploadFile": "Datei Hochladen",
+      "selectFile": "Datei Auswählen",
+      "supportedFormats": "Unterstützte Formate",
+      "or": "oder",
+      "writeContent": "Inhalt Schreiben",
+      "textDisabledWhenFileSelected": "Textinhalt ist deaktiviert wenn eine Datei ausgewählt ist",
+      "uploading": "Hochladen..."
     },
     "members": {
       "title": "Mitglieder",
@@ -192,7 +199,8 @@
     "delete": "Löschen",
     "deleting": "Lösche...",
     "create": "Erstellen",
-    "creating": "Erstelle..."
+    "creating": "Erstelle...",
+    "download": "Herunterladen"
   },
   "dialog": {
     "newMember": {

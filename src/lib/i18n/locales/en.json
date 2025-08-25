@@ -60,7 +60,14 @@
         "## Notes",
         "- ",
         ""
-      ]
+      ],
+      "uploadFile": "Upload File",
+      "selectFile": "Select File",
+      "supportedFormats": "Supported formats",
+      "or": "or",
+      "writeContent": "Write Content",
+      "textDisabledWhenFileSelected": "Text content is disabled when a file is selected",
+      "uploading": "Uploading..."
     },
     "members": {
       "title": "Members",
@@ -192,7 +199,8 @@
     "delete": "Delete",
     "deleting": "Deleting...",
     "create": "Create",
-    "creating": "Creating..."
+    "creating": "Creating...",
+    "download": "Download"
   },
   "dialog": {
     "newMember": {

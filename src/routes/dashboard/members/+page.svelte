@@ -40,7 +40,16 @@
   }
 
   async function addMember(
-    result: { id?: string; firstname: string; lastname: string; birthday?: string; mobile?: string; labels: string[] } | undefined
+    result:
+      | {
+          id?: string;
+          firstname: string;
+          lastname: string;
+          birthday?: string;
+          mobile?: string;
+          labels: string[];
+        }
+      | undefined
   ) {
     if (!result) return;
 
@@ -56,11 +65,7 @@
         ...(id && id.trim() !== '' && { id: parseInt(id) })
       };
 
-      const { error } = await supabaseClient
-        .from('members')
-        .insert(dataToInsert)
-        .select()
-        .single();
+      const { error } = await supabaseClient.from('members').insert(dataToInsert).select().single();
 
       if (error) {
         throw error;

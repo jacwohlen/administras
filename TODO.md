@@ -2,8 +2,7 @@
 
 Next
 
-- [ ] Track Attendance: BUG Adding people 
-- [ ] Events Detail: Improve Add Participants functionality 
+- [ ] Events Detail: Improve Add Participants functionality
 - [ ] Events: Add year selector to the events list (<- 2025 ->)
 - [ ] Events Detail: Confirm Modal when removing participant
 - [ ] Member Detail: Visualize Coaches, Trainer, ...
@@ -19,6 +18,8 @@ Backlog
 
 Done/cancelled
 
+- [x] Training Plan: Allow to attach documents and photos
+- [x] Track Attendance: BUG Adding people -> DB id
 - [x] Implement Event Tracking Feature
 - [x] Upgrade webling sync to use supabase instead of firebase
 - [x] Remove firebase completly (readme, authstore, package.json ...)
