@@ -208,7 +208,7 @@
   }
 
   // Get existing participant member IDs for the search component
-  $: existingParticipantIds = data.participants.map(p => p.memberId);
+  $: existingParticipantIds = data.participants.map((p) => p.memberId);
 
   $: registeredCount = data.participants.length;
   $: attendedCount = data.logs.length;
@@ -332,7 +332,7 @@
       <div class="bg-surface-100-800-token p-4 rounded-lg mb-4">
         <div class="flex gap-4 items-center">
           <div class="flex-grow">
-            <AddEventParticipant 
+            <AddEventParticipant
               eventId={data.event.id}
               existingParticipants={existingParticipantIds}
               on:added={onParticipantAdded}
@@ -401,16 +401,6 @@
               </div>
               <div class="flex items-center gap-2">
                 {#if canTrackAttendance()}
-                  <!-- Event day or past - show attendance buttons -->
-                  <button
-                    class="btn btn-sm {hasAttended
-                      ? 'variant-filled-success'
-                      : 'variant-ghost-success'}"
-                    on:click={() => markAttendance(participant.memberId, !hasAttended)}
-                    disabled={loading}
-                  >
-                    <Fa icon={faCheck} />
-                  </button>
                   <!-- Coach toggle button - only show if participant has attended -->
                   {#if hasAttended}
                     <button
@@ -426,6 +416,16 @@
                       <Fa icon={faChalkboardTeacher} />
                     </button>
                   {/if}
+                  <!-- Event day or past - show attendance buttons -->
+                  <button
+                    class="btn btn-sm {hasAttended
+                      ? 'variant-filled-success'
+                      : 'variant-ghost-success'}"
+                    on:click={() => markAttendance(participant.memberId, !hasAttended)}
+                    disabled={loading}
+                  >
+                    <Fa icon={faCheck} />
+                  </button>
                 {:else}
                   <!-- Future event - show remove button -->
                   <button
