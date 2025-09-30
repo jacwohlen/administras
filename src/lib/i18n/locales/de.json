@@ -123,6 +123,7 @@
       "add_participant": "Teilnehmer Hinzufügen",
       "select_member": "Mitglied Auswählen",
       "choose_member": "Mitglied wählen...",
+      "search_members_placeholder": "Mitglieder suchen...",
       "participants": "Teilnehmer",
       "no_participants": "Noch keine Teilnehmer registriert",
       "description": "Beschreibung",

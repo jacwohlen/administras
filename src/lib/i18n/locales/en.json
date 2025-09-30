@@ -123,6 +123,7 @@
       "add_participant": "Add Participant",
       "select_member": "Select Member",
       "choose_member": "Choose a member...",
+      "search_members_placeholder": "Search members...",
       "participants": "Participants",
       "no_participants": "No participants registered yet",
       "description": "Description",

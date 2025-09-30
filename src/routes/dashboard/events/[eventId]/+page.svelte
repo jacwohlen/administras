@@ -19,11 +19,11 @@
   } from '@fortawesome/free-solid-svg-icons';
   import dayjs from 'dayjs';
   import { invalidateAll, goto } from '$app/navigation';
+  import AddEventParticipant from './AddEventParticipant.svelte';
 
   export let data: PageData;
 
   let showAddParticipant = false;
-  let selectedMemberId = '';
   let loading = false;
   let isDeleting = false;
 
@@ -59,28 +59,9 @@
     return data.logs.find((l) => l.memberId === memberId);
   }
 
-  async function addParticipant() {
-    if (!selectedMemberId) return;
-
-    loading = true;
-    try {
-      const { error } = await supabaseClient.from('event_participants').insert({
-        eventId: data.event.id,
-        memberId: selectedMemberId,
-        attendanceStatus: 'registered'
-      });
-
-      if (error) {
-        console.error('Error adding participant:', error);
-        return;
-      }
-
-      await invalidateAll();
-      selectedMemberId = '';
-      showAddParticipant = false;
-    } finally {
-      loading = false;
-    }
+  async function onParticipantAdded() {
+    await invalidateAll();
+    showAddParticipant = false;
   }
 
   async function removeParticipant(memberId: string) {
@@ -226,10 +207,8 @@
     }
   }
 
-  // Available members to add (not already participants)
-  $: availableMembers = data.allMembers.filter(
-    (m) => !data.participants.some((p) => p.memberId === m.id)
-  );
+  // Get existing participant member IDs for the search component
+  $: existingParticipantIds = data.participants.map(p => p.memberId);
 
   $: registeredCount = data.participants.length;
   $: attendedCount = data.logs.length;
@@ -348,29 +327,17 @@
       {/if}
     </div>
 
-    <!-- Add Participant Form -->
+    <!-- Add Participant Search -->
     {#if showAddParticipant}
       <div class="bg-surface-100-800-token p-4 rounded-lg mb-4">
-        <div class="flex gap-4 items-end">
+        <div class="flex gap-4 items-center">
           <div class="flex-grow">
-            <label class="label" for="member-select">
-              <span>{$_('page.events.select_member')}</span>
-            </label>
-            <select id="member-select" class="select" bind:value={selectedMemberId}>
-              <option value="">{$_('page.events.choose_member')}</option>
-              {#each availableMembers as member}
-                <option value={member.id}>{member.lastname}, {member.firstname}</option>
-              {/each}
-            </select>
+            <AddEventParticipant 
+              eventId={data.event.id}
+              existingParticipants={existingParticipantIds}
+              on:added={onParticipantAdded}
+            />
           </div>
-          <button
-            class="btn variant-filled-success"
-            on:click={addParticipant}
-            disabled={!selectedMemberId || loading}
-          >
-            <Fa icon={faUserPlus} />
-            <span>{$_('button.add')}</span>
-          </button>
           <button class="btn variant-ghost-surface" on:click={() => (showAddParticipant = false)}>
             {$_('button.cancel')}
           </button>
