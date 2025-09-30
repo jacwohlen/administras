@@ -18,6 +18,7 @@ Backlog
 
 Done/cancelled
 
+- [x] Sync events from webling to administra
 - [x] Training Plan: Allow to attach documents and photos
 - [x] Track Attendance: BUG Adding people -> DB id
 - [x] Implement Event Tracking Feature
