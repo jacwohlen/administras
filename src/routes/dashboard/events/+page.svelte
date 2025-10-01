@@ -18,10 +18,6 @@
     return dayjs(date).format('DD.MM.YYYY');
   }
 
-  function formatTime(time: string | undefined) {
-    return time || '';
-  }
-
   function isUpcoming(date: string) {
     return dayjs(date).isAfter(dayjs(), 'day');
   }

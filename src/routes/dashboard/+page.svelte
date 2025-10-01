@@ -6,8 +6,7 @@
     faArrowLeft,
     faCalendarDays,
     faLocationDot,
-    faUsers,
-    faGripLines
+    faUsers
   } from '@fortawesome/free-solid-svg-icons';
   import type { Training, Event } from '$lib/models';
   import dayjs, { type Dayjs } from 'dayjs';
@@ -34,10 +33,6 @@
 
   function formatEventDate(date: string) {
     return dayjs(date).format('DD.MM.YYYY');
-  }
-
-  function formatTime(time: string | undefined) {
-    return time || '';
   }
 
   async function getTrainingsForDay() {
@@ -131,12 +126,10 @@
               </dd>
             {/if}
             <dd class="flex items-center gap-2 text-sm">
-              {#if event.timeFrom}
-                <span class="flex items-center gap-1">
-                  <Fa icon={faClipboardCheck} size="sm" />
-                  {formatTime(event.timeFrom)}{#if event.timeTo} - {formatTime(event.timeTo)}{/if}
-                </span>
-              {/if}
+              <span class="flex items-center gap-1">
+                <Fa icon={faCalendarDays} size="sm" />
+                {formatEventDate(event.date)}
+              </span>
               {#if event.location}
                 <span class="flex items-center gap-1 truncate">
                   <Fa icon={faLocationDot} size="sm" />

@@ -543,7 +543,10 @@
                   {/if}
                 </div>
               </div>
-              <button class="btn btn-sm variant-filled-secondary flex-shrink-0 w-full sm:w-auto" on:click={downloadFile}>
+              <button
+                class="btn btn-sm variant-filled-secondary flex-shrink-0 w-full sm:w-auto"
+                on:click={downloadFile}
+              >
                 <Fa icon={faDownload} />
                 <span>{$_('button.download')}</span>
               </button>

@@ -22,21 +22,21 @@
     }
 
     const text = searchterm;
-    
+
     const { error, data } = await supabaseClient
       .from('view_search_members')
       .select('id, fullname, lastname, firstname')
       .like('fullname', `%${text}%`)
       .returns<Member[]>();
-    
+
     if (error) {
       console.error('Search error:', error);
       return;
     }
-    
+
     if (data) {
       // Filter out already registered participants
-      filteredData = data.filter(member => !existingParticipants.includes(member.id));
+      filteredData = data.filter((member) => !existingParticipants.includes(member.id));
       // Reset selected index when new results come in
       selectedIndex = filteredData.length > 0 ? 0 : -1;
     }
@@ -75,7 +75,7 @@
   }
 
   const dispatch = createEventDispatcher();
-  
+
   async function addParticipant(member: Member) {
     loading = true;
     try {
@@ -113,23 +113,31 @@
       disabled={loading}
     />
   </div>
-  
+
   {#if searchterm.length >= 2}
     <div class="absolute top-full left-0 right-0 z-50 mt-1">
       <div class="card p-2 shadow-xl bg-white">
         {#if filteredData.length > 0}
           <div class="space-y-1">
             {#each filteredData as member, index (member.id)}
-              <div 
-                class="flex items-center justify-between p-2 rounded cursor-pointer {index === selectedIndex ? 'bg-primary-100 border-primary-300' : 'hover:bg-gray-100'}"
+              <div
+                class="flex items-center justify-between p-2 rounded cursor-pointer {index ===
+                selectedIndex
+                  ? 'bg-primary-100 border-primary-300'
+                  : 'hover:bg-gray-100'}"
                 on:click={() => addParticipant(member)}
-                on:keydown={() => {}}
-                role="button" 
+                on:keydown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    addParticipant(member);
+                  }
+                }}
+                role="button"
                 tabindex="0"
               >
                 <span>{member.lastname}, {member.firstname}</span>
-                <button 
-                  class="btn btn-sm variant-ringed-primary" 
+                <button
+                  class="btn btn-sm variant-ringed-primary"
                   on:click|stopPropagation={() => addParticipant(member)}
                   disabled={loading}
                 >
