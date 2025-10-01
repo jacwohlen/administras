@@ -5,7 +5,6 @@
   import {
     faCalendarDays,
     faLocationDot,
-    faClock,
     faUsers,
     faPlus,
     faGripLines
@@ -56,19 +55,19 @@
         <h3 class="text-lg font-semibold mb-3 text-warning-500">{$_('page.events.today')}</h3>
         <ul class="list space-y-2">
           {#each data.events.filter((e) => isToday(e.date)) as event (event.id)}
-            <li>
-              <div class="relative inline-block">
+            <li class="flex items-start">
+              <div class="relative inline-block flex-none">
                 <Avatar
                   class="rounded-md"
                   initials={event.title.charAt(0) + event.title.charAt(1)}
                 />
               </div>
-              <span class="flex-auto">
-                <dt class="font-bold">
+              <span class="flex-1 min-w-0">
+                <dt class="font-bold truncate">
                   {event.title}
                 </dt>
                 {#if event.description}
-                  <dd class="text-gray-500 text-sm">
+                  <dd class="text-gray-500 text-sm truncate">
                     {event.description}
                   </dd>
                 {/if}
@@ -77,14 +76,8 @@
                     <Fa icon={faCalendarDays} size="sm" />
                     {formatEventDate(event.date)}
                   </span>
-                  {#if event.timeFrom}
-                    <span class="flex items-center gap-1">
-                      <Fa icon={faClock} size="sm" />
-                      {formatTime(event.timeFrom)}
-                    </span>
-                  {/if}
                   {#if event.location}
-                    <span class="flex items-center gap-1">
+                    <span class="flex items-center gap-1 truncate">
                       <Fa icon={faLocationDot} size="sm" />
                       {event.location}
                     </span>
@@ -95,7 +88,7 @@
                   </span>
                 </dd>
               </span>
-              <span>
+              <span class="flex-none">
                 <a class="btn btn-sm variant-filled-secondary" href="/dashboard/events/{event.id}">
                   <Fa icon={faGripLines} />
                   <span>{$_('button.view')}</span>
@@ -113,19 +106,19 @@
         <h3 class="text-lg font-semibold mb-3 text-primary-500">{$_('page.events.upcoming')}</h3>
         <ul class="list space-y-2">
           {#each data.events.filter((e) => isUpcoming(e.date)) as event (event.id)}
-            <li>
-              <div class="relative inline-block">
+            <li class="flex items-start">
+              <div class="relative inline-block flex-none">
                 <Avatar
                   class="rounded-md"
                   initials={event.title.charAt(0) + event.title.charAt(1)}
                 />
               </div>
-              <span class="flex-auto">
-                <dt class="font-bold">
+              <span class="flex-1 min-w-0">
+                <dt class="font-bold truncate">
                   {event.title}
                 </dt>
                 {#if event.description}
-                  <dd class="text-gray-500 text-sm">
+                  <dd class="text-gray-500 text-sm truncate">
                     {event.description}
                   </dd>
                 {/if}
@@ -134,14 +127,8 @@
                     <Fa icon={faCalendarDays} size="sm" />
                     {formatEventDate(event.date)}
                   </span>
-                  {#if event.timeFrom}
-                    <span class="flex items-center gap-1">
-                      <Fa icon={faClock} size="sm" />
-                      {formatTime(event.timeFrom)}
-                    </span>
-                  {/if}
                   {#if event.location}
-                    <span class="flex items-center gap-1">
+                    <span class="flex items-center gap-1 truncate">
                       <Fa icon={faLocationDot} size="sm" />
                       {event.location}
                     </span>
@@ -152,7 +139,7 @@
                   </span>
                 </dd>
               </span>
-              <span>
+              <span class="flex-none">
                 <a class="btn btn-sm variant-filled-secondary" href="/dashboard/events/{event.id}">
                   <Fa icon={faGripLines} />
                   <span>{$_('button.view')}</span>
@@ -170,19 +157,19 @@
         <h3 class="text-lg font-semibold mb-3 text-gray-500">{$_('page.events.past')}</h3>
         <ul class="list space-y-2">
           {#each data.events.filter((e) => isPast(e.date)) as event (event.id)}
-            <li>
-              <div class="relative inline-block">
+            <li class="flex items-start">
+              <div class="relative inline-block flex-none">
                 <Avatar
                   class="rounded-md"
                   initials={event.title.charAt(0) + event.title.charAt(1)}
                 />
               </div>
-              <span class="flex-auto">
-                <dt class="font-bold">
+              <span class="flex-1 min-w-0">
+                <dt class="font-bold truncate">
                   {event.title}
                 </dt>
                 {#if event.description}
-                  <dd class="text-gray-500 text-sm">
+                  <dd class="text-gray-500 text-sm truncate">
                     {event.description}
                   </dd>
                 {/if}
@@ -191,14 +178,8 @@
                     <Fa icon={faCalendarDays} size="sm" />
                     {formatEventDate(event.date)}
                   </span>
-                  {#if event.timeFrom}
-                    <span class="flex items-center gap-1">
-                      <Fa icon={faClock} size="sm" />
-                      {formatTime(event.timeFrom)}
-                    </span>
-                  {/if}
                   {#if event.location}
-                    <span class="flex items-center gap-1">
+                    <span class="flex items-center gap-1 truncate">
                       <Fa icon={faLocationDot} size="sm" />
                       {event.location}
                     </span>
@@ -209,7 +190,7 @@
                   </span>
                 </dd>
               </span>
-              <span>
+              <span class="flex-none">
                 <a class="btn btn-sm variant-filled-secondary" href="/dashboard/events/{event.id}">
                   <Fa icon={faGripLines} />
                   <span>{$_('button.view')}</span>
