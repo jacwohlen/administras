@@ -268,7 +268,7 @@
   {#if data.event.description}
     <div class="card p-4 mb-6">
       <h2 class="font-semibold mb-2">{$_('page.events.description')}</h2>
-      <p class="text-gray-700">{data.event.description}</p>
+      <p class="text-gray-700 break-words">{data.event.description}</p>
     </div>
   {/if}
 
