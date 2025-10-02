@@ -14,6 +14,8 @@
 
   export let data: PageData;
 
+  let searchTerm = '';
+
   function formatEventDate(date: string) {
     return dayjs(date).format('DD.MM.YYYY');
   }
@@ -29,6 +31,24 @@
   function isToday(date: string) {
     return dayjs(date).isSame(dayjs(), 'day');
   }
+
+  // Filter events based on search term - make it reactive
+  $: filteredEvents = data.events.filter((event) => {
+    if (!searchTerm.trim()) return true;
+
+    const search = searchTerm.toLowerCase().trim();
+    const title = event.title?.toLowerCase() || '';
+    const description = event.description?.toLowerCase() || '';
+    const section = event.section?.toLowerCase() || '';
+    const location = event.location?.toLowerCase() || '';
+
+    return (
+      title.includes(search) ||
+      description.includes(search) ||
+      section.includes(search) ||
+      location.includes(search)
+    );
+  });
 </script>
 
 <div class="flex justify-between items-center mb-6">
@@ -39,18 +59,32 @@
   </a>
 </div>
 
+<!-- Search Input -->
+<div class="mb-6">
+  <input
+    class="input"
+    bind:value={searchTerm}
+    type="text"
+    placeholder={$_('page.events.search_placeholder')}
+  />
+</div>
+
 {#if data.events.length === 0}
   <div class="text-center py-8">
     <p class="text-gray-500">{$_('page.events.no_events')}</p>
   </div>
+{:else if filteredEvents.length === 0 && searchTerm.trim()}
+  <div class="text-center py-8">
+    <p class="text-gray-500">{$_('page.events.no_events_found')}</p>
+  </div>
 {:else}
   <div class="space-y-6">
     <!-- Today's Events -->
-    {#if data.events.some((e) => isToday(e.date))}
+    {#if filteredEvents.some((e) => isToday(e.date))}
       <section>
         <h3 class="text-lg font-semibold mb-3 text-warning-500">{$_('page.events.today')}</h3>
         <ul class="list space-y-2">
-          {#each data.events.filter((e) => isToday(e.date)) as event (event.id)}
+          {#each filteredEvents.filter((e) => isToday(e.date)) as event (event.id)}
             <li class="flex items-start">
               <div class="relative inline-block flex-none">
                 <Avatar
@@ -97,11 +131,11 @@
     {/if}
 
     <!-- Upcoming Events -->
-    {#if data.events.some((e) => isUpcoming(e.date))}
+    {#if filteredEvents.some((e) => isUpcoming(e.date))}
       <section>
         <h3 class="text-lg font-semibold mb-3 text-primary-500">{$_('page.events.upcoming')}</h3>
         <ul class="list space-y-2">
-          {#each data.events.filter((e) => isUpcoming(e.date)) as event (event.id)}
+          {#each filteredEvents.filter((e) => isUpcoming(e.date)) as event (event.id)}
             <li class="flex items-start">
               <div class="relative inline-block flex-none">
                 <Avatar
@@ -148,11 +182,11 @@
     {/if}
 
     <!-- Past Events -->
-    {#if data.events.some((e) => isPast(e.date))}
+    {#if filteredEvents.some((e) => isPast(e.date))}
       <section>
         <h3 class="text-lg font-semibold mb-3 text-gray-500">{$_('page.events.past')}</h3>
         <ul class="list space-y-2">
-          {#each data.events.filter((e) => isPast(e.date)) as event (event.id)}
+          {#each filteredEvents.filter((e) => isPast(e.date)) as event (event.id)}
             <li class="flex items-start">
               <div class="relative inline-block flex-none">
                 <Avatar
