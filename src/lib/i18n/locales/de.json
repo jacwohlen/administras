@@ -117,6 +117,8 @@
       "upcoming": "Kommende Events",
       "past": "Vergangene Events",
       "no_events": "Keine Events gefunden",
+      "no_events_found": "Keine Events entsprechen Ihrer Suche",
+      "search_placeholder": "Events suchen...",
       "create_event": "Event Erstellen",
       "create_first_event": "Erstes Event Erstellen",
       "edit_event": "Event Bearbeiten",
